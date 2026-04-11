@@ -40,3 +40,9 @@ select = ["E", "F", "I", "N", "UP", "B", "SIM", "TCH"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "network: requires network access",
+    "ollama: requires Ollama running on host",
+    "qdrant: requires Qdrant running in Docker",
+    "integration: full end-to-end pipeline test",
+]
