@@ -11,7 +11,11 @@ from langfuse import Langfuse
 
 from fastapi_rag_lab.ingest.chunker import Child, Parent, chunk_markdown
 from fastapi_rag_lab.ingest.embedder import EMBEDDING_MODEL, embed_texts
-from fastapi_rag_lab.ingest.fetcher import PINNED_COMMIT_SHA, fetch_fastapi_docs
+from fastapi_rag_lab.ingest.fetcher import (
+    DOCS_DIR,
+    PINNED_COMMIT_SHA,
+    fetch_fastapi_docs,
+)
 from fastapi_rag_lab.ingest.manifest import write_manifest
 from fastapi_rag_lab.ingest.store import (
     COLLECTION_NAME,
@@ -78,8 +82,12 @@ def _stage_chunk(
         all_parents: list[Parent] = []
         all_children: list[Child] = []
 
+        docs_root = DOCS_DIR.resolve()
         for md_path in markdown_paths:
-            relative_name = md_path.name
+            try:
+                relative_name = str(md_path.relative_to(docs_root))
+            except ValueError:
+                relative_name = md_path.name
             text = md_path.read_text(encoding="utf-8")
             parents, children = chunk_markdown(relative_name, text)
             all_parents.extend(parents)
