@@ -55,16 +55,47 @@ talk about them openly.
 
 ## Running it locally
 
-Once the ingestion pipeline is in place:
+### Prerequisites
+
+1. Docker and Docker Compose (for Qdrant and Langfuse)
+2. [Ollama](https://ollama.com/) running on the host with `nomic-embed-text` pulled:
+   ```bash
+   ollama pull nomic-embed-text
+   ```
+3. Python 3.11+ with [uv](https://docs.astral.sh/uv/)
+
+### Start services
 
 ```bash
 docker compose up -d
 uv sync
-./scripts/ingest.sh
-./scripts/benchmark.sh
 ```
 
-Full instructions will land here once the pieces are stable.
+### Running ingestion
+
+The ingestion pipeline clones the FastAPI docs at a pinned commit, chunks them
+using a heading-aware parent-child strategy, embeds children via Ollama, and
+upserts everything into Qdrant.
+
+```bash
+# If Ollama is on the Windows host (WSL setup), set the gateway IP:
+export OLLAMA_HOST=http://$(cat /proc/net/route | awk '/00000000.*00000000/ {print $3}' | head -1 | sed 's/../0x&\n/g' | tac | xargs printf "%d.%d.%d.%d\n"):11434
+
+# Or if Ollama is running locally:
+export OLLAMA_HOST=http://localhost:11434
+
+# Langfuse credentials (matches docker-compose.yml defaults):
+export LANGFUSE_PUBLIC_KEY=pk-lf-local-dev
+export LANGFUSE_SECRET_KEY=sk-lf-local-dev
+export LANGFUSE_HOST=http://localhost:3000
+
+python -m fastapi_rag_lab.ingest
+```
+
+After a successful run:
+- `data/raw/manifest.json` contains ingestion metadata (file counts, timestamps)
+- Qdrant dashboard at http://localhost:6333/dashboard shows the `fastapi_docs_v1` collection
+- Langfuse at http://localhost:3000 shows the `ingest_run` trace with per-stage spans
 
 ## Design decisions
 
@@ -78,7 +109,7 @@ want to understand why the chunker looks the way it does.
 This section will grow as the project does. Things I already know will be
 limitations:
 
-- The gold dataset will be hand-built and small (target: 80–120 queries).
+- The gold dataset will be hand-built and small (target: 80-120 queries).
   Statistical claims will be limited accordingly.
 - Running everything locally on a single machine means latency numbers
   depend heavily on hardware. I'll document the machine used for benchmarks.
@@ -87,6 +118,15 @@ limitations:
   accuracy.
 - No multilingual support. FastAPI docs are English, the retriever is
   English-only.
+- Ingestion re-processes everything on each run. For a corpus this size
+  that's fine (a few minutes). Incremental re-ingestion is not worth the
+  complexity yet.
+- `tiktoken` cl100k_base is a proxy for nomic-embed-text's actual tokenizer.
+  Close enough for chunk sizing, but token counts in the manifest are
+  approximate.
+- Heading-based parent segmentation can produce unbalanced parents. Some
+  FastAPI doc sections are much longer than 1024 tokens and get accepted
+  as oversized rather than split mid-paragraph.
 
 ## License
 
