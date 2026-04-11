@@ -30,3 +30,6 @@ logs/
 *.log
 
 benchmarks/runs/
+
+# Personal tooling config
+CLAUDE.md
