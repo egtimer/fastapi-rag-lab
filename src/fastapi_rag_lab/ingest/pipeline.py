@@ -79,11 +79,7 @@ def _stage_chunk(
         all_children: list[Child] = []
 
         for md_path in markdown_paths:
-            relative_name = str(
-                md_path.relative_to(md_path.parents[len(md_path.parts) - 1])
-                if md_path.is_absolute()
-                else md_path
-            )
+            relative_name = md_path.name
             text = md_path.read_text(encoding="utf-8")
             parents, children = chunk_markdown(relative_name, text)
             all_parents.extend(parents)
