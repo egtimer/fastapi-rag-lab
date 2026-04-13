@@ -31,5 +31,8 @@ logs/
 
 benchmarks/runs/
 
-# Personal tooling config
+# AI tooling artifacts
 CLAUDE.md
+.claude/
+claude-config.json
+.aider*
