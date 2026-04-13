@@ -31,4 +31,5 @@ logs/
 
 benchmarks/runs/
 
-# Personal tooling config
+# AI tooling artifacts
+.aider*

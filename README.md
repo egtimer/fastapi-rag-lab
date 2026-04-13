@@ -13,7 +13,7 @@ have Docker and Ollama, you can reproduce every number in the benchmarks.
 
 ## Status
 
-Work in progress. Current phase: initial setup and ingestion pipeline.
+Work in progress. Current phase: hybrid retrieval implementation.
 
 ## Why this project exists
 
@@ -96,6 +96,30 @@ After a successful run:
 - `data/raw/manifest.json` contains ingestion metadata (file counts, timestamps)
 - Qdrant dashboard at http://localhost:6333/dashboard shows the `fastapi_docs_v1` collection
 - Langfuse at http://localhost:3000 shows the `ingest_run` trace with per-stage spans
+
+## Retrieval Architecture
+
+Hybrid retrieval pipeline combining dense and sparse search with cross-encoder
+reranking:
+
+```
+Query -> Dense (Qdrant, top-30) --+
+                                   +-> RRF Fusion -> top-15 -> Reranker -> top-5 -> Parent expansion
+Query -> Sparse (BM25, top-30) ---+
+```
+
+See [ADR 003](docs/decisions/003-hybrid-retrieval.md) for design rationale.
+
+### Quick example
+
+```python
+from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
+
+retriever = HybridRetriever()
+results = retriever.retrieve("How do I handle background tasks in FastAPI?")
+for r in results:
+    print(f"{r.rerank_score:.3f} | {r.chunk_text[:80]}...")
+```
 
 ## Design decisions
 
