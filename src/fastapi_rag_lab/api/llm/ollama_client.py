@@ -70,13 +70,10 @@ class OllamaClient:
                 except httpx.ResponseNotRead:
                     detail = "(streaming response not read)"
                 raise OllamaGenerationError(
-                    f"Ollama returned {exc.response.status_code}: "
-                    f"{detail}"
+                    f"Ollama returned {exc.response.status_code}: {detail}"
                 ) from exc
             except httpx.HTTPError as exc:
-                raise OllamaGenerationError(
-                    f"Ollama connection error: {exc}"
-                ) from exc
+                raise OllamaGenerationError(f"Ollama connection error: {exc}") from exc
 
     async def generate(self, prompt: str) -> str:
         """Generate a complete response (non-streaming)."""

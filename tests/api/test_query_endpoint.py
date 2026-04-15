@@ -57,9 +57,7 @@ async def client():
     """Async test client, new per test to match event loop."""
     app = _get_app()
     transport = httpx.ASGITransport(app=app)
-    async with httpx.AsyncClient(
-        transport=transport, base_url="http://test"
-    ) as ac:
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
 
 

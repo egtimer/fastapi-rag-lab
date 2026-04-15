@@ -48,9 +48,7 @@ def test_rrf_fusion_combines_rankings():
     fused = reciprocal_rank_fusion(dense, sparse, top_k=2)
     assert len(fused) == 2
     assert all(f.rrf_score > 0 for f in fused)
-    assert all(
-        f.dense_rank is not None and f.sparse_rank is not None for f in fused
-    )
+    assert all(f.dense_rank is not None and f.sparse_rank is not None for f in fused)
 
 
 def test_rrf_fusion_single_retriever_only():
@@ -93,17 +91,13 @@ class TestDenseRetriever:
         from fastapi_rag_lab.retrieval.dense import DenseRetriever
 
         dense = DenseRetriever()
-        results = dense.retrieve(
-            "How do I handle exceptions in FastAPI?", top_k=10
-        )
+        results = dense.retrieve("How do I handle exceptions in FastAPI?", top_k=10)
         assert len(results) > 0
         assert all(r.score > 0 for r in results)
 
 
 @pytest.mark.qdrant
-@pytest.mark.skipif(
-    not _qdrant_reachable(), reason="Qdrant not reachable"
-)
+@pytest.mark.skipif(not _qdrant_reachable(), reason="Qdrant not reachable")
 class TestSparseRetriever:
     def test_finds_exact_keywords(self):
         from fastapi_rag_lab.retrieval.sparse import SparseRetriever
@@ -129,9 +123,7 @@ class TestHybridRetriever:
         return HybridRetriever()
 
     def test_returns_reranked_results(self, hybrid):
-        results = hybrid.retrieve(
-            "How to handle exceptions in FastAPI?", final_k=5
-        )
+        results = hybrid.retrieve("How to handle exceptions in FastAPI?", final_k=5)
         assert len(results) == 5
         assert all(r.rerank_score is not None for r in results)
         assert all(r.parent_text != "" for r in results)
@@ -143,8 +135,7 @@ class TestHybridRetriever:
         results = hybrid.retrieve("BackgroundTasks", final_k=5)
         assert len(results) > 0
         assert any(
-            "BackgroundTasks" in r.chunk_text
-            or "BackgroundTasks" in r.parent_text
+            "BackgroundTasks" in r.chunk_text or "BackgroundTasks" in r.parent_text
             for r in results[:3]
         )
 

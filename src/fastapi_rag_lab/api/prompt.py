@@ -18,8 +18,6 @@ def build_prompt(query: str, context_blocks: list[tuple[int, str]]) -> str:
 
     Each context_block is (source_number, parent_text).
     """
-    context_parts = [
-        f"[Source {num}]\n{text}" for num, text in context_blocks
-    ]
+    context_parts = [f"[Source {num}]\n{text}" for num, text in context_blocks]
     context = "\n\n".join(context_parts)
     return QUERY_SYSTEM_PROMPT.format(context=context, query=query)
