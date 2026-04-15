@@ -74,9 +74,7 @@ async def query_endpoint(body: QueryRequest, request: Request):
     retrieval_span.end()
 
     citations = _build_citations(results)
-    context_blocks = [
-        (i + 1, r.parent_text) for i, r in enumerate(results)
-    ]
+    context_blocks = [(i + 1, r.parent_text) for i, r in enumerate(results)]
     prompt = build_prompt(body.query, context_blocks)
 
     model = body.model or OllamaClient().model
@@ -129,9 +127,7 @@ async def query_endpoint(body: QueryRequest, request: Request):
     )
 
 
-def _stream_response(
-    llm, prompt, citations, trace_span, langfuse, trace_id, t0
-):
+def _stream_response(llm, prompt, citations, trace_span, langfuse, trace_id, t0):
     """Return a StreamingResponse that emits SSE events."""
     generation_span = trace_span.start_observation(
         name="generation",
@@ -147,16 +143,10 @@ def _stream_response(
             async for token in llm.generate_stream(prompt):
                 answer_tokens.append(token)
                 chunk = StreamChunk(type="token", content=token)
-                yield (
-                    f"event: token\n"
-                    f"data: {chunk.model_dump_json()}\n\n"
-                )
+                yield (f"event: token\ndata: {chunk.model_dump_json()}\n\n")
         except OllamaGenerationError as exc:
             error_chunk = StreamChunk(type="error", content=str(exc))
-            yield (
-                f"event: error\n"
-                f"data: {error_chunk.model_dump_json()}\n\n"
-            )
+            yield (f"event: error\ndata: {error_chunk.model_dump_json()}\n\n")
             generation_span.update(output={"error": str(exc)})
             generation_span.end()
             trace_span.end()
@@ -174,8 +164,7 @@ def _stream_response(
             content=[c.model_dump() for c in citations],
         )
         yield (
-            f"event: citations\n"
-            f"data: {json.dumps(citations_payload.model_dump())}\n\n"
+            f"event: citations\ndata: {json.dumps(citations_payload.model_dump())}\n\n"
         )
 
         latency_ms = int((time.monotonic() - t0) * 1000)
@@ -186,10 +175,7 @@ def _stream_response(
                 "trace_id": trace_id,
             },
         )
-        yield (
-            f"event: done\n"
-            f"data: {json.dumps(done_payload.model_dump())}\n\n"
-        )
+        yield (f"event: done\ndata: {json.dumps(done_payload.model_dump())}\n\n")
 
         trace_span.update(
             output={
