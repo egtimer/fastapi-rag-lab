@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import time
+import uuid
 
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
@@ -47,24 +48,30 @@ async def query_endpoint(body: QueryRequest, request: Request):
     t0 = time.monotonic()
     langfuse = request.app.state.langfuse
 
-    trace = langfuse.trace(
+    # Use start_observation (not context manager) to avoid OTel context
+    # leaking between async requests. Each span is explicitly ended.
+    trace_span = langfuse.start_observation(
         name="query",
         input={"query": body.query, "top_k": body.top_k},
     )
+    trace_id = trace_span.trace_id or str(uuid.uuid4())
 
     # -- Retrieval --
-    retrieval_span = trace.span(
+    retrieval_span = trace_span.start_observation(
         name="retrieval",
         input={"query": body.query, "top_k": body.top_k},
     )
     try:
         retriever = request.app.state.retriever
         results = retriever.retrieve(body.query, final_k=body.top_k)
-    except Exception as exc:
-        retrieval_span.end(output={"error": str(exc)})
+    except Exception:
+        retrieval_span.update(output={"error": "retrieval failed"})
+        retrieval_span.end()
+        trace_span.end()
         langfuse.flush()
         raise
-    retrieval_span.end(output={"result_count": len(results)})
+    retrieval_span.update(output={"result_count": len(results)})
+    retrieval_span.end()
 
     citations = _build_citations(results)
     context_blocks = [
@@ -76,82 +83,121 @@ async def query_endpoint(body: QueryRequest, request: Request):
     llm = OllamaClient(model=model)
 
     if body.stream:
-        return _stream_response(llm, prompt, citations, trace, langfuse, t0)
+        return _stream_response(
+            llm, prompt, citations, trace_span, langfuse, trace_id, t0
+        )
 
-    # -- Non-streaming path --
-    generation_span = trace.span(
+    # -- Non-streaming generation --
+    generation_span = trace_span.start_observation(
         name="generation",
-        input={"model": model, "prompt_length": len(prompt)},
+        as_type="generation",
+        input={"prompt_length": len(prompt)},
+        model=model,
     )
     try:
         answer = await llm.generate(prompt)
     except OllamaGenerationError as exc:
-        generation_span.end(output={"error": str(exc)})
+        generation_span.update(output={"error": str(exc)})
+        generation_span.end()
+        trace_span.end()
         langfuse.flush()
+        latency_ms = int((time.monotonic() - t0) * 1000)
         return QueryResponse(
             answer=f"Generation failed: {exc}",
             citations=citations,
-            latency_ms=int((time.monotonic() - t0) * 1000),
-            trace_id=trace.id,
+            latency_ms=latency_ms,
+            trace_id=trace_id,
         )
-    generation_span.end(output={"answer_length": len(answer)})
+    generation_span.update(output={"answer_length": len(answer)})
+    generation_span.end()
 
     latency_ms = int((time.monotonic() - t0) * 1000)
-    trace.update(output={"answer_length": len(answer), "latency_ms": latency_ms})
+    trace_span.update(
+        output={
+            "answer_length": len(answer),
+            "latency_ms": latency_ms,
+        },
+    )
+    trace_span.end()
     langfuse.flush()
 
     return QueryResponse(
         answer=answer,
         citations=citations,
         latency_ms=latency_ms,
-        trace_id=trace.id,
+        trace_id=trace_id,
     )
 
 
-def _stream_response(llm, prompt, citations, trace, langfuse, t0):
+def _stream_response(
+    llm, prompt, citations, trace_span, langfuse, trace_id, t0
+):
     """Return a StreamingResponse that emits SSE events."""
+    generation_span = trace_span.start_observation(
+        name="generation",
+        as_type="generation",
+        input={"prompt_length": len(prompt)},
+        model=llm.model,
+    )
 
     async def event_generator():
-        generation_span = trace.span(
-            name="generation",
-            input={"model": llm.model, "prompt_length": len(prompt)},
-        )
         answer_tokens: list[str] = []
 
         try:
             async for token in llm.generate_stream(prompt):
                 answer_tokens.append(token)
                 chunk = StreamChunk(type="token", content=token)
-                yield f"event: token\ndata: {chunk.model_dump_json()}\n\n"
+                yield (
+                    f"event: token\n"
+                    f"data: {chunk.model_dump_json()}\n\n"
+                )
         except OllamaGenerationError as exc:
             error_chunk = StreamChunk(type="error", content=str(exc))
-            yield f"event: error\ndata: {error_chunk.model_dump_json()}\n\n"
-            generation_span.end(output={"error": str(exc)})
+            yield (
+                f"event: error\n"
+                f"data: {error_chunk.model_dump_json()}\n\n"
+            )
+            generation_span.update(output={"error": str(exc)})
+            generation_span.end()
+            trace_span.end()
             langfuse.flush()
             return
 
         answer_length = sum(len(t) for t in answer_tokens)
-        generation_span.end(output={"answer_length": answer_length})
+        generation_span.update(
+            output={"answer_length": answer_length},
+        )
+        generation_span.end()
 
-        citations_chunk = StreamChunk(
+        citations_payload = StreamChunk(
             type="citations",
             content=[c.model_dump() for c in citations],
         )
-        yield f"event: citations\ndata: {json.dumps(citations_chunk.model_dump())}\n\n"
+        yield (
+            f"event: citations\n"
+            f"data: {json.dumps(citations_payload.model_dump())}\n\n"
+        )
 
         latency_ms = int((time.monotonic() - t0) * 1000)
-        done_chunk = StreamChunk(
+        done_payload = StreamChunk(
             type="done",
-            content={"latency_ms": latency_ms, "trace_id": trace.id},
+            content={
+                "latency_ms": latency_ms,
+                "trace_id": trace_id,
+            },
         )
-        yield f"event: done\ndata: {json.dumps(done_chunk.model_dump())}\n\n"
+        yield (
+            f"event: done\n"
+            f"data: {json.dumps(done_payload.model_dump())}\n\n"
+        )
 
-        trace.update(
+        trace_span.update(
             output={
                 "answer_length": answer_length,
                 "latency_ms": latency_ms,
-            }
+            },
         )
+        trace_span.end()
         langfuse.flush()
 
     return StreamingResponse(

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL = "gemma3:4b"
-DEFAULT_TIMEOUT = 30.0
+DEFAULT_TIMEOUT = 120.0
 
 
 class OllamaGenerationError(Exception):
@@ -64,9 +64,14 @@ class OllamaClient:
                     f"Ollama generation timed out after {self.timeout}s"
                 ) from exc
             except httpx.HTTPStatusError as exc:
+                # In streaming mode, response body may not be read yet
+                try:
+                    detail = exc.response.text[:200]
+                except httpx.ResponseNotRead:
+                    detail = "(streaming response not read)"
                 raise OllamaGenerationError(
                     f"Ollama returned {exc.response.status_code}: "
-                    f"{exc.response.text[:200]}"
+                    f"{detail}"
                 ) from exc
             except httpx.HTTPError as exc:
                 raise OllamaGenerationError(
