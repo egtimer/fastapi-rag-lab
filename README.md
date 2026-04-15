@@ -13,7 +13,7 @@ have Docker and Ollama, you can reproduce every number in the benchmarks.
 
 ## Status
 
-Work in progress. Current phase: hybrid retrieval implementation.
+Work in progress. Current phase: query API with SSE streaming.
 
 ## Why this project exists
 
@@ -120,6 +120,37 @@ results = retriever.retrieve("How do I handle background tasks in FastAPI?")
 for r in results:
     print(f"{r.rerank_score:.3f} | {r.chunk_text[:80]}...")
 ```
+
+## Query API
+
+Start the server:
+
+```bash
+export OLLAMA_HOST=http://$(cat /proc/net/route | awk '/00000000.*00000000/ {print $3}' | head -1 | sed 's/../0x&\n/g' | tac | xargs printf "%d.%d.%d.%d\n"):11434
+uv run uvicorn fastapi_rag_lab.api.app:app --reload --port 8000
+```
+
+POST /query runs hybrid retrieval, builds a prompt with the top-K parent
+chunks as context, and streams the LLM response token-by-token via SSE.
+Citations (source chunks used) arrive as the final event before the stream
+closes.
+
+```bash
+curl -N -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "How do I handle exceptions in FastAPI?", "top_k": 5}'
+```
+
+For a non-streaming JSON response:
+
+```bash
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "How do I handle exceptions in FastAPI?", "top_k": 5, "stream": false}'
+```
+
+See [ADR 004](docs/decisions/004-query-api-streaming.md) for why SSE over
+WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Design decisions
 
