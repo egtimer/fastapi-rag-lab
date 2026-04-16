@@ -1,1 +1,1 @@
-"""Offline evaluation pipeline: golden dataset, RAGAS metrics, custom citation accuracy."""
+"""Offline eval pipeline: golden dataset, RAGAS metrics, citation accuracy."""
