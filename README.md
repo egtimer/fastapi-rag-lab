@@ -7,7 +7,7 @@
 
 [![CI](https://github.com/egtimer/fastapi-rag-lab/workflows/CI/badge.svg)](https://github.com/egtimer/fastapi-rag-lab/actions)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 38 passing](https://img.shields.io/badge/tests-38%20passing-brightgreen.svg)](#testing)
+[![Tests: 61 passing](https://img.shields.io/badge/tests-61%20passing-brightgreen.svg)](#testing)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 I built this to test chunking strategies, hybrid retrieval, and hallucination
@@ -25,10 +25,10 @@ have Docker and Ollama, you can reproduce every number in the benchmarks.
 - ✅ **Phase 2** — Ingestion pipeline (154 markdown docs → 2054 chunks indexed in Qdrant), [ADR-002](docs/decisions/002-ingestion-pipeline.md)
 - ✅ **Phase 3** — Hybrid retrieval (dense + BM25 + RRF + bge-reranker-base), [ADR-003](docs/decisions/003-hybrid-retrieval.md)
 - ✅ **Phase 4** — `/query` API with SSE streaming, citations, Langfuse tracing per query, [ADR-004](docs/decisions/004-query-api-streaming.md)
-- 🚧 **Phase 5.1** — RAGAS eval pipeline + golden dataset + custom citation accuracy metric (in progress)
+- ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric, [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - 📋 **Phase 5.2** — Benchmarks executed + comparative analysis + repo polish
 
-Latest: Phase 4 shipped Apr 15, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+Latest: Phase 5.1 shipped Apr 16, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Why this project exists
 
@@ -196,8 +196,9 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-38 integration tests covering ingestion, retrieval, and the query API. All
-tests run against real Ollama and Qdrant — no mocks.
+61 tests covering ingestion, retrieval, the query API, and the eval
+pipeline (39 integration tests against real Ollama + Qdrant; 22 fast
+unit tests for the eval metrics, dataset schema, and runner aggregation).
 
 ```bash
 export OLLAMA_HOST=http://localhost:11434  # or your WSL gateway IP
@@ -213,6 +214,34 @@ Significant architectural choices are documented in
 - [002 — Ingestion pipeline](docs/decisions/002-ingestion-pipeline.md): pipeline shape, manifest tracking
 - [003 — Hybrid retrieval](docs/decisions/003-hybrid-retrieval.md): RRF, reranker choice, no-LangChain rationale
 - [004 — Query API streaming](docs/decisions/004-query-api-streaming.md): SSE vs WebSockets, citation format, Langfuse spans
+- [005 — Evaluation strategy](docs/decisions/005-evaluation-strategy.md): RAGAS + custom citation accuracy, threshold rationale, golden-dataset construction
+
+## Evaluation
+
+The RAG pipeline is evaluated against a hand-built golden dataset of 30 real
+FastAPI questions across five categories (factual, conceptual, code,
+error_handling, advanced). Each entry carries a reference answer and the
+relative paths of the source documents that should be cited.
+
+Per-query metrics:
+
+- **Faithfulness** (RAGAS): is the answer grounded in the retrieved context?
+- **Answer Relevancy** (RAGAS): does the answer actually address the question?
+- **Context Precision** (RAGAS): were the retrieved chunks relevant?
+- **Context Recall** (RAGAS): was all necessary context retrieved?
+- **Citation Accuracy** (custom): F1 over returned source IDs vs. ground truth.
+
+Run the full suite (5-10 min on `gemma3:4b`):
+
+```bash
+OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_eval.py
+```
+
+The runner writes a timestamped JSON report to `tests/eval/results/`,
+prints a summary table to stdout, and exits non-zero if any threshold
+fails. See [ADR-005](docs/decisions/005-evaluation-strategy.md) for the
+methodology, threshold rationale, and the trade-offs of using a small
+local model as both producer and judge.
 
 ## Known limitations
 
