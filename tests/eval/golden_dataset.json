@@ -1,0 +1,244 @@
+{
+  "entries": [
+    {
+      "id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "reference_answer": "A path parameter is a variable embedded in the URL path of a route, declared with the same syntax as Python format strings (for example, `/items/{item_id}`). FastAPI passes the value of the path parameter as the matching argument to the path operation function and, if a Python type annotation is given, parses and validates the value automatically.",
+      "expected_answer_keywords": ["path parameter", "URL", "type annotation", "validation"],
+      "expected_sources": ["tutorial/path-params.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "reference_answer": "`response_model` declares the expected response shape on the path operation decorator. FastAPI uses it to validate the returned data, generate the JSON Schema in the OpenAPI docs, and limit and filter the output to the declared fields. When both a return type annotation and `response_model` are set, `response_model` takes priority.",
+      "expected_answer_keywords": ["response_model", "validation", "OpenAPI", "filter"],
+      "expected_sources": ["tutorial/response-model.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "reference_answer": "FastAPI uses Pydantic for data validation. All the validation of request bodies, path parameters, query parameters and response models is performed under the hood by Pydantic.",
+      "expected_answer_keywords": ["Pydantic", "validation"],
+      "expected_sources": ["tutorial/path-params.md", "tutorial/body.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "reference_answer": "You subclass Pydantic's `BaseModel`. Import `BaseModel` from `pydantic` and define a class that inherits from it, declaring each attribute with a standard Python type annotation.",
+      "expected_answer_keywords": ["BaseModel", "pydantic", "inherit"],
+      "expected_sources": ["tutorial/body.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "reference_answer": "Request bodies should be sent with `POST` (the most common), `PUT`, `DELETE` or `PATCH`. Sending a body with a `GET` request has undefined behaviour in the HTTP specifications and Swagger UI will not document it, although FastAPI technically still supports it for extreme cases.",
+      "expected_answer_keywords": ["POST", "PUT", "PATCH", "DELETE"],
+      "expected_sources": ["tutorial/body.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "reference_answer": "`BackgroundTasks` lets a path operation schedule work to run after the response has already been returned to the client. It is meant for short tasks like sending an email notification or processing an uploaded file. You declare a `BackgroundTasks` parameter on the path operation and call its `.add_task()` method with the function and its arguments.",
+      "expected_answer_keywords": ["BackgroundTasks", "after the response", "add_task"],
+      "expected_sources": ["tutorial/background-tasks.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "reference_answer": "`TestClient` comes from Starlette and is built on top of HTTPX, which itself is designed after Requests. You instantiate it by passing your FastAPI application, and you call it with synchronous `def` test functions just like a normal HTTPX client.",
+      "expected_answer_keywords": ["TestClient", "Starlette", "HTTPX"],
+      "expected_sources": ["tutorial/testing.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "reference_answer": "The `BackgroundTasks` class comes directly from `starlette.background`. FastAPI re-exports it so you can `from fastapi import BackgroundTasks` and avoid accidentally importing the singular `BackgroundTask` from Starlette, which has a different usage pattern.",
+      "expected_answer_keywords": ["starlette.background", "re-export", "BackgroundTask"],
+      "expected_sources": ["tutorial/background-tasks.md"],
+      "category": "factual"
+    },
+    {
+      "id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "reference_answer": "FastAPI's dependency injection uses `Depends`. You write a regular function (the \"dependable\") that may declare its own parameters, and you reference it from a path operation parameter using `Depends(your_function)`. On every request FastAPI resolves all parameters of the dependency, calls it, and injects the returned value into the path operation, sharing logic such as DB sessions, auth or pagination across endpoints.",
+      "expected_answer_keywords": ["Depends", "dependency", "inject", "function"],
+      "expected_sources": ["tutorial/dependencies/index.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "reference_answer": "Use `async def` when you call third party libraries with `await`. Use a normal `def` when you call blocking libraries that don't support `await` (most database drivers): FastAPI runs those in an external threadpool so they don't block the event loop. If you don't know, use `def` — FastAPI will work asynchronously either way, but matching the style of your I/O lets it apply optimisations.",
+      "expected_answer_keywords": ["async def", "await", "threadpool", "blocking"],
+      "expected_sources": ["async.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "reference_answer": "CORS (Cross-Origin Resource Sharing) is a browser mechanism that allows JavaScript on one origin (protocol + domain + port) to call a backend on a different origin. The browser sends preflight `OPTIONS` requests and the backend must return appropriate CORS headers listing the allowed origins. In FastAPI you enable it by adding `CORSMiddleware` with `allow_origins`, `allow_methods` and related parameters.",
+      "expected_answer_keywords": ["CORS", "origin", "CORSMiddleware", "allow_origins"],
+      "expected_sources": ["tutorial/cors.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "reference_answer": "Middleware is a function that runs on every request before a path operation handles it and on every response before it is returned. You declare it with `@app.middleware(\"http\")` and it receives the request and a `call_next` callable. Middlewares stack: the last one added is the outermost on the request path, so the order of `add_middleware` calls determines execution order.",
+      "expected_answer_keywords": ["middleware", "request", "response", "call_next"],
+      "expected_sources": ["tutorial/middleware.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "reference_answer": "Lifespan events let you run code once before the application starts taking requests and once after it stops. They are typically used to set up shared resources (database pools, ML models) and clean them up at shutdown. You define an async function with `yield`, decorate it with `@asynccontextmanager`, and pass it as the `lifespan=` parameter to the `FastAPI` constructor.",
+      "expected_answer_keywords": ["lifespan", "startup", "shutdown", "asynccontextmanager"],
+      "expected_sources": ["advanced/events.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "reference_answer": "`response_model_exclude_unset=True` makes FastAPI omit fields that were not explicitly set on the returned model from the JSON response, so default values are not serialised. It is useful when you want the response to contain only the values the application actually populated, instead of every field of the model with its defaults.",
+      "expected_answer_keywords": ["response_model_exclude_unset", "default", "omit", "unset"],
+      "expected_sources": ["tutorial/response-model.md"],
+      "category": "conceptual"
+    },
+    {
+      "id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "reference_answer": "Define a Pydantic `BaseModel` subclass for the body, then declare it as a parameter on a function decorated with `@app.post(\"/path\")`. FastAPI reads the request body as JSON, validates it against the model, and passes the parsed instance to your function. Example: `class Item(BaseModel): name: str` and `@app.post(\"/items/\") def create(item: Item): ...`.",
+      "expected_answer_keywords": ["@app.post", "BaseModel", "parameter", "JSON"],
+      "expected_sources": ["tutorial/body.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "reference_answer": "Import `Depends` from `fastapi`, write a function that returns whatever the endpoint needs, and declare a parameter on the path operation with `Annotated[ReturnType, Depends(your_function)]` (or `value: ReturnType = Depends(your_function)`). FastAPI will call the dependency on each request and inject its return value.",
+      "expected_answer_keywords": ["Depends", "Annotated", "parameter", "inject"],
+      "expected_sources": ["tutorial/dependencies/index.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "reference_answer": "Import `StaticFiles` from `fastapi.staticfiles` and mount an instance on a sub-path: `app.mount(\"/static\", StaticFiles(directory=\"static\"), name=\"static\")`. The first argument is the URL prefix, `directory=` is the folder on disk and `name=` is the internal name FastAPI uses for URL reversal.",
+      "expected_answer_keywords": ["StaticFiles", "mount", "directory", "/static"],
+      "expected_sources": ["tutorial/static-files.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "reference_answer": "Add a `BackgroundTasks` parameter to your path operation function — FastAPI will inject an instance — and call `background_tasks.add_task(func, *args, **kwargs)` with the function and the arguments to pass it. The function will be executed after the response has been sent to the client.",
+      "expected_answer_keywords": ["BackgroundTasks", "add_task", "parameter"],
+      "expected_sources": ["tutorial/background-tasks.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "reference_answer": "Wrap the parameter type in `Annotated` and put `Query(max_length=...)` inside it. Example: `q: Annotated[str | None, Query(max_length=50)] = None`. FastAPI will validate the length, return a clear validation error if it is exceeded, and document the constraint in the OpenAPI schema.",
+      "expected_answer_keywords": ["Annotated", "Query", "max_length"],
+      "expected_sources": ["tutorial/query-params-str-validations.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "reference_answer": "Annotate the function argument with `int`. For example, `@app.get(\"/items/{item_id}\")` and `def read_item(item_id: int): ...`. FastAPI will parse the path segment, convert it to an `int`, and return a 422 validation error if the value cannot be parsed as an integer.",
+      "expected_answer_keywords": ["int", "type annotation", "{item_id}", "parsing"],
+      "expected_sources": ["tutorial/path-params.md"],
+      "category": "code"
+    },
+    {
+      "id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "reference_answer": "Import `HTTPException` from `fastapi` and `raise` it (do not return it) with `status_code=404` and a `detail` value. For example: `raise HTTPException(status_code=404, detail=\"Item not found\")`. The framework converts it into a JSON response with the status code and the detail.",
+      "expected_answer_keywords": ["HTTPException", "raise", "status_code=404", "detail"],
+      "expected_sources": ["tutorial/handling-errors.md"],
+      "category": "error_handling"
+    },
+    {
+      "id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "reference_answer": "Use the `@app.exception_handler(ExceptionClass)` decorator on a function that takes the request and the exception and returns a `JSONResponse` (or any `Response`). FastAPI will call it whenever that exception is raised inside a path operation, replacing the default error response.",
+      "expected_answer_keywords": ["exception_handler", "JSONResponse", "decorator"],
+      "expected_sources": ["tutorial/handling-errors.md"],
+      "category": "error_handling"
+    },
+    {
+      "id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "reference_answer": "Register a handler for `RequestValidationError` with `@app.exception_handler(RequestValidationError)`. The handler receives the request and the exception (whose `.body` and `.errors()` give you the offending payload and the validation errors) and should return a custom `Response` such as a `PlainTextResponse` or a `JSONResponse` with your own shape.",
+      "expected_answer_keywords": ["RequestValidationError", "exception_handler", "errors()"],
+      "expected_sources": ["tutorial/handling-errors.md"],
+      "category": "error_handling"
+    },
+    {
+      "id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "reference_answer": "Yes. `HTTPException` accepts a `headers` keyword argument: pass a dict of header names to values, for example `raise HTTPException(status_code=401, detail=\"...\", headers={\"WWW-Authenticate\": \"Bearer\"})`. FastAPI will include those headers in the error response.",
+      "expected_answer_keywords": ["HTTPException", "headers", "raise"],
+      "expected_sources": ["tutorial/handling-errors.md"],
+      "category": "error_handling"
+    },
+    {
+      "id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "reference_answer": "Write the dependency with `yield` and put the cleanup code (or a `try/finally`) after the `yield`. The code after `yield` runs after the response, regardless of whether the path operation succeeded or raised, so wrapping the yield in `try/finally` (or just placing `db.close()` after `yield`) guarantees the session is closed even on exceptions.",
+      "expected_answer_keywords": ["yield", "try", "finally", "close"],
+      "expected_sources": ["tutorial/dependencies/dependencies-with-yield.md"],
+      "category": "error_handling"
+    },
+    {
+      "id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "reference_answer": "Install `pydantic-settings` and define a class that inherits from `BaseSettings` declaring each setting as an attribute with a type annotation. Pydantic Settings reads the values from environment variables (and optionally a `.env` file via `model_config`). To avoid re-reading the environment on every request, build the `Settings` instance through a cached dependency using `@lru_cache`.",
+      "expected_answer_keywords": ["BaseSettings", "pydantic-settings", "environment", "lru_cache"],
+      "expected_sources": ["advanced/settings.md"],
+      "category": "advanced"
+    },
+    {
+      "id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "reference_answer": "Define an `async` function decorated with `@asynccontextmanager` that takes the `app` as argument. Put startup code before `yield`, then `yield` to hand control over to the application, and put shutdown code after `yield`. Pass the function as `lifespan=` to the `FastAPI(...)` constructor.",
+      "expected_answer_keywords": ["lifespan", "asynccontextmanager", "yield", "FastAPI"],
+      "expected_sources": ["advanced/events.md"],
+      "category": "advanced"
+    },
+    {
+      "id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "reference_answer": "Tell FastAPI about the stripped prefix via `root_path`. Either pass it on the command line (`uvicorn ... --root-path /api/v1`) or set it on the app (`FastAPI(root_path=\"/api/v1\")`). FastAPI uses `root_path` to build correct URLs in the OpenAPI schema and the docs UI even though incoming requests no longer carry the prefix.",
+      "expected_answer_keywords": ["root_path", "proxy", "OpenAPI", "uvicorn"],
+      "expected_sources": ["advanced/behind-a-proxy.md"],
+      "category": "advanced"
+    },
+    {
+      "id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "reference_answer": "Import `GZipMiddleware` from `fastapi.middleware.gzip` and register it with `app.add_middleware(GZipMiddleware, minimum_size=1000)`. `minimum_size` controls the smallest response size in bytes that will be compressed; smaller responses are sent uncompressed.",
+      "expected_answer_keywords": ["GZipMiddleware", "add_middleware", "minimum_size"],
+      "expected_sources": ["advanced/middleware.md"],
+      "category": "advanced"
+    },
+    {
+      "id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "reference_answer": "Install `pyjwt` and `pwdlib[argon2]`. On the `/token` endpoint, verify the submitted username/password against your hashed user store, then call `jwt.encode(payload, secret, algorithm=\"HS256\")` to produce a signed token with an `exp` claim. In a `get_current_user` dependency that depends on `OAuth2PasswordBearer`, call `jwt.decode(...)` to verify the signature and expiration, then look up and return the user (raising 401 on failure).",
+      "expected_answer_keywords": ["JWT", "pyjwt", "OAuth2PasswordBearer", "encode", "decode"],
+      "expected_sources": ["tutorial/security/oauth2-jwt.md"],
+      "category": "advanced"
+    }
+  ]
+}
