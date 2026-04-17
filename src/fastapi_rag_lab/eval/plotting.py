@@ -145,10 +145,11 @@ def plot_latency_distribution(results: BenchmarkResults, output_dir: Path) -> Pa
     colours = []
 
     for strategy in strategies:
+        # Match "hybrid_k3" but not "hybrid_rerank_k3" for the "hybrid" strategy
         latencies = [
             r.latency_ms
             for r in results.per_query
-            if r.config_label.startswith(strategy)
+            if _matches_strategy(r.config_label, strategy)
         ]
         if latencies:
             data.append(latencies)
@@ -228,3 +229,12 @@ def _find_aggregate(
         if a.strategy == strategy and a.top_k == top_k:
             return a
     return None
+
+
+def _matches_strategy(config_label: str, strategy: str) -> bool:
+    """Match config labels to strategies without prefix collisions.
+
+    "hybrid_k5" matches "hybrid" but not "hybrid_rerank".
+    "hybrid_rerank_k5" matches "hybrid_rerank" only.
+    """
+    return config_label.startswith(strategy + "_k")

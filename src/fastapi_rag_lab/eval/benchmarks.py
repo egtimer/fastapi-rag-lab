@@ -248,7 +248,15 @@ def _benchmark_one(
         )
     elapsed_ms = (time.monotonic() - t0) * 1000
 
-    sources = [r.metadata.get("source_file", "") for r in retrieved]
+    # Deduplicate sources preserving rank order -- multiple child chunks from
+    # the same source file should not inflate ranking metrics (nDCG, MRR).
+    seen: set[str] = set()
+    sources: list[str] = []
+    for r in retrieved:
+        src = r.metadata.get("source_file", "")
+        if src not in seen:
+            seen.add(src)
+            sources.append(src)
     k = config.top_k
     cit = citation_accuracy(sources, entry.expected_sources)
 
