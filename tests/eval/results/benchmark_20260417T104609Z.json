@@ -1,0 +1,6412 @@
+{
+  "started_at": "2026-04-17T10:34:58.939634+00:00",
+  "finished_at": "2026-04-17T10:46:09.809029+00:00",
+  "dataset_path": "/home/egtimer/dev/fastapi-rag-lab/tests/eval/golden_dataset.json",
+  "entry_count": 30,
+  "configs": [
+    {
+      "strategy": "dense",
+      "top_k": 3,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "dense",
+      "top_k": 5,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "dense",
+      "top_k": 10,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid",
+      "top_k": 3,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid",
+      "top_k": 5,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid",
+      "top_k": 10,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid_rerank",
+      "top_k": 3,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid_rerank",
+      "top_k": 5,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    },
+    {
+      "strategy": "hybrid_rerank",
+      "top_k": 10,
+      "rrf_k": 60,
+      "rerank_top_n": 15
+    }
+  ],
+  "aggregates": [
+    {
+      "config_label": "dense_k3",
+      "strategy": "dense",
+      "top_k": 3,
+      "citation_f1_mean": 0.5188888888888888,
+      "recall_at_k_mean": 0.8166666666666667,
+      "mrr_mean": 0.6611111111111111,
+      "ndcg_at_k_mean": 0.6922598653540916,
+      "latency_p50_ms": 93.62057450198336,
+      "latency_p95_ms": 108.78463265617029,
+      "latency_p99_ms": 112.01720908196876,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.6875,
+          "mrr": 0.5208333333333334,
+          "citation_f1": 0.3625,
+          "ndcg_at_k": 0.5305096182921145
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.6944444444444443,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 0.8333333333333334,
+          "mrr": 0.7222222222222222,
+          "citation_f1": 0.5833333333333334,
+          "ndcg_at_k": 0.75
+        },
+        "error_handling": {
+          "recall_at_k": 0.8,
+          "mrr": 0.4666666666666667,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 0.5523719014285831
+        },
+        "advanced": {
+          "recall_at_k": 0.8,
+          "mrr": 0.6,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 0.652371901428583
+        }
+      }
+    },
+    {
+      "config_label": "dense_k5",
+      "strategy": "dense",
+      "top_k": 5,
+      "citation_f1_mean": 0.4361904761904762,
+      "recall_at_k_mean": 0.8833333333333333,
+      "mrr_mean": 0.6777777777777777,
+      "ndcg_at_k_mean": 0.7209716358923177,
+      "latency_p50_ms": 89.37770300690318,
+      "latency_p95_ms": 108.16690520805423,
+      "latency_p99_ms": 110.15362363192253,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.6875,
+          "mrr": 0.5208333333333334,
+          "citation_f1": 0.2690476190476191,
+          "ndcg_at_k": 0.5305096182921145
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.5388888888888889,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.7638888888888888,
+          "citation_f1": 0.5777777777777778,
+          "ndcg_at_k": 0.8217794263455654
+        },
+        "error_handling": {
+          "recall_at_k": 0.8,
+          "mrr": 0.4666666666666667,
+          "citation_f1": 0.3666666666666667,
+          "ndcg_at_k": 0.5523719014285831
+        },
+        "advanced": {
+          "recall_at_k": 1.0,
+          "mrr": 0.65,
+          "citation_f1": 0.48,
+          "ndcg_at_k": 0.7385072130432616
+        }
+      }
+    },
+    {
+      "config_label": "dense_k10",
+      "strategy": "dense",
+      "top_k": 10,
+      "citation_f1_mean": 0.28809523809523807,
+      "recall_at_k_mean": 0.8833333333333333,
+      "mrr_mean": 0.6777777777777777,
+      "ndcg_at_k_mean": 0.7209716358923177,
+      "latency_p50_ms": 101.75461750623072,
+      "latency_p95_ms": 110.74243035400286,
+      "latency_p99_ms": 111.43012901971815,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.6875,
+          "mrr": 0.5208333333333334,
+          "citation_f1": 0.16180555555555554,
+          "ndcg_at_k": 0.5305096182921145
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.3517195767195767,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.7638888888888888,
+          "citation_f1": 0.33888888888888896,
+          "ndcg_at_k": 0.8217794263455654
+        },
+        "error_handling": {
+          "recall_at_k": 0.8,
+          "mrr": 0.4666666666666667,
+          "citation_f1": 0.2571428571428572,
+          "ndcg_at_k": 0.5523719014285831
+        },
+        "advanced": {
+          "recall_at_k": 1.0,
+          "mrr": 0.65,
+          "citation_f1": 0.3838095238095238,
+          "ndcg_at_k": 0.7385072130432616
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_k3",
+      "strategy": "hybrid",
+      "top_k": 3,
+      "citation_f1_mean": 0.5944444444444444,
+      "recall_at_k_mean": 0.8833333333333333,
+      "mrr_mean": 0.7777777777777778,
+      "ndcg_at_k_mean": 0.7966241904731401,
+      "latency_p50_ms": 105.0010709950584,
+      "latency_p95_ms": 117.69629415211966,
+      "latency_p99_ms": 119.72214327819529,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.8125,
+          "mrr": 0.75,
+          "citation_f1": 0.5208333333333334,
+          "ndcg_at_k": 0.7343758374885467
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.75,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 0.8333333333333334,
+          "mrr": 0.75,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 0.7718216255952429
+        },
+        "error_handling": {
+          "recall_at_k": 1.0,
+          "mrr": 0.6666666666666667,
+          "citation_f1": 0.6,
+          "ndcg_at_k": 0.752371901428583
+        },
+        "advanced": {
+          "recall_at_k": 0.8,
+          "mrr": 0.7,
+          "citation_f1": 0.6333333333333333,
+          "ndcg_at_k": 0.7261859507142916
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_k5",
+      "strategy": "hybrid",
+      "top_k": 5,
+      "citation_f1_mean": 0.45444444444444443,
+      "recall_at_k_mean": 0.9833333333333333,
+      "mrr_mean": 0.8038888888888889,
+      "ndcg_at_k_mean": 0.8405418359834046,
+      "latency_p50_ms": 108.73288049333496,
+      "latency_p95_ms": 126.64623874952667,
+      "latency_p99_ms": 130.3388145394274,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.9375,
+          "mrr": 0.775,
+          "citation_f1": 0.38333333333333336,
+          "ndcg_at_k": 0.7827324383928644
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.8055555555555555,
+          "citation_f1": 0.4222222222222222,
+          "ndcg_at_k": 0.8551549589285763
+        },
+        "error_handling": {
+          "recall_at_k": 1.0,
+          "mrr": 0.6666666666666667,
+          "citation_f1": 0.45999999999999996,
+          "ndcg_at_k": 0.752371901428583
+        },
+        "advanced": {
+          "recall_at_k": 1.0,
+          "mrr": 0.75,
+          "citation_f1": 0.5466666666666666,
+          "ndcg_at_k": 0.8123212623289702
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_k10",
+      "strategy": "hybrid",
+      "top_k": 10,
+      "citation_f1_mean": 0.2811712361712362,
+      "recall_at_k_mean": 0.9833333333333333,
+      "mrr_mean": 0.8038888888888889,
+      "ndcg_at_k_mean": 0.8405418359834046,
+      "latency_p50_ms": 102.09790749649983,
+      "latency_p95_ms": 110.9521310441778,
+      "latency_p99_ms": 113.3496383408783,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.9375,
+          "mrr": 0.775,
+          "citation_f1": 0.21698232323232322,
+          "ndcg_at_k": 0.7827324383928644
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.3035714285714286,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.8055555555555555,
+          "citation_f1": 0.2598003848003848,
+          "ndcg_at_k": 0.8551549589285763
+        },
+        "error_handling": {
+          "recall_at_k": 1.0,
+          "mrr": 0.6666666666666667,
+          "citation_f1": 0.2966666666666667,
+          "ndcg_at_k": 0.752371901428583
+        },
+        "advanced": {
+          "recall_at_k": 1.0,
+          "mrr": 0.75,
+          "citation_f1": 0.36714285714285716,
+          "ndcg_at_k": 0.8123212623289702
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "strategy": "hybrid_rerank",
+      "top_k": 3,
+      "citation_f1_mean": 0.55,
+      "recall_at_k_mean": 0.8,
+      "mrr_mean": 0.6833333333333333,
+      "ndcg_at_k_mean": 0.7138836091666735,
+      "latency_p50_ms": 6506.625410504057,
+      "latency_p95_ms": 8546.969084742886,
+      "latency_p99_ms": 8775.950177195191,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.75,
+          "mrr": 0.5,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 0.5654648767857288
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.7222222222222222,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 0.6666666666666666,
+          "mrr": 0.5,
+          "citation_f1": 0.4444444444444444,
+          "ndcg_at_k": 0.5436432511904858
+        },
+        "error_handling": {
+          "recall_at_k": 0.8,
+          "mrr": 0.8,
+          "citation_f1": 0.5,
+          "ndcg_at_k": 0.8
+        },
+        "advanced": {
+          "recall_at_k": 0.8,
+          "mrr": 0.7,
+          "citation_f1": 0.6,
+          "ndcg_at_k": 0.7261859507142916
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "strategy": "hybrid_rerank",
+      "top_k": 5,
+      "citation_f1_mean": 0.44,
+      "recall_at_k_mean": 0.9,
+      "mrr_mean": 0.711111111111111,
+      "ndcg_at_k_mean": 0.7592620463715662,
+      "latency_p50_ms": 6516.227449996222,
+      "latency_p95_ms": 8346.05589415005,
+      "latency_p99_ms": 8447.258445066982,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.875,
+          "mrr": 0.53125,
+          "citation_f1": 0.3875,
+          "ndcg_at_k": 0.6192994465449029
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.5111111111111111,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.5972222222222222,
+          "citation_f1": 0.49444444444444446,
+          "ndcg_at_k": 0.6987560108693848
+        },
+        "error_handling": {
+          "recall_at_k": 0.8,
+          "mrr": 0.8,
+          "citation_f1": 0.3466666666666667,
+          "ndcg_at_k": 0.8
+        },
+        "advanced": {
+          "recall_at_k": 0.8,
+          "mrr": 0.7,
+          "citation_f1": 0.4666666666666666,
+          "ndcg_at_k": 0.7261859507142916
+        }
+      }
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "strategy": "hybrid_rerank",
+      "top_k": 10,
+      "citation_f1_mean": 0.29547619047619045,
+      "recall_at_k_mean": 0.9833333333333333,
+      "mrr_mean": 0.738095238095238,
+      "ndcg_at_k_mean": 0.7989793576471651,
+      "latency_p50_ms": 6231.169974496879,
+      "latency_p95_ms": 7618.780303452513,
+      "latency_p99_ms": 8159.725852498233,
+      "per_category": {
+        "factual": {
+          "recall_at_k": 0.9375,
+          "mrr": 0.5491071428571429,
+          "citation_f1": 0.22876984126984126,
+          "ndcg_at_k": 0.6448472462434637
+        },
+        "conceptual": {
+          "recall_at_k": 1.0,
+          "mrr": 1.0,
+          "citation_f1": 0.3287037037037037,
+          "ndcg_at_k": 1.0
+        },
+        "code": {
+          "recall_at_k": 1.0,
+          "mrr": 0.5972222222222222,
+          "citation_f1": 0.2771164021164021,
+          "ndcg_at_k": 0.6987560108693848
+        },
+        "error_handling": {
+          "recall_at_k": 1.0,
+          "mrr": 0.9,
+          "citation_f1": 0.3253968253968254,
+          "ndcg_at_k": 0.9261859507142916
+        },
+        "advanced": {
+          "recall_at_k": 1.0,
+          "mrr": 0.7333333333333333,
+          "citation_f1": 0.35444444444444445,
+          "ndcg_at_k": 0.797427388135896
+        }
+      }
+    }
+  ],
+  "per_query": [
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 103.58078600256704
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "advanced/additional-responses.md",
+        "advanced/path-operation-advanced-configuration.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 88.48200099600945
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "python-types.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 74.24154799082316
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/security/get-current-user.md",
+        "release-notes.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 84.21892499609385
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "tutorial/body.md",
+        "advanced/strict-content-type.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 95.21840799425263
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "advanced/websockets.md",
+        "tutorial/security/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 83.83816099376418
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "about/index.md",
+        "advanced/advanced-python-types.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 80.23796998895705
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 99.53904699068516
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "advanced/security/oauth2-scopes.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 79.81867200578563
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 91.63915200042538
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "advanced/openapi-webhooks.md",
+        "advanced/websockets.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 90.77034700021613
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 101.89562301093247
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "advanced/testing-events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 92.59629099688027
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 91.1981279932661
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "advanced/using-request-directly.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 106.1878530017566
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 104.91333500249311
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "reference/staticfiles.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.19092700793408
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 106.72359399904963
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 94.56758599844761
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 92.6735630055191
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/additional-status-codes.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 100.2990020060679
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.70209700684063
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/strict-content-type.md",
+        "release-notes.md",
+        "advanced/additional-status-codes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 87.48883599764667
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/response-headers.md",
+        "advanced/additional-responses.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 85.77576499374118
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 101.22810199391097
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "how-to/conditional-openapi.md",
+        "advanced/settings.md",
+        "environment-variables.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 91.56806400278583
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 110.47093701199628
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 87.45185600128025
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 104.31861800316256
+    },
+    {
+      "config_label": "dense_k3",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 112.64878499787301
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/background-tasks.md",
+        "tutorial/cookie-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.27509698818903
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "advanced/additional-responses.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 109.07983100332785
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "python-types.md",
+        "release-notes.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.28571428571428575,
+      "citation_precision": 0.2,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 78.090840994264
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/security/get-current-user.md",
+        "release-notes.md",
+        "tutorial/body.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/body-nested-models.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 78.33887900051195
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "tutorial/body.md",
+        "advanced/strict-content-type.md",
+        "how-to/custom-request-and-route.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 95.33645000192337
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "advanced/websockets.md",
+        "tutorial/security/index.md",
+        "tutorial/request-files.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 85.21722900331952
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "about/index.md",
+        "advanced/advanced-python-types.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/security/index.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 107.05110701383092
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 110.59221498726401
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 75.3567009960534
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 100.49844099557959
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "advanced/openapi-webhooks.md",
+        "advanced/websockets.md",
+        "tutorial/security/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.27668199734762
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 91.9158130127471
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "advanced/testing-events.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 83.89265999721829
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 86.6193249967182
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "advanced/using-request-directly.md",
+        "tutorial/body.md",
+        "advanced/strict-content-type.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 99.5494119997602
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/background-tasks.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 98.22999600146431
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "reference/staticfiles.md",
+        "how-to/custom-docs-ui-assets.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 84.56787900649942
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.60004699800629
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 72.23714499559719
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.44375399127603
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/additional-status-codes.md",
+        "tutorial/handling-errors.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 87.7867600065656
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 93.77884298737627
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/strict-content-type.md",
+        "release-notes.md",
+        "advanced/additional-status-codes.md",
+        "advanced/response-change-status-code.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 86.34993698797189
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/response-headers.md",
+        "advanced/additional-responses.md",
+        "tutorial/handling-errors.md",
+        "tutorial/header-param-models.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 87.11913099978119
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 102.86531900055707
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "how-to/conditional-openapi.md",
+        "advanced/settings.md",
+        "environment-variables.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 87.48256199760363
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "advanced/testing-events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 82.97620998928323
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 83.17769400309771
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md",
+        "release-notes.md",
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 90.96864600724075
+    },
+    {
+      "config_label": "dense_k5",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md",
+        "tutorial/security/simple-oauth2.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 81.74594900629018
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/background-tasks.md",
+        "tutorial/cookie-params.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/query-params.md",
+        "tutorial/header-params.md",
+        "tutorial/body.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 83.67869099311065
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "advanced/additional-responses.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "release-notes.md",
+        "advanced/custom-response.md",
+        "tutorial/path-operation-configuration.md",
+        "advanced/response-change-status-code.md",
+        "tutorial/response-status-code.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 76.42302999738604
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "python-types.md",
+        "release-notes.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params-numeric-validations.md",
+        "alternatives.md",
+        "advanced/dataclasses.md",
+        "tutorial/body-fields.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.2,
+      "citation_precision": 0.125,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 83.89573999738786
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/security/get-current-user.md",
+        "release-notes.md",
+        "tutorial/body.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/body-nested-models.md",
+        "tutorial/body-fields.md",
+        "advanced/dataclasses.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 92.24134001124185
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "tutorial/body.md",
+        "advanced/strict-content-type.md",
+        "how-to/custom-request-and-route.md",
+        "tutorial/request-files.md",
+        "advanced/wsgi.md",
+        "advanced/openapi-webhooks.md",
+        "index.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 88.10632099630311
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "advanced/websockets.md",
+        "tutorial/security/index.md",
+        "tutorial/request-files.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/index.md",
+        "tutorial/cookie-params.md",
+        "alternatives.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/request-forms-and-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 110.09157300577499
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "about/index.md",
+        "advanced/advanced-python-types.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/security/index.md",
+        "tutorial/background-tasks.md",
+        "alternatives.md",
+        "tutorial/cookie-params.md",
+        "tutorial/first-steps.md",
+        "tutorial/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 107.26356599479914
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md",
+        "tutorial/body.md",
+        "tutorial/cors.md",
+        "tutorial/body-fields.md",
+        "advanced/additional-status-codes.md",
+        "advanced/custom-response.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 106.20094800833613
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/dependencies/sub-dependencies.md",
+        "tutorial/security/get-current-user.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 107.62870698818006
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md",
+        "advanced/async-tests.md",
+        "tutorial/background-tasks.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 107.93924599420279
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "advanced/openapi-webhooks.md",
+        "advanced/websockets.md",
+        "tutorial/security/index.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/background-tasks.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.27495000255294
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "release-notes.md",
+        "advanced/wsgi.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 101.89012500632089
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "advanced/testing-events.md",
+        "release-notes.md",
+        "tutorial/stream-json-lines.md",
+        "tutorial/security/oauth2-jwt.md",
+        "help-fastapi.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 98.75625499989837
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 103.6691119952593
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body-multiple-params.md",
+        "advanced/using-request-directly.md",
+        "tutorial/body.md",
+        "advanced/strict-content-type.md",
+        "tutorial/security/get-current-user.md",
+        "advanced/dataclasses.md",
+        "tutorial/header-param-models.md",
+        "release-notes.md",
+        "tutorial/body-nested-models.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 95.65593699517194
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/background-tasks.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 109.78452699782792
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "reference/staticfiles.md",
+        "how-to/custom-docs-ui-assets.md",
+        "tutorial/request-forms-and-files.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.2421800007578
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "reference/background.md",
+        "advanced/advanced-dependencies.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 101.18217700801324
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 96.09316301066428
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/dependencies/index.md",
+        "release-notes.md",
+        "tutorial/cookie-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 86.47963299881667
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/additional-status-codes.md",
+        "tutorial/handling-errors.md",
+        "advanced/custom-response.md",
+        "release-notes.md",
+        "reference/response.md",
+        "tutorial/response-status-code.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 98.24830999423284
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "reference/exceptions.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 89.21123000618536
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/strict-content-type.md",
+        "release-notes.md",
+        "advanced/additional-status-codes.md",
+        "advanced/response-change-status-code.md",
+        "advanced/custom-response.md",
+        "tutorial/query-params-str-validations.md",
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 100.71099898777902
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/response-headers.md",
+        "advanced/additional-responses.md",
+        "tutorial/handling-errors.md",
+        "tutorial/header-param-models.md",
+        "advanced/custom-response.md",
+        "tutorial/header-params.md",
+        "advanced/strict-content-type.md",
+        "reference/responses.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 95.32753200619482
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md",
+        "tutorial/sql-databases.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 107.00083000119776
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "how-to/conditional-openapi.md",
+        "advanced/settings.md",
+        "environment-variables.md",
+        "virtual-environments.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 101.61911000614055
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "advanced/testing-events.md",
+        "deployment/docker.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.51384900463745
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 104.2670070019085
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md",
+        "release-notes.md",
+        "advanced/middleware.md",
+        "advanced/response-headers.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 111.49351199856028
+    },
+    {
+      "config_label": "dense_k10",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md",
+        "tutorial/security/simple-oauth2.md",
+        "tutorial/security/index.md",
+        "advanced/security/oauth2-scopes.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 102.95049699197989
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 103.52863300067838
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 114.60761399939656
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "alternatives.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.5,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 93.69733999483287
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 97.73943199252244
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "tutorial/request-forms.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.18924600305036
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 98.82274399569724
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/testing.md",
+        "alternatives.md",
+        "about/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 99.83486800047103
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "advanced/additional-status-codes.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 96.10869499738328
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.12108399940189
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 112.23624700505752
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "advanced/openapi-webhooks.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.0375779971946
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 93.92734100401867
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 83.82709299621638
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 88.39919599995483
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.55030599364545
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 110.75438500847667
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "tutorial/static-files.md",
+        "how-to/custom-docs-ui-assets.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 95.72461800416932
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.7932949915994
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "features.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.4631910022581
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 104.2088469985174
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/response-status-code.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 120.48146101005841
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 113.13708100351505
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 117.49239100026898
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/response-headers.md",
+        "reference/responses.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.84159298741724
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 110.2258260070812
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "environment-variables.md",
+        "advanced/settings.md",
+        "how-to/conditional-openapi.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 110.28536199592054
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 92.65500999754295
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 103.39573500095867
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 114.71750598866493
+    },
+    {
+      "config_label": "hybrid_k3",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/simple-oauth2.md",
+        "advanced/security/oauth2-scopes.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 117.86312400363386
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/body-multiple-params.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "latency_ms": 94.05749599682167
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "tutorial/response-status-code.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 100.9071910084458
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "alternatives.md",
+        "python-types.md",
+        "advanced/dataclasses.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.3333333333333333,
+      "citation_precision": 0.25,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 109.44857000140473
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md",
+        "tutorial/body-multiple-params.md",
+        "advanced/dataclasses.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 106.26097199565265
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "tutorial/request-forms.md",
+        "tutorial/request-files.md",
+        "advanced/strict-content-type.md",
+        "advanced/openapi-webhooks.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 108.73137498856522
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 100.45758899650536
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/testing.md",
+        "alternatives.md",
+        "about/index.md",
+        "advanced/advanced-python-types.md",
+        "advanced/async-tests.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 115.62440799025353
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "advanced/additional-status-codes.md",
+        "advanced/using-request-directly.md",
+        "tutorial/response-model.md",
+        "tutorial/static-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 97.58639299252536
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 113.47786200349219
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 131.73724499938544
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "advanced/openapi-webhooks.md",
+        "deployment/docker.md",
+        "advanced/websockets.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 113.36243800178636
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "reference/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 108.7343859981047
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "advanced/testing-events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.36419500142802
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md",
+        "advanced/vibe.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.78007599664852
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "advanced/using-request-directly.md",
+        "tutorial/header-param-models.md",
+        "advanced/openapi-webhooks.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 126.91507099953014
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 126.31766599952243
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "tutorial/static-files.md",
+        "how-to/custom-docs-ui-assets.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 117.84721699950751
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "release-notes.md",
+        "advanced/advanced-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.79855399858207
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "features.md",
+        "tutorial/body-multiple-params.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 101.52509598992765
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/dependencies/index.md",
+        "advanced/using-request-directly.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 109.01776599348523
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/response-status-code.md",
+        "advanced/additional-status-codes.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 112.74561700702179
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 101.96615199674852
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "tutorial/handling-errors.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 95.07051001128275
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/response-headers.md",
+        "reference/responses.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 89.54311499837786
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 119.81433098844718
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "environment-variables.md",
+        "advanced/settings.md",
+        "how-to/conditional-openapi.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 93.91000900359359
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "advanced/testing-events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.09300999122206
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 111.69354799494613
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/middleware.md",
+        "tutorial/middleware.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 109.21015299391001
+    },
+    {
+      "config_label": "hybrid_k5",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/simple-oauth2.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 106.57852501026355
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/body-multiple-params.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md",
+        "tutorial/background-tasks.md",
+        "reference/request.md",
+        "advanced/advanced-dependencies.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "latency_ms": 86.75636300176848
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "tutorial/response-status-code.md",
+        "advanced/custom-response.md",
+        "advanced/response-change-status-code.md",
+        "advanced/response-headers.md",
+        "tutorial/path-operation-configuration.md",
+        "advanced/security/oauth2-scopes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 96.54621299705468
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "alternatives.md",
+        "python-types.md",
+        "advanced/dataclasses.md",
+        "benchmarks.md",
+        "features.md",
+        "advanced/custom-response.md",
+        "release-notes.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.1818181818181818,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "latency_ms": 101.99350999027956
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md",
+        "tutorial/body-multiple-params.md",
+        "advanced/dataclasses.md",
+        "tutorial/request-form-models.md",
+        "tutorial/security/get-current-user.md",
+        "how-to/custom-request-and-route.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 104.25190199748613
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "tutorial/request-forms.md",
+        "tutorial/request-files.md",
+        "advanced/strict-content-type.md",
+        "advanced/openapi-webhooks.md",
+        "release-notes.md",
+        "tutorial/stream-json-lines.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/response-status-code.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 102.2023050027201
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "help-fastapi.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "advanced/websockets.md",
+        "reference/background.md",
+        "tutorial/security/index.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 104.63386199262459
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/testing.md",
+        "alternatives.md",
+        "about/index.md",
+        "advanced/advanced-python-types.md",
+        "advanced/async-tests.md",
+        "tutorial/dependencies/index.md",
+        "release-notes.md",
+        "tutorial/security/index.md",
+        "reference/testclient.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.18181818181818182,
+      "citation_precision": 0.1,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.6779339996865
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "advanced/additional-status-codes.md",
+        "advanced/using-request-directly.md",
+        "tutorial/response-model.md",
+        "tutorial/static-files.md",
+        "reference/background.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 80.64004500920419
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/background-tasks.md",
+        "alternatives.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 95.84001899929717
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md",
+        "tutorial/background-tasks.md",
+        "advanced/async-tests.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.89946601248812
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "advanced/openapi-webhooks.md",
+        "deployment/docker.md",
+        "advanced/websockets.md",
+        "history-design-future.md",
+        "tutorial/security/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 106.11653699015733
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "reference/middleware.md",
+        "tutorial/cors.md",
+        "deployment/index.md",
+        "deployment/docker.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 103.54491499310825
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "advanced/testing-events.md",
+        "tutorial/stream-json-lines.md",
+        "advanced/async-tests.md",
+        "deployment/docker.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 93.7366730067879
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md",
+        "advanced/vibe.md",
+        "deployment/docker.md",
+        "virtual-environments.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 89.46944899798837
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "advanced/using-request-directly.md",
+        "tutorial/header-param-models.md",
+        "advanced/openapi-webhooks.md",
+        "advanced/dataclasses.md",
+        "tutorial/body-nested-models.md",
+        "tutorial/query-param-models.md",
+        "tutorial/request-form-models.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.18181818181818182,
+      "citation_precision": 0.1,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 108.53821899218019
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "advanced/path-operation-advanced-configuration.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 104.60601501108613
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "tutorial/static-files.md",
+        "how-to/custom-docs-ui-assets.md",
+        "advanced/templates.md",
+        "deployment/docker.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 84.50992699363269
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "release-notes.md",
+        "advanced/advanced-dependencies.md",
+        "reference/background.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "tutorial/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 92.15362300164998
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "features.md",
+        "tutorial/body-multiple-params.md",
+        "release-notes.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/query-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 89.1742020030506
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/path-params.md",
+        "tutorial/dependencies/index.md",
+        "advanced/using-request-directly.md",
+        "tutorial/handling-errors.md",
+        "reference/request.md",
+        "advanced/custom-response.md",
+        "tutorial/testing.md",
+        "tutorial/path-params-numeric-validations.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 88.05826499883551
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/response-status-code.md",
+        "advanced/additional-status-codes.md",
+        "release-notes.md",
+        "advanced/custom-response.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 97.6915299979737
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "tutorial/handling-errors.md",
+        "advanced/advanced-dependencies.md",
+        "how-to/custom-request-and-route.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 107.89441200904548
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "tutorial/response-model.md",
+        "tutorial/query-params-str-validations.md",
+        "advanced/strict-content-type.md",
+        "advanced/additional-status-codes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 81.68488000228535
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/response-headers.md",
+        "reference/responses.md",
+        "release-notes.md",
+        "how-to/custom-request-and-route.md",
+        "tutorial/cors.md",
+        "advanced/additional-responses.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 89.74579999630805
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md",
+        "tutorial/sql-databases.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 113.52220400294755
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "environment-variables.md",
+        "advanced/settings.md",
+        "how-to/conditional-openapi.md",
+        "virtual-environments.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 100.09421799622942
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "advanced/testing-events.md",
+        "release-notes.md",
+        "_llm-test.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 105.4488080117153
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 103.72607500175945
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/middleware.md",
+        "tutorial/middleware.md",
+        "advanced/response-cookies.md",
+        "advanced/additional-responses.md",
+        "how-to/custom-request-and-route.md",
+        "release-notes.md",
+        "reference/middleware.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 106.52171399851795
+    },
+    {
+      "config_label": "hybrid_k10",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/simple-oauth2.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/security/oauth2-jwt.md",
+        "tutorial/security/index.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 112.92714999581221
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/background-tasks.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 5795.035240997095
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6378.091897000559
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "python-types.md",
+        "alternatives.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6052.500609002891
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6836.233549998724
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/request-forms.md",
+        "tutorial/body.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6349.483537997003
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "reference/background.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6044.375768004102
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/testing.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5732.953443002771
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md",
+        "advanced/security/oauth2-scopes.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5288.021664004191
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6332.020065005054
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6476.7169419938
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6936.537022003904
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "tutorial/cors.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 8323.801752994768
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "deployment/docker.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6635.0456820073305
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 8729.560537991347
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/request-form-models.md",
+        "tutorial/query-param-models.md",
+        "tutorial/header-param-models.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6982.399793996592
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6103.292346000671
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "how-to/custom-docs-ui-assets.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6983.433457993669
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/background.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 8794.898057996761
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6093.436443989049
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5732.706342998426
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/additional-status-codes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7209.435947006568
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6512.000989008811
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7270.795172007638
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6478.247899998678
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 8038.2752980076475
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/settings.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 1.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5642.8148790000705
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6501.249831999303
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "advanced/sub-applications.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6864.3029460072285
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6576.1258819984505
+    },
+    {
+      "config_label": "hybrid_rerank_k3",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6896.991676010657
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/background-tasks.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 6353.848365004524
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "advanced/additional-responses.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7109.543263999512
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "python-types.md",
+        "alternatives.md",
+        "advanced/dataclasses.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6562.718196000787
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "tutorial/request-form-models.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6464.793228995404
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/request-forms.md",
+        "tutorial/body.md",
+        "tutorial/request-files.md",
+        "advanced/strict-content-type.md",
+        "reference/parameters.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5820.298210004694
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "reference/background.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5964.261257002363
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/testing.md",
+        "advanced/async-tests.md",
+        "deployment/fastapicloud.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6003.92225800897
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md",
+        "advanced/security/oauth2-scopes.md",
+        "reference/background.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5779.814143999829
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/sub-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6184.584602000541
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/first-steps.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6562.537321995478
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "advanced/websockets.md",
+        "advanced/openapi-webhooks.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6579.7159079957055
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "tutorial/cors.md",
+        "reference/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6682.1545970014995
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "deployment/docker.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6469.917577996966
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 8453.494029992726
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/request-form-models.md",
+        "tutorial/query-param-models.md",
+        "tutorial/header-param-models.md",
+        "tutorial/body.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 6624.586450998322
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5766.54812299239
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "how-to/custom-docs-ui-assets.md",
+        "tutorial/static-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 6592.990805991576
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/background.md",
+        "tutorial/background-tasks.md",
+        "tutorial/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 8431.992013007402
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6608.534750004765
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md",
+        "reference/request.md",
+        "advanced/advanced-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6056.927672994789
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/additional-status-codes.md",
+        "advanced/custom-response.md",
+        "tutorial/response-status-code.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7693.733303996851
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5766.236098002992
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "advanced/custom-response.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6675.516442002845
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md",
+        "advanced/response-headers.md",
+        "advanced/additional-responses.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5912.551849003648
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 8241.022859991062
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/settings.md",
+        "environment-variables.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5856.809211996733
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "_llm-test.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5823.070528989774
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "advanced/sub-applications.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.6666666666666666,
+      "citation_precision": 0.5,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7762.981574996957
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md",
+        "how-to/custom-request-and-route.md",
+        "advanced/response-headers.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "latency_ms": 6773.649666996789
+    },
+    {
+      "config_label": "hybrid_rerank_k5",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md",
+        "tutorial/security/simple-oauth2.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6338.416122001945
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_001",
+      "query": "What is a path parameter in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/background-tasks.md",
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md",
+        "tutorial/path-params-numeric-validations.md",
+        "release-notes.md",
+        "reference/request.md",
+        "advanced/advanced-dependencies.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 5796.283411997138
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_002",
+      "query": "What does the response_model parameter on a path operation decorator do?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "advanced/additional-responses.md",
+        "advanced/custom-response.md",
+        "tutorial/response-status-code.md",
+        "advanced/response-headers.md",
+        "advanced/response-cookies.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6229.357440999593
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_003",
+      "query": "Which library does FastAPI use under the hood for data validation?",
+      "category": "factual",
+      "retrieved_sources": [
+        "advanced/custom-response.md",
+        "python-types.md",
+        "alternatives.md",
+        "advanced/dataclasses.md",
+        "index.md",
+        "benchmarks.md",
+        "tutorial/path-params.md",
+        "advanced/using-request-directly.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.2,
+      "citation_precision": 0.125,
+      "citation_recall": 0.5,
+      "recall_at_k": 0.5,
+      "mrr": 0.14285714285714285,
+      "ndcg_at_k": 0.20438239758848611,
+      "latency_ms": 5884.101200994337
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_004",
+      "query": "Which Pydantic class do I subclass to declare a request body model?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/body-fields.md",
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "tutorial/request-form-models.md",
+        "advanced/dataclasses.md",
+        "tutorial/security/get-current-user.md",
+        "tutorial/body-nested-models.md",
+        "release-notes.md",
+        "tutorial/body-multiple-params.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.19999999999999998,
+      "citation_precision": 0.1111111111111111,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6341.3988149986835
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_005",
+      "query": "Which HTTP methods are recommended for sending a request body in FastAPI?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/request-forms.md",
+        "tutorial/body.md",
+        "tutorial/request-files.md",
+        "advanced/strict-content-type.md",
+        "reference/parameters.md",
+        "advanced/wsgi.md",
+        "release-notes.md",
+        "how-to/custom-request-and-route.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6232.982507994166
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_006",
+      "query": "What is BackgroundTasks in FastAPI used for?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/background-tasks.md",
+        "reference/background.md",
+        "help-fastapi.md",
+        "tutorial/index.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "advanced/websockets.md",
+        "tutorial/request-files.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5979.234780999832
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_007",
+      "query": "What is FastAPI's TestClient based on?",
+      "category": "factual",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/testing.md",
+        "advanced/async-tests.md",
+        "deployment/fastapicloud.md",
+        "alternatives.md",
+        "tutorial/dependencies/index.md",
+        "reference/testclient.md"
+      ],
+      "expected_sources": [
+        "tutorial/testing.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6036.828030992183
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_008",
+      "query": "What does `BackgroundTasks` actually come from internally?",
+      "category": "factual",
+      "retrieved_sources": [
+        "tutorial/static-files.md",
+        "tutorial/background-tasks.md",
+        "advanced/security/oauth2-scopes.md",
+        "reference/background.md",
+        "tutorial/body.md",
+        "tutorial/cors.md",
+        "tutorial/body-fields.md",
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 4837.471952996566
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_009",
+      "query": "How does the dependency injection system in FastAPI work?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/sub-dependencies.md",
+        "tutorial/background-tasks.md",
+        "alternatives.md",
+        "tutorial/security/get-current-user.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5675.89978199976
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_010",
+      "query": "When should I use async def versus normal def for a path operation function?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "async.md",
+        "tutorial/first-steps.md",
+        "tutorial/dependencies/index.md",
+        "advanced/stream-data.md",
+        "tutorial/background-tasks.md"
+      ],
+      "expected_sources": [
+        "async.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5999.899089001701
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_011",
+      "query": "What is CORS and why does my browser need it when calling my FastAPI backend?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/cors.md",
+        "tutorial/security/first-steps.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "advanced/websockets.md",
+        "advanced/openapi-webhooks.md",
+        "history-design-future.md",
+        "deployment/docker.md",
+        "help-fastapi.md"
+      ],
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5855.477126009646
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_012",
+      "query": "What does middleware do in a FastAPI application?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/middleware.md",
+        "tutorial/cors.md",
+        "reference/middleware.md",
+        "how-to/extending-openapi.md",
+        "deployment/docker.md",
+        "tutorial/response-model.md"
+      ],
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6332.326675998047
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_013",
+      "query": "What are lifespan events for in FastAPI?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "deployment/docker.md",
+        "release-notes.md",
+        "tutorial/stream-json-lines.md",
+        "help-fastapi.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5797.3192619974725
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_014",
+      "query": "What does response_model_exclude_unset do?",
+      "category": "conceptual",
+      "retrieved_sources": [
+        "tutorial/response-model.md",
+        "release-notes.md",
+        "virtual-environments.md"
+      ],
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7548.031318001449
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_015",
+      "query": "How do I define a POST endpoint that accepts a Pydantic model as the request body?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/request-form-models.md",
+        "tutorial/query-param-models.md",
+        "tutorial/header-param-models.md",
+        "tutorial/body.md",
+        "advanced/path-operation-advanced-configuration.md",
+        "tutorial/body-nested-models.md",
+        "tutorial/response-model.md",
+        "advanced/dataclasses.md"
+      ],
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "latency_ms": 6497.391905999393
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_016",
+      "query": "How do I add a dependency to a path operation in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/dependencies/global-dependencies.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "advanced/advanced-dependencies.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5763.40810500551
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_017",
+      "query": "How do I serve static files from a FastAPI app?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/staticfiles.md",
+        "how-to/custom-docs-ui-assets.md",
+        "tutorial/static-files.md",
+        "deployment/docker.md",
+        "advanced/templates.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "tutorial/static-files.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "latency_ms": 6613.984138006344
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_018",
+      "query": "How do I schedule a background task from a request handler?",
+      "category": "code",
+      "retrieved_sources": [
+        "reference/background.md",
+        "tutorial/background-tasks.md",
+        "tutorial/middleware.md",
+        "advanced/advanced-dependencies.md",
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 8357.032056010212
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_019",
+      "query": "How do I add a max length validation to a string query parameter?",
+      "category": "code",
+      "retrieved_sources": [
+        "tutorial/query-params-str-validations.md",
+        "release-notes.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/body-multiple-params.md",
+        "features.md"
+      ],
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5904.068257994368
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_020",
+      "query": "How do I declare a path parameter as an integer in FastAPI?",
+      "category": "code",
+      "retrieved_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/path-params.md",
+        "reference/request.md",
+        "advanced/advanced-dependencies.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/handling-errors.md"
+      ],
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 5759.19953599805
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_021",
+      "query": "How do I return a 404 Not Found error from a path operation?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "advanced/additional-status-codes.md",
+        "advanced/custom-response.md",
+        "tutorial/response-status-code.md",
+        "release-notes.md",
+        "tutorial/testing.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 7026.579511002637
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_022",
+      "query": "How do I install a custom exception handler in FastAPI?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "advanced/advanced-dependencies.md",
+        "advanced/middleware.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.33333333333333337,
+      "citation_precision": 0.2,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6253.844653998385
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_023",
+      "query": "How do I override the default request validation error response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "release-notes.md",
+        "advanced/custom-response.md",
+        "tutorial/query-params-str-validations.md",
+        "advanced/response-directly.md",
+        "advanced/additional-status-codes.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.2857142857142857,
+      "citation_precision": 0.16666666666666666,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6399.322482000571
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_024",
+      "query": "Can I add custom headers to an HTTPException response?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "tutorial/handling-errors.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "release-notes.md",
+        "advanced/response-headers.md",
+        "advanced/additional-responses.md",
+        "tutorial/cors.md",
+        "advanced/custom-response.md",
+        "how-to/custom-request-and-route.md"
+      ],
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6002.796960994601
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_025",
+      "query": "How do I make sure a database session is closed when an exception is raised inside a dependency that yields it?",
+      "category": "error_handling",
+      "retrieved_sources": [
+        "release-notes.md",
+        "tutorial/dependencies/dependencies-with-yield.md",
+        "advanced/advanced-dependencies.md"
+      ],
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 7676.665837003384
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_026",
+      "query": "How do I manage configuration from environment variables using Pydantic Settings?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/settings.md",
+        "environment-variables.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "citation_f1": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 5671.048199001234
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_027",
+      "query": "How do I run startup and shutdown logic with the lifespan parameter?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/events.md",
+        "release-notes.md",
+        "_llm-test.md",
+        "advanced/testing-events.md"
+      ],
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6570.399432996055
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_028",
+      "query": "How do I configure FastAPI when it runs behind a reverse proxy that strips a path prefix?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "advanced/behind-a-proxy.md",
+        "advanced/sub-applications.md",
+        "deployment/https.md",
+        "release-notes.md"
+      ],
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "citation_f1": 0.4,
+      "citation_precision": 0.25,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "latency_ms": 6556.713783007581
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_029",
+      "query": "How do I add the GZip middleware to compress responses in my FastAPI app?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/middleware.md",
+        "advanced/additional-responses.md",
+        "how-to/custom-request-and-route.md",
+        "advanced/response-headers.md",
+        "reference/middleware.md",
+        "advanced/middleware.md",
+        "advanced/response-cookies.md",
+        "advanced/generate-clients.md"
+      ],
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "citation_f1": 0.2222222222222222,
+      "citation_precision": 0.125,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.16666666666666666,
+      "ndcg_at_k": 0.3562071871080222,
+      "latency_ms": 6574.526953001623
+    },
+    {
+      "config_label": "hybrid_rerank_k10",
+      "query_id": "q_030",
+      "query": "How do I issue and verify JWT access tokens with the OAuth2 password flow in FastAPI?",
+      "category": "advanced",
+      "retrieved_sources": [
+        "tutorial/security/first-steps.md",
+        "tutorial/security/oauth2-jwt.md",
+        "tutorial/security/simple-oauth2.md",
+        "features.md",
+        "advanced/security/oauth2-scopes.md",
+        "release-notes.md",
+        "tutorial/security/index.md"
+      ],
+      "expected_sources": [
+        "tutorial/security/oauth2-jwt.md"
+      ],
+      "citation_f1": 0.25,
+      "citation_precision": 0.14285714285714285,
+      "citation_recall": 1.0,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "latency_ms": 6546.075580990873
+    }
+  ]
+}
