@@ -7,7 +7,7 @@
 
 [![CI](https://github.com/egtimer/fastapi-rag-lab/workflows/CI/badge.svg)](https://github.com/egtimer/fastapi-rag-lab/actions)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 61 passing](https://img.shields.io/badge/tests-61%20passing-brightgreen.svg)](#testing)
+[![Tests: 79 passing](https://img.shields.io/badge/tests-79%20passing-brightgreen.svg)](#testing)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 I built this to test chunking strategies, hybrid retrieval, and hallucination
@@ -26,9 +26,9 @@ have Docker and Ollama, you can reproduce every number in the benchmarks.
 - ✅ **Phase 3** — Hybrid retrieval (dense + BM25 + RRF + bge-reranker-base), [ADR-003](docs/decisions/003-hybrid-retrieval.md)
 - ✅ **Phase 4** — `/query` API with SSE streaming, citations, Langfuse tracing per query, [ADR-004](docs/decisions/004-query-api-streaming.md)
 - ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric, [ADR-005](docs/decisions/005-evaluation-strategy.md)
-- 📋 **Phase 5.2** — Benchmarks executed + comparative analysis + repo polish
+- ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
 
-Latest: Phase 5.1 shipped Apr 16, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+**Repo status: DONE.** All planned phases shipped. Latest: Apr 17, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Why this project exists
 
@@ -196,9 +196,10 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-61 tests covering ingestion, retrieval, the query API, and the eval
-pipeline (39 integration tests against real Ollama + Qdrant; 22 fast
-unit tests for the eval metrics, dataset schema, and runner aggregation).
+79 tests covering ingestion, retrieval, the query API, and the eval
+pipeline (39 integration tests against real Ollama + Qdrant; 40 fast
+unit tests for eval metrics, retrieval metrics, dataset schema, and
+runner aggregation).
 
 ```bash
 export OLLAMA_HOST=http://localhost:11434  # or your WSL gateway IP
@@ -215,6 +216,7 @@ Significant architectural choices are documented in
 - [003 — Hybrid retrieval](docs/decisions/003-hybrid-retrieval.md): RRF, reranker choice, no-LangChain rationale
 - [004 — Query API streaming](docs/decisions/004-query-api-streaming.md): SSE vs WebSockets, citation format, Langfuse spans
 - [005 — Evaluation strategy](docs/decisions/005-evaluation-strategy.md): RAGAS + custom citation accuracy, threshold rationale, golden-dataset construction
+- [006 — Retrieval benchmarks](docs/decisions/006-retrieval-benchmarks.md): retrieval-only A/B methodology, 9-config cross-product, re-run instructions
 
 ## Evaluation
 
@@ -242,6 +244,80 @@ prints a summary table to stdout, and exits non-zero if any threshold
 fails. See [ADR-005](docs/decisions/005-evaluation-strategy.md) for the
 methodology, threshold rationale, and the trade-offs of using a small
 local model as both producer and judge.
+
+## Retrieval benchmarks
+
+Comparative benchmarks across 9 configurations (3 retrieval strategies x 3
+top_k values) on the 30-query golden dataset. All metrics are retrieval-only --
+no LLM judge needed -- so results are deterministic and fast to reproduce.
+See [ADR-006](docs/decisions/006-retrieval-benchmarks.md) for methodology.
+
+### Quality comparison (top_k=5)
+
+![Retrieval quality by strategy](docs/benchmarks/quality_by_strategy.png)
+
+| Metric      | Dense | Hybrid (RRF) | Hybrid + Reranker |
+|-------------|------:|--------------:|------------------:|
+| Citation F1 |  0.44 |          0.45 |              0.44 |
+| Recall@5    |  0.88 |          0.98 |              0.90 |
+| nDCG@5      |  0.72 |          0.84 |              0.76 |
+| MRR         |  0.68 |          0.80 |              0.71 |
+
+Hybrid retrieval (dense + BM25 with RRF fusion) is the clear winner at k=5:
++10pp recall over dense-only, +12pp nDCG, +12pp MRR. The BM25 signal catches
+keyword-specific queries that semantic similarity alone misses.
+
+The cross-encoder reranker underperforms plain hybrid on this dataset. With
+only ~2K chunks and a 30-query eval set, the reranker does not have enough
+noise to filter -- it hurts more than it helps by occasionally reordering
+correct results downward.
+
+### Recall@K across strategies
+
+![Recall@K by strategy](docs/benchmarks/recall_at_k.png)
+
+Hybrid saturates at k=5 (0.98 recall). Dense plateaus at 0.88 regardless
+of K, confirming that some queries need the BM25 lexical signal.
+
+### Latency
+
+![Latency distribution](docs/benchmarks/latency_distribution.png)
+
+| Strategy          | p50 (ms) | p95 (ms) |
+|-------------------|---------:|---------:|
+| Dense             |       94 |      109 |
+| Hybrid (RRF)      |      109 |      127 |
+| Hybrid + Reranker |    6,517 |    8,346 |
+
+Dense and hybrid are both under 130ms p95. The cross-encoder adds ~6.5
+seconds per query (CPU-only inference on `bge-reranker-base`). Not worth it
+given the quality numbers above -- hybrid without reranking is the
+production-default configuration.
+
+### Per-category analysis
+
+![Per-category recall](docs/benchmarks/per_category_recall.png)
+
+| Category       | Dense | Hybrid | Hybrid + Reranker |
+|----------------|------:|-------:|------------------:|
+| Conceptual     |  1.00 |   1.00 |              1.00 |
+| Code           |  1.00 |   1.00 |              1.00 |
+| Advanced       |  1.00 |   1.00 |              0.80 |
+| Error handling |  0.80 |   1.00 |              0.80 |
+| Factual        |  0.69 |   0.94 |              0.88 |
+
+Hybrid's biggest win is on factual queries (+25pp over dense). These are
+the queries most likely to contain specific terms (e.g. "Pydantic",
+"response_model") where BM25 excels. Conceptual and code queries already
+hit 1.00 recall with dense-only because the semantic signal is strong enough.
+
+### Re-running benchmarks
+
+```bash
+OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_benchmarks.py
+```
+
+Results in `tests/eval/results/`, plots in `docs/benchmarks/`.
 
 ## Known limitations
 
