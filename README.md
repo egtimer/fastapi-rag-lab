@@ -5,15 +5,13 @@
 > citations, full Langfuse observability, hand-written orchestration without
 > LangChain.
 
-[![CI](https://github.com/egtimer/fastapi-rag-lab/workflows/CI/badge.svg)](https://github.com/egtimer/fastapi-rag-lab/actions)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 79 passing](https://img.shields.io/badge/tests-79%20passing-brightgreen.svg)](#testing)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 I built this to test chunking strategies, hybrid retrieval, and hallucination
 evaluation against a corpus I actually know well. Most RAG tutorials stop at
-"it works on my demo query". This one measures whether it works on 100
-questions and tells you honestly when it doesn't.
+"it works on my demo query". This one measures whether it works on a 30-question golden dataset
+and tells you honestly when it doesn't.
 
 Everything runs locally: Ollama for embeddings and generation, Qdrant for
 vector storage, Langfuse for traces. No API keys, no vendor lock-in. If you
@@ -25,10 +23,10 @@ have Docker and Ollama, you can reproduce every number in the benchmarks.
 - ✅ **Phase 2** — Ingestion pipeline (154 markdown docs → 2054 chunks indexed in Qdrant), [ADR-002](docs/decisions/002-ingestion-pipeline.md)
 - ✅ **Phase 3** — Hybrid retrieval (dense + BM25 + RRF + bge-reranker-base), [ADR-003](docs/decisions/003-hybrid-retrieval.md)
 - ✅ **Phase 4** — `/query` API with SSE streaming, citations, Langfuse tracing per query, [ADR-004](docs/decisions/004-query-api-streaming.md)
-- ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric, [ADR-005](docs/decisions/005-evaluation-strategy.md)
+- ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed yet), [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
 
-**Repo status: DONE.** All planned phases shipped. Latest: Apr 17, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+**Repo status: retrieval benchmarks done; answer-quality (RAGAS) results not yet published.** Latest: Apr 17, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Why this project exists
 
@@ -54,9 +52,12 @@ warrant an ADR:
   over failure modes. LangChain abstractions become liabilities in production
   when something fails — debugging a 5-level chain of polymorphic abstractions
   is brutal. See [ADR-003](docs/decisions/003-hybrid-retrieval.md).
-- **No mocked tests.** Integration tests run against real Ollama + real Qdrant
-  via docker-compose. Mocks give false confidence: tests pass but the system
-  fails in production because the mock did not reflect real behaviour.
+- **Real services over mocks.** Integration tests run against real Ollama + real
+  Qdrant and are skipped when those services are absent. Unit tests cover
+  metrics and schemas, and one test (`tests/ingest/test_embedder.py`)
+  monkeypatches the HTTP client. Mocks give false confidence: tests pass but
+  the system fails in production because the mock did not reflect real
+  behaviour, so I prefer real services wherever practical.
 - **Observability from day one.** Langfuse traces every query (retrieval span +
   generation span + total latency). You cannot optimise what you cannot measure.
 - **ADRs for every significant decision.** Future-me (and reviewers) need to
@@ -101,7 +102,7 @@ graph LR
 - RAGAS for evaluation metrics (Phase 5.1)
 - `uv` for dependency management
 - `pytest` integration tests against real services
-- GitHub Actions CI
+- GitHub Actions CI (currently disabled)
 
 ## Running it locally
 
@@ -197,12 +198,11 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 ## Testing
 
 79 tests covering ingestion, retrieval, the query API, and the eval
-pipeline (39 integration tests against real Ollama + Qdrant; 40 fast
-unit tests for eval metrics, retrieval metrics, dataset schema, and
-runner aggregation).
+pipeline. Without Ollama and Qdrant running, 61 pass and 18 are skipped
+(they need those services).
 
 ```bash
-export OLLAMA_HOST=http://localhost:11434  # or your WSL gateway IP
+export OLLAMA_HOST=http://localhost:11434
 uv run pytest tests/ -v
 ```
 
@@ -233,10 +233,10 @@ Per-query metrics:
 - **Context Recall** (RAGAS): was all necessary context retrieved?
 - **Citation Accuracy** (custom): F1 over returned source IDs vs. ground truth.
 
-Run the full suite (5-10 min on `gemma3:4b`):
+Run the full suite:
 
 ```bash
-OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_eval.py
+OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_eval.py
 ```
 
 The runner writes a timestamped JSON report to `tests/eval/results/`,
@@ -263,36 +263,40 @@ See [ADR-006](docs/decisions/006-retrieval-benchmarks.md) for methodology.
 | nDCG@5      |  0.72 |          0.84 |              0.76 |
 | MRR         |  0.68 |          0.80 |              0.71 |
 
-Hybrid retrieval (dense + BM25 with RRF fusion) is the clear winner at k=5:
+Hybrid retrieval (dense + BM25 with RRF fusion) has the best scores at k=5:
 +10pp recall over dense-only, +12pp nDCG, +12pp MRR. The BM25 signal catches
-keyword-specific queries that semantic similarity alone misses.
+keyword-specific queries that semantic similarity alone misses. With n=30 the
+margins are small: the +10pp Recall@5 comes from 3 queries that hybrid finds
+and dense misses (0 the other way), and no significance testing has been done
+yet.
 
-The cross-encoder reranker underperforms plain hybrid on this dataset. With
-only ~2K chunks and a 30-query eval set, the reranker does not have enough
-noise to filter -- it hurts more than it helps by occasionally reordering
-correct results downward.
+The cross-encoder reranker underperforms plain hybrid on this dataset. One
+hypothesis: with only ~2K chunks and a 30-query eval set, the reranker does not
+have enough noise to filter, and it hurts more than it helps by occasionally
+reordering correct results downward; not yet tested with an ablation.
 
 ### Recall@K across strategies
 
 ![Recall@K by strategy](docs/benchmarks/recall_at_k.png)
 
-Hybrid saturates at k=5 (0.98 recall). Dense plateaus at 0.88 regardless
-of K, confirming that some queries need the BM25 lexical signal.
+Hybrid saturates at k=5 (0.98 recall). Dense reaches 0.88 at k=5 and gains nothing from k=10,
+confirming that some queries need the BM25 lexical signal.
 
-### Latency
+### Latency (top_k=5)
 
 ![Latency distribution](docs/benchmarks/latency_distribution.png)
 
 | Strategy          | p50 (ms) | p95 (ms) |
 |-------------------|---------:|---------:|
-| Dense             |       94 |      109 |
+| Dense             |       89 |      108 |
 | Hybrid (RRF)      |      109 |      127 |
 | Hybrid + Reranker |    6,517 |    8,346 |
 
 Dense and hybrid are both under 130ms p95. The cross-encoder adds ~6.5
-seconds per query (CPU-only inference on `bge-reranker-base`). Not worth it
-given the quality numbers above -- hybrid without reranking is the
-production-default configuration.
+seconds per query (hardware not yet documented). Not worth it
+given the quality numbers above -- yet the API currently still uses the
+reranker by default (`HybridRetriever` always reranks); making it configurable
+is planned.
 
 ### Per-category analysis
 
@@ -314,7 +318,7 @@ hit 1.00 recall with dense-only because the semantic signal is strong enough.
 ### Re-running benchmarks
 
 ```bash
-OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_benchmarks.py
+OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py
 ```
 
 Results in `tests/eval/results/`, plots in `docs/benchmarks/`.
@@ -324,10 +328,10 @@ Results in `tests/eval/results/`, plots in `docs/benchmarks/`.
 This section will grow as the project does. Things I already know will be
 limitations:
 
-- The gold dataset will be hand-built and small (target: 80-120 queries).
-  Statistical claims will be limited accordingly.
+- The gold dataset is hand-built and small (30 queries, document-level labels).
+  Statistical claims are limited accordingly.
 - Running everything locally on a single machine means latency numbers
-  depend heavily on hardware. I'll document the machine used for benchmarks.
+  depend heavily on hardware. The benchmark machine is not documented yet.
 - `gemma3:4b` is a small model. A larger model would likely improve
   generation quality but the point here is reproducibility, not peak
   accuracy.
