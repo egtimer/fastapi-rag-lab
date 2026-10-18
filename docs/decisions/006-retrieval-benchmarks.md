@@ -60,7 +60,7 @@ benchmark time under 15 minutes.
 ## How to re-run
 
 ```bash
-OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_benchmarks.py
+OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py
 ```
 
 Results land in `tests/eval/results/benchmark_<timestamp>.json`.

@@ -1,7 +1,7 @@
 {
   "started_at": "2026-04-17T10:34:58.939634+00:00",
   "finished_at": "2026-04-17T10:46:09.809029+00:00",
-  "dataset_path": "/home/egtimer/dev/fastapi-rag-lab/tests/eval/golden_dataset.json",
+  "dataset_path": "tests/eval/golden_dataset.json",
   "entry_count": 30,
   "configs": [
     {

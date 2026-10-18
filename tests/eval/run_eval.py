@@ -2,7 +2,7 @@
 """Run the full evaluation suite.
 
 Usage:
-    OLLAMA_HOST=http://172.19.64.1:11434 \\
+    OLLAMA_HOST=http://localhost:11434 \\
       uv run python tests/eval/run_eval.py
 
 Writes a timestamped JSON report under tests/eval/results/ and prints a

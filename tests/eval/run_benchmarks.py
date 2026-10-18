@@ -2,7 +2,7 @@
 """Run full A/B benchmark suite across retrieval configurations.
 
 Usage:
-    OLLAMA_HOST=http://172.19.64.1:11434 uv run python tests/eval/run_benchmarks.py
+    OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py
 
 Evaluates 9 configurations (3 strategies x 3 top_k values) against the
 30-query golden dataset. Writes JSON results to tests/eval/results/ and
