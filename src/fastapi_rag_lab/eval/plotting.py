@@ -1,6 +1,6 @@
 """Benchmark visualization: generates PNG plots from BenchmarkResults.
 
-Uses the Agg backend so it works headless in WSL / Docker / CI.
+Uses the Agg backend so it works headless in Docker and CI.
 All figures saved at 300 DPI for README embedding.
 """
 

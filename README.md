@@ -1,9 +1,8 @@
 # fastapi-rag-lab
 
-> **Production-grade RAG reference implementation over FastAPI documentation.**
-> Hybrid retrieval (dense + BM25 + cross-encoder rerank), SSE streaming with
-> citations, full Langfuse observability, hand-written orchestration without
-> LangChain.
+> **RAG over the FastAPI documentation, and the evaluations that show how well it retrieves.**
+> Hybrid retrieval (dense + BM25, optional cross-encoder rerank), SSE streaming with
+> citations, Langfuse tracing, hand-written orchestration without LangChain.
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
@@ -14,8 +13,9 @@ evaluation against a corpus I actually know well. Most RAG tutorials stop at
 and tells you honestly when it doesn't.
 
 Everything runs locally: Ollama for embeddings and generation, Qdrant for
-vector storage, Langfuse for traces. No API keys, no vendor lock-in. If you
-have Docker and Ollama, you can reproduce every number in the benchmarks.
+vector storage, Langfuse for traces. No API keys are needed. Every benchmark
+number comes from a run committed under [`reports/`](reports/), which records
+the code commit, corpus commit, model digests and hardware it ran on.
 
 ## Roadmap
 
@@ -102,7 +102,7 @@ graph LR
 - RAGAS for evaluation metrics (Phase 5.1)
 - `uv` for dependency management
 - `pytest` integration tests against real services
-- GitHub Actions CI (currently disabled)
+- GitHub Actions: CI (lint and the tests that need no services) and a weekly retrieval eval
 
 ## Running it locally
 
@@ -130,10 +130,6 @@ using a heading-aware parent-child strategy, embeds children via Ollama, and
 upserts everything into Qdrant.
 
 ```bash
-# If Ollama is on the Windows host (WSL setup), set the gateway IP:
-export OLLAMA_HOST=http://$(cat /proc/net/route | awk '/00000000.*00000000/ {print $3}' | head -1 | sed 's/../0x&\n/g' | tac | xargs printf "%d.%d.%d.%d\n"):11434
-
-# Or if Ollama is running locally:
 export OLLAMA_HOST=http://localhost:11434
 
 # Langfuse credentials (matches docker-compose.yml defaults):
@@ -169,7 +165,7 @@ dense).
 Start the server:
 
 ```bash
-export OLLAMA_HOST=http://$(cat /proc/net/route | awk '/00000000.*00000000/ {print $3}' | head -1 | sed 's/../0x&\n/g' | tac | xargs printf "%d.%d.%d.%d\n"):11434
+export OLLAMA_HOST=http://localhost:11434
 uv run uvicorn fastapi_rag_lab.api.app:app --reload --port 8000
 ```
 
@@ -371,4 +367,13 @@ limitations:
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+The code is MIT. See [LICENSE](LICENSE).
+
+Data this repo uses but did not write:
+
+- **Corpus:** the English FastAPI documentation (`docs/en/docs/`) of
+  [fastapi/fastapi](https://github.com/fastapi/fastapi), MIT, Copyright (c) 2018 Sebastián Ramírez.
+  It is downloaded at a pinned commit by the ingestion step and not redistributed here.
+- **Stack Overflow set:** question titles and metadata in
+  [`tests/eval/stackoverflow/`](tests/eval/stackoverflow/), CC BY-SA 4.0, with per-item
+  attribution; see its [LICENSE.md](tests/eval/stackoverflow/LICENSE.md).
