@@ -108,9 +108,7 @@ def test_golden_dataset_ids_unique():
 )
 def test_golden_dataset_expected_sources_resolve():
     """Every expected_source path must exist in the corpus."""
-    corpus_root = (
-        Path(__file__).parent.parent.parent / "data" / "raw" / "fastapi_docs"
-    )
+    corpus_root = Path(__file__).parent.parent.parent / "data" / "raw" / "fastapi_docs"
     if not corpus_root.exists():
         pytest.skip("corpus not present (run ingestion first)")
 

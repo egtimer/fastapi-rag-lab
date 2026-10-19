@@ -6,7 +6,6 @@ All figures saved at 300 DPI for README embedding.
 
 from __future__ import annotations
 
-import math
 from typing import TYPE_CHECKING
 
 import matplotlib
@@ -67,7 +66,7 @@ def plot_quality_by_strategy(results: BenchmarkResults, output_dir: Path) -> Pat
         colour = STRATEGY_COLOURS.get(agg.strategy, "#999999")
         label = STRATEGY_LABELS.get(agg.strategy, agg.strategy)
         bars = ax.bar(x + offset, values, width, label=label, color=colour)
-        for bar, val in zip(bars, values):
+        for bar, val in zip(bars, values, strict=True):
             ax.text(
                 bar.get_x() + bar.get_width() / 2,
                 bar.get_height() + 0.01,
@@ -109,10 +108,15 @@ def plot_recall_at_k(results: BenchmarkResults, output_dir: Path) -> Path:
             colour = STRATEGY_COLOURS.get(strategy, "#999999")
             label = STRATEGY_LABELS.get(strategy, strategy)
             ax.plot(
-                valid_k, recall_values, "o-", color=colour, label=label,
-                linewidth=2, markersize=8,
+                valid_k,
+                recall_values,
+                "o-",
+                color=colour,
+                label=label,
+                linewidth=2,
+                markersize=8,
             )
-            for k_val, recall_val in zip(valid_k, recall_values):
+            for k_val, recall_val in zip(valid_k, recall_values, strict=True):
                 ax.annotate(
                     f"{recall_val:.2f}",
                     (k_val, recall_val),
@@ -158,7 +162,7 @@ def plot_latency_distribution(results: BenchmarkResults, output_dir: Path) -> Pa
 
     if data:
         bp = ax.boxplot(data, labels=labels, patch_artist=True, widths=0.5)
-        for patch, colour in zip(bp["boxes"], colours):
+        for patch, colour in zip(bp["boxes"], colours, strict=True):
             patch.set_facecolor(colour)
             patch.set_alpha(0.7)
         for median in bp["medians"]:
@@ -180,9 +184,7 @@ def plot_per_category(results: BenchmarkResults, output_dir: Path) -> Path:
     if not aggregates:
         aggregates = results.aggregates[:3]
 
-    all_categories = sorted(
-        {cat for a in aggregates for cat in a.per_category}
-    )
+    all_categories = sorted({cat for a in aggregates for cat in a.per_category})
 
     fig, ax = plt.subplots(figsize=(12, 6))
     x = np.arange(len(all_categories))
@@ -198,7 +200,7 @@ def plot_per_category(results: BenchmarkResults, output_dir: Path) -> Path:
         colour = STRATEGY_COLOURS.get(agg.strategy, "#999999")
         label = STRATEGY_LABELS.get(agg.strategy, agg.strategy)
         bars = ax.bar(x + offset, values, width, label=label, color=colour)
-        for bar, val in zip(bars, values):
+        for bar, val in zip(bars, values, strict=True):
             if val > 0:
                 ax.text(
                     bar.get_x() + bar.get_width() / 2,

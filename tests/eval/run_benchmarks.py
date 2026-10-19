@@ -13,7 +13,6 @@ retrieval-only.
 from __future__ import annotations
 
 import logging
-import sys
 from pathlib import Path
 
 from fastapi_rag_lab.eval.benchmarks import (

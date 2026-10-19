@@ -298,8 +298,7 @@ def print_summary(results: EvalResults) -> None:
     print(f"Embeddings:     {results.embed_model}")
     print(f"Errors:         {a.get('error_count')}")
     print(
-        f"Latency (ms):   p50={a.get('latency_ms_p50')}  "
-        f"p95={a.get('latency_ms_p95')}"
+        f"Latency (ms):   p50={a.get('latency_ms_p50')}  p95={a.get('latency_ms_p95')}"
     )
     print()
     print(f"{'metric':<22} {'mean':>8}  {'n':>4}  {'thr':>5}  status")

@@ -189,9 +189,7 @@ def run_benchmark(
         retriever = build_retriever(config, dense, sparse, reranker)
         logger.info("Benchmarking %s ...", config.label)
 
-        for entry in tqdm(
-            dataset.entries, desc=config.label, unit="q", leave=False
-        ):
+        for entry in tqdm(dataset.entries, desc=config.label, unit="q", leave=False):
             result = _benchmark_one(retriever, entry, config)
             per_query.append(result)
 
