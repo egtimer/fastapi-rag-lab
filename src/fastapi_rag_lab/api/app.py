@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import logging
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from langfuse import Langfuse
 
 from fastapi_rag_lab.api.routes.query import router as query_router
-from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
+from fastapi_rag_lab.retrieval.hybrid import STRATEGIES, HybridRetriever
 
 logger = logging.getLogger(__name__)
 
@@ -22,8 +23,13 @@ async def lifespan(app: FastAPI):
         format="%(asctime)s %(name)s %(levelname)s %(message)s",
     )
 
-    logger.info("Initializing HybridRetriever (BM25 index build + reranker load)...")
-    app.state.retriever = HybridRetriever()
+    strategy = os.environ.get("RAG_RETRIEVAL_STRATEGY", "hybrid_rerank")
+    if strategy not in STRATEGIES:
+        raise ValueError(
+            f"RAG_RETRIEVAL_STRATEGY must be one of {STRATEGIES}, got {strategy!r}"
+        )
+    logger.info("Initializing HybridRetriever (strategy=%s)...", strategy)
+    app.state.retriever = HybridRetriever(strategy=strategy)
     app.state.langfuse = Langfuse()
     logger.info("Ready to serve queries")
 
