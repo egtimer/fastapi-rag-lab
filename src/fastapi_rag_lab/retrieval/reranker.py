@@ -10,6 +10,8 @@ from .types import FusedResult, RerankedResult
 
 logger = logging.getLogger(__name__)
 
+RERANKER_MODEL = "BAAI/bge-reranker-base"
+
 
 class Reranker:
     """Cross-encoder reranker using BAAI/bge-reranker-base.
@@ -20,7 +22,7 @@ class Reranker:
     candidate set (top-15), not the full corpus.
     """
 
-    def __init__(self, model_name: str = "BAAI/bge-reranker-base"):
+    def __init__(self, model_name: str = RERANKER_MODEL):
         self.model = CrossEncoder(model_name, max_length=512)
 
     def rerank(

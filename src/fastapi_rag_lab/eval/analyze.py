@@ -23,7 +23,7 @@ from typing import Any
 from fastapi_rag_lab.eval.stats import bootstrap_ci, paired_bootstrap
 
 METRICS = ("recall_at_k", "mrr", "ndcg_at_k", "citation_f1")
-STRATEGY_ORDER = ("dense", "hybrid", "hybrid_rerank")
+STRATEGY_ORDER = ("sparse", "dense", "hybrid", "hybrid_rerank")
 TOLERANCE = 1e-9
 
 

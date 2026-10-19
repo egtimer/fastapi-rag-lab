@@ -22,11 +22,13 @@ if TYPE_CHECKING:
 
 # Consistent colours per strategy across all plots
 STRATEGY_COLOURS = {
+    "sparse": "#dd8452",
     "dense": "#4c72b0",
     "hybrid": "#55a868",
     "hybrid_rerank": "#c44e52",
 }
 STRATEGY_LABELS = {
+    "sparse": "Sparse (BM25)",
     "dense": "Dense",
     "hybrid": "Hybrid (RRF)",
     "hybrid_rerank": "Hybrid + Reranker",
@@ -50,7 +52,7 @@ def plot_quality_by_strategy(results: BenchmarkResults, output_dir: Path) -> Pat
     """Bar chart: retrieval quality metrics grouped by strategy (top_k=5)."""
     aggregates = [a for a in results.aggregates if a.top_k == 5]
     if not aggregates:
-        aggregates = results.aggregates[:3]
+        aggregates = results.aggregates[:4]
 
     metrics = ["citation_f1_mean", "recall_at_k_mean", "ndcg_at_k_mean", "mrr_mean"]
     metric_labels = ["Citation F1", "Recall@K", "nDCG@K", "MRR"]
@@ -91,7 +93,7 @@ def plot_quality_by_strategy(results: BenchmarkResults, output_dir: Path) -> Pat
 
 def plot_recall_at_k(results: BenchmarkResults, output_dir: Path) -> Path:
     """Line chart: Recall@K vs K value, one line per strategy."""
-    strategies = ["dense", "hybrid", "hybrid_rerank"]
+    strategies = ["sparse", "dense", "hybrid", "hybrid_rerank"]
     k_values = sorted({a.top_k for a in results.aggregates})
 
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -141,7 +143,7 @@ def plot_recall_at_k(results: BenchmarkResults, output_dir: Path) -> Path:
 
 def plot_latency_distribution(results: BenchmarkResults, output_dir: Path) -> Path:
     """Box plot: latency distribution by strategy (all top_k values combined)."""
-    strategies = ["dense", "hybrid", "hybrid_rerank"]
+    strategies = ["sparse", "dense", "hybrid", "hybrid_rerank"]
 
     fig, ax = plt.subplots(figsize=(8, 5))
     data = []
@@ -182,7 +184,7 @@ def plot_per_category(results: BenchmarkResults, output_dir: Path) -> Path:
     """Grouped bar: Recall@5 by category for each strategy."""
     aggregates = [a for a in results.aggregates if a.top_k == 5]
     if not aggregates:
-        aggregates = results.aggregates[:3]
+        aggregates = results.aggregates[:4]
 
     all_categories = sorted({cat for a in aggregates for cat in a.per_category})
 

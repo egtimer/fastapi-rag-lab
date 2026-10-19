@@ -325,10 +325,13 @@ hit 1.00 recall with dense-only because the semantic signal is strong enough.
 ### Re-running benchmarks
 
 ```bash
-OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py
+OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py \
+  --run-id my-run [--strategies sparse,dense,hybrid,hybrid_rerank] [--top-k 3,5,10] \
+  [--dataset PATH] [--plots-dir docs/benchmarks]
 ```
 
-Results in `tests/eval/results/`, plots in `docs/benchmarks/`.
+Writes `reports/<run-id>/benchmark.json` (with a provenance block) and
+`analysis.json`; plots only if `--plots-dir` is given.
 
 ## Known limitations
 

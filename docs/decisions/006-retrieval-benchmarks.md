@@ -60,11 +60,13 @@ benchmark time under 15 minutes.
 ## How to re-run
 
 ```bash
-OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py
+OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py \
+  --run-id my-run [--strategies sparse,dense,hybrid,hybrid_rerank] [--top-k 3,5,10] \
+  [--dataset PATH] [--plots-dir docs/benchmarks]
 ```
 
-Results land in `tests/eval/results/benchmark_<timestamp>.json`.
-Plots land in `docs/benchmarks/`.
+Results land in `reports/<run-id>/benchmark.json` and `analysis.json`.
+Plots are written only if `--plots-dir` is given.
 
 ## Consequences
 

@@ -20,12 +20,16 @@ from tqdm import tqdm
 
 from fastapi_rag_lab.eval.dataset import load_golden_dataset
 from fastapi_rag_lab.eval.metrics import citation_accuracy
+from fastapi_rag_lab.eval.provenance import collect_provenance
 from fastapi_rag_lab.eval.retrieval_metrics import mrr, ndcg_at_k, recall_at_k
 from fastapi_rag_lab.retrieval.dense import DenseRetriever
-from fastapi_rag_lab.retrieval.fusion import reciprocal_rank_fusion
+from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
 from fastapi_rag_lab.retrieval.reranker import Reranker
 from fastapi_rag_lab.retrieval.sparse import SparseRetriever
 from fastapi_rag_lab.retrieval.types import RerankedResult
+
+DENSE_K = 30
+SPARSE_K = 30
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -37,7 +41,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class RetrieverConfig:
-    strategy: Literal["dense", "hybrid", "hybrid_rerank"]
+    strategy: Literal["sparse", "dense", "hybrid", "hybrid_rerank"]
     top_k: int
     rrf_k: int = 60
     rerank_top_n: int = 15
@@ -88,6 +92,7 @@ class BenchmarkResults:
     configs: list[dict] = field(default_factory=list)
     aggregates: list[ConfigAggregate] = field(default_factory=list)
     per_query: list[PerQueryBenchmark] = field(default_factory=list)
+    provenance: dict = field(default_factory=dict)
 
 
 class ConfiguredRetriever:
@@ -104,6 +109,15 @@ class ConfiguredRetriever:
         self.dense = dense
         self.sparse = sparse
         self.reranker = reranker
+        # hybrid strategies run the exact class the API runs
+        self.hybrid: HybridRetriever | None = None
+        if config.strategy in ("hybrid", "hybrid_rerank"):
+            self.hybrid = HybridRetriever(
+                strategy=config.strategy,
+                dense=dense,
+                sparse=sparse,
+                reranker=reranker,
+            )
 
     def retrieve(self, query: str) -> list[RerankedResult]:
         k = self.config.top_k
@@ -124,17 +138,8 @@ class ConfiguredRetriever:
                 for r in dense_results
             ]
 
-        # hybrid and hybrid_rerank both need sparse + fusion
-        dense_results = self.dense.retrieve(query, top_k=30)
-        sparse_results = self.sparse.retrieve(query, top_k=30)
-        fused = reciprocal_rank_fusion(
-            dense_results=dense_results,
-            sparse_results=sparse_results,
-            k=cfg.rrf_k,
-            top_k=cfg.rerank_top_n,
-        )
-
-        if cfg.strategy == "hybrid":
+        if cfg.strategy == "sparse":
+            sparse_results = self.sparse.retrieve(query, top_k=k)
             return [
                 RerankedResult(
                     chunk_id=r.chunk_id,
@@ -142,14 +147,21 @@ class ConfiguredRetriever:
                     parent_text=r.metadata.get("parent_text", r.text),
                     chunk_text=r.text,
                     rerank_score=0.0,
-                    rrf_score=r.rrf_score,
+                    rrf_score=r.score,
                     metadata=r.metadata,
                 )
-                for r in fused[:k]
+                for r in sparse_results
             ]
 
-        # hybrid_rerank
-        return self.reranker.rerank(query=query, candidates=fused, top_k=k)
+        assert self.hybrid is not None
+        return self.hybrid.retrieve(
+            query,
+            dense_k=DENSE_K,
+            sparse_k=SPARSE_K,
+            fusion_k=cfg.rerank_top_n,
+            final_k=k,
+            rrf_k=cfg.rrf_k,
+        )
 
 
 def build_retriever(
@@ -159,7 +171,7 @@ def build_retriever(
     reranker: Reranker | None = None,
 ) -> ConfiguredRetriever:
     """Factory returning a ConfiguredRetriever for the given strategy."""
-    if config.strategy in ("hybrid", "hybrid_rerank") and sparse is None:
+    if config.strategy in ("sparse", "hybrid", "hybrid_rerank") and sparse is None:
         raise ValueError(f"{config.strategy} requires a SparseRetriever")
     if config.strategy == "hybrid_rerank" and reranker is None:
         raise ValueError("hybrid_rerank requires a Reranker")
@@ -169,16 +181,25 @@ def build_retriever(
 def run_benchmark(
     configs: list[RetrieverConfig],
     dataset_path: Path,
-    output_dir: Path,
+    output_path: Path | None = None,
+    *,
+    warmup: int = 0,
+    argv: list[str] | None = None,
 ) -> BenchmarkResults:
-    """Run retrieval-only benchmarks across all configs and queries."""
+    """Run retrieval-only benchmarks across all configs and queries.
+
+    ``warmup`` unmeasured queries are run before timing each config.
+    If ``output_path`` is given, the results (with provenance) are written there.
+    """
     dataset = load_golden_dataset(dataset_path)
     started_at = datetime.now(UTC).isoformat()
 
     # Build shared components once (BM25 index + reranker model are expensive)
     logger.info("Initializing retrievers...")
     dense = DenseRetriever()
-    needs_sparse = any(c.strategy in ("hybrid", "hybrid_rerank") for c in configs)
+    needs_sparse = any(
+        c.strategy in ("sparse", "hybrid", "hybrid_rerank") for c in configs
+    )
     needs_reranker = any(c.strategy == "hybrid_rerank" for c in configs)
     sparse = SparseRetriever() if needs_sparse else None
     reranker = Reranker() if needs_reranker else None
@@ -188,6 +209,12 @@ def run_benchmark(
     for config in configs:
         retriever = build_retriever(config, dense, sparse, reranker)
         logger.info("Benchmarking %s ...", config.label)
+
+        for entry in dataset.entries[:warmup]:
+            try:
+                retriever.retrieve(entry.query)
+            except Exception as exc:
+                logger.warning("Warmup failed for %s: %s", config.label, exc)
 
         for entry in tqdm(dataset.entries, desc=config.label, unit="q", leave=False):
             result = _benchmark_one(retriever, entry, config)
@@ -204,16 +231,22 @@ def run_benchmark(
         configs=[asdict(c) for c in configs],
         aggregates=aggregates,
         per_query=per_query,
+        provenance=collect_provenance(
+            dataset_path=dataset_path,
+            entry_count=len(dataset.entries),
+            argv=argv,
+            started_at=started_at,
+            finished_at=finished_at,
+        ),
     )
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    out_path = output_dir / f"benchmark_{stamp}.json"
-    out_path.write_text(
-        json.dumps(asdict(results), indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    logger.info("Wrote %s", out_path)
+    if output_path is not None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(
+            json.dumps(asdict(results), indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        logger.info("Wrote %s", output_path)
 
     return results
 

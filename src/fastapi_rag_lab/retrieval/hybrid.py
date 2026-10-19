@@ -63,6 +63,8 @@ class HybridRetriever:
         sparse_k: int = 30,
         fusion_k: int = 15,
         final_k: int = 5,
+        *,
+        rrf_k: int = 60,
     ) -> list[RerankedResult]:
         """Run the full hybrid retrieval pipeline."""
         dense_results = self.dense.retrieve(query, top_k=dense_k)
@@ -77,6 +79,7 @@ class HybridRetriever:
         fused = reciprocal_rank_fusion(
             dense_results=dense_results,
             sparse_results=sparse_results,
+            k=rrf_k,
             top_k=fusion_k,
         )
 
