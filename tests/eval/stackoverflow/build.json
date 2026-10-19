@@ -1,0 +1,80 @@
+{
+  "snapshot_utc": "2026-10-19T15:16:24+00:00",
+  "api": {
+    "base": "https://api.stackexchange.com/2.3",
+    "site": "stackoverflow",
+    "tagged": "fastapi",
+    "sort": "votes",
+    "order": "desc",
+    "question_pagesize": 100,
+    "answers_filter": "withbody"
+  },
+  "requests_made_this_run": 0,
+  "cached_responses": 51,
+  "quota_remaining_last_seen": null,
+  "params": {
+    "max_questions": 1500,
+    "dev_fraction": 0.4,
+    "seed": 0
+  },
+  "counts": {
+    "questions_fetched": 1500,
+    "answers_fetched": 2849,
+    "qualifying_answers": 2289,
+    "qualifying_answers_with_docs_link": 420,
+    "questions_with_docs_link_in_qualifying_answer": 382,
+    "docs_links_total": 817,
+    "docs_links_excluded_release_notes_or_assets": 8,
+    "docs_links_resolved": 773,
+    "docs_links_unresolved": 36,
+    "questions_kept": 364,
+    "dev": 143,
+    "test": 221
+  },
+  "labels_per_question_histogram": {
+    "1": 245,
+    "2": 63,
+    "3": 33,
+    "4": 15,
+    "5": 4,
+    "6": 2,
+    "8": 2
+  },
+  "unresolved_links": {
+    "total": 36,
+    "distinct_paths": 6,
+    "top20": [
+      {
+        "path": "advanced/custom-request-and-route",
+        "count": 17
+      },
+      {
+        "path": "advanced/extending-openapi",
+        "count": 10
+      },
+      {
+        "path": "advanced/testing-database",
+        "count": 3
+      },
+      {
+        "path": "advanced/async-sql-databases",
+        "count": 3
+      },
+      {
+        "path": "advanced/graphql",
+        "count": 2
+      },
+      {
+        "path": "advanced/nosql-databases",
+        "count": 1
+      }
+    ]
+  },
+  "corpus_commit_sha": "eba8942c81dbf990d25fbae34e6601bdbc21e74b",
+  "sha256": {
+    "dev.json": "840d7c6b462c8658062c47265bb1779559001171b8e2d65ab73625fe21a9e11a",
+    "test.json": "71783f0c9850801f2d5c2ff7b964dbd488045e8a6a7357f8ecd3df9d4374236b",
+    "questions.jsonl": "fd50a2490b27247a804ee023e37cb9295a1af03fc3d18e1901a0dc136110f3cb"
+  },
+  "command": "python -m fastapi_rag_lab.eval.stackoverflow build --docs-dir data/raw/fastapi_docs --out tests/eval/stackoverflow --max-questions 1500 --dev-fraction 0.4 --seed 0"
+}

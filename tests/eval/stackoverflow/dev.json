@@ -1,0 +1,1243 @@
+{
+  "entries": [
+    {
+      "id": "so_59929028",
+      "query": "Python: FastAPI error 422 with POST request when sending JSON data",
+      "expected_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/body.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_60397218",
+      "query": "FastAPI docs not working with nginx Ingress controller",
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_60711576",
+      "query": "How do I write SQLAlchemy test fixtures for FastAPI applications",
+      "expected_sources": [
+        "advanced/testing-dependencies.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_60778279",
+      "query": "FastAPI middleware peeking into responses",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_60854208",
+      "query": "FastAPI - mocking path function has no effect",
+      "expected_sources": [
+        "advanced/testing-dependencies.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_61316540",
+      "query": "How to get Python FastAPI async/await functionality to work properly?",
+      "expected_sources": [
+        "async.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_61383179",
+      "query": "FastAPI passing json in get request via TestClient",
+      "expected_sources": [
+        "tutorial/query-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_61871147",
+      "query": "What are the advantages of using Depends in FastAPI over just calling a dependent function/class?",
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_62359413",
+      "query": "How to return an image in FastAPI after processing it with OpenCV?",
+      "expected_sources": [
+        "advanced/response-directly.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_62468402",
+      "query": "Query parameters from pydantic model",
+      "expected_sources": [
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/handling-errors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_62749365",
+      "query": "Send a csv file to fastAPI and get a new file back",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_62856818",
+      "query": "How can I run the FastAPI server using Pycharm?",
+      "expected_sources": [
+        "index.md",
+        "tutorial/debugging.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_62895883",
+      "query": "Can't access path parameters from middleware",
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63048825",
+      "query": "How to Upload File using FastAPI?",
+      "expected_sources": [
+        "async.md",
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63143731",
+      "query": "Update SQLAlchemy ORM existing model from posted Pydantic model in FastAPI?",
+      "expected_sources": [
+        "tutorial/body-updates.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63169865",
+      "query": "How to do multiprocessing in FastAPI",
+      "expected_sources": [
+        "async.md",
+        "tutorial/background-tasks.md",
+        "tutorial/dependencies/dependencies-with-yield.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63233378",
+      "query": "How can I create Swagger docs for dynamic FastAPI endpoints?",
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63415152",
+      "query": "FastAPI with aiocache and Redis Couldn't set databases.backends.postgres.Record object",
+      "expected_sources": [
+        "tutorial/encoder.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63580229",
+      "query": "How to save UploadFile in FastAPI",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63853813",
+      "query": "How to create routes with FastAPI within a class",
+      "expected_sources": [
+        "tutorial/first-steps.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63872924",
+      "query": "How can I send an HTTP request from my FastAPI app to another site (API)?",
+      "expected_sources": [
+        "advanced/async-tests.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_63881885",
+      "query": "FastAPI - GET Request with Pydantic List field as Query Parameter",
+      "expected_sources": [
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_64379089",
+      "query": "How to read body as any valid json?",
+      "expected_sources": [
+        "tutorial/body-multiple-params.md",
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_64489679",
+      "query": "Download PDF file using pdfkit and FastAPI",
+      "expected_sources": [
+        "advanced/custom-response.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_64497615",
+      "query": "How to add a custom decorator to a FastAPI route?",
+      "expected_sources": [
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_64602770",
+      "query": "How can I set attribute to request object in FastAPI from middleware?",
+      "expected_sources": [
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_64943693",
+      "query": "What are the best practices for structuring a FastAPI project?",
+      "expected_sources": [
+        "advanced/settings.md",
+        "tutorial/bigger-applications.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65504438",
+      "query": "How to add both file and JSON body in a FastAPI POST request?",
+      "expected_sources": [
+        "advanced/advanced-dependencies.md",
+        "advanced/custom-response.md",
+        "advanced/templates.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md",
+        "tutorial/request-files.md",
+        "tutorial/request-forms-and-files.md",
+        "tutorial/request-forms.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65591630",
+      "query": "FastAPI as a Windows service",
+      "expected_sources": [
+        "deployment/manually.md",
+        "index.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65599686",
+      "query": "FastAPI with uvicorn getting 404 Not Found error",
+      "expected_sources": [
+        "tutorial/first-steps.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65635346",
+      "query": "How can I enable CORS in FastAPI?",
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65878595",
+      "query": "Invalid HTTP method in Traceback: Uvicorn",
+      "expected_sources": [
+        "deployment/https.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65889998",
+      "query": "Concurrently start function and return early",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65903231",
+      "query": "How to return a numpy array as an image using FastAPI?",
+      "expected_sources": [
+        "advanced/custom-response.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_65926628",
+      "query": "How to add description to OpenAPI schema using FastApi Dependencies",
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66084376",
+      "query": "Any way to limit the input arguments of a FastAPI handler into several specified options?",
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66139027",
+      "query": "How to connect FastAPI to frontend HTML",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/templates.md",
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66169994",
+      "query": "TypeError: post() missing 1 required positional argument: 'path' in FastApi?",
+      "expected_sources": [
+        "tutorial/bigger-applications.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66238635",
+      "query": "How to run FastAPI project in debug mode auto reload in VS Code?",
+      "expected_sources": [
+        "deployment/manually.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66273149",
+      "query": "Overriding FastAPI's HTTPException response body",
+      "expected_sources": [
+        "advanced/response-change-status-code.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66592114",
+      "query": "React frontend sending image to fastapi backend",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_66612990",
+      "query": "FastAPI (Python) Why I get \"Unsupported upgrade request.\" with POST request?",
+      "expected_sources": [
+        "deployment/manually.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_67111921",
+      "query": "FastAPI download a file to client with a POST request",
+      "expected_sources": [
+        "advanced/additional-responses.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_67203611",
+      "query": "Fastapi alias for url/router/endpoint (set same handler for them)",
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_67402767",
+      "query": "Can't see FastAPI documentation with 2 main.py and 1 nginx reverse proxy",
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_67599119",
+      "query": "FastAPI asynchronous background tasks blocks other requests?",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_67619287",
+      "query": "How do I consume query parameters from POST in FastAPI?",
+      "expected_sources": [
+        "tutorial/path-params.md",
+        "tutorial/query-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68156262",
+      "query": "How to set environment variable based on development or production in FastAPI?",
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68231936",
+      "query": "How can I get headers or a specific header from my backend API?",
+      "expected_sources": [
+        "tutorial/header-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68336259",
+      "query": "\"FastAPIError: Invalid args for response field! Hint: check that <class 'typing._UnionGenericAlias'> is a valid pydantic field type\"",
+      "expected_sources": [
+        "python-types.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68396128",
+      "query": "How to cancel previous request in FastAPI",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68556288",
+      "query": "catch errors using pydantic @validator decorator for fastapi input query",
+      "expected_sources": [
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68701240",
+      "query": "FastApi Post Request With Bytes Object Got 422 Error",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68766563",
+      "query": "fastapi response not formatted correctly for sqlite db with a json column",
+      "expected_sources": [
+        "advanced/response-directly.md",
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68770979",
+      "query": "How to raise an HTTP 400 in a model?",
+      "expected_sources": [
+        "advanced/response-directly.md",
+        "tutorial/encoder.md",
+        "tutorial/handling-errors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68815761",
+      "query": "How to customize FastAPI request body documentation",
+      "expected_sources": [
+        "advanced/path-operation-advanced-configuration.md",
+        "advanced/using-request-directly.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_68821077",
+      "query": "How to allow any arbitrary query parameters using FastAPI and Swagger?",
+      "expected_sources": [
+        "tutorial/query-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69083878",
+      "query": "FastApi: How to define a global variable once",
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69138537",
+      "query": "uvicorn [fastapi] python run both HTTP and HTTPS",
+      "expected_sources": [
+        "advanced/middleware.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69504352",
+      "query": "FastAPI - GET request results in typeerror (value is not a valid dict)",
+      "expected_sources": [
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69660608",
+      "query": "Customise Status codes in place of 500: Internal Server Error in FastAPI using Postman",
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69673518",
+      "query": "return pydantic model with field names instead of alias as fastapi response",
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_69950072",
+      "query": "Pydantic params validation with file upload",
+      "expected_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/request-forms.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70219200",
+      "query": "Python FastAPI base path control",
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70520522",
+      "query": "How to upload File in FastAPI, then to Amazon S3 and finally process it?",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70617121",
+      "query": "How to upload a CSV file in FastAPI and convert it into JSON?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/response-directly.md",
+        "tutorial/background-tasks.md",
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70658748",
+      "query": "Using FastAPI in a sync way, how can I get the raw body of a POST request?",
+      "expected_sources": [
+        "advanced/using-request-directly.md",
+        "async.md",
+        "tutorial/body-fields.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70690454",
+      "query": "How to redirect the user back to the home page using FastAPI, after submitting an HTML form?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/response-change-status-code.md",
+        "advanced/templates.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70772733",
+      "query": "How to POST a JSON having a single body parameter in FastAPI?",
+      "expected_sources": [
+        "tutorial/body-multiple-params.md",
+        "tutorial/body.md",
+        "tutorial/query-params.md",
+        "tutorial/testing.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_70773879",
+      "query": "fastapi (starlette) RedirectResponse redirect to post instead get method",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/response-change-status-code.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71031816",
+      "query": "how do you properly reuse an httpx.AsyncClient within a FastAPI application?",
+      "expected_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/testing.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71052090",
+      "query": "Is it possible to add response time to uvicorn logs for FastApi?",
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71162915",
+      "query": "Conditional call of a FastAPI Model",
+      "expected_sources": [
+        "advanced/response-directly.md",
+        "python-types.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/encoder.md",
+        "tutorial/handling-errors.md",
+        "tutorial/query-params-str-validations.md",
+        "tutorial/query-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71244472",
+      "query": "Keep getting CORS policy: No 'Access-Control-Allow-Origin' even with FastAPI CORSMiddleware",
+      "expected_sources": [
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71268169",
+      "query": "Optional query parameters in FastAPI",
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71395796",
+      "query": "Return File/Streaming response from online video URL in FastAPI",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "async.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71426765",
+      "query": "How to remove \"- Swagger UI\" from HTML Page title of OpenAPI docs in FastAPI?",
+      "expected_sources": [
+        "how-to/custom-docs-ui-assets.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71434927",
+      "query": "Background Task in FastAPI is not working properly",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71650452",
+      "query": "Use FastAPI to parse incoming POST request from Slack",
+      "expected_sources": [
+        "tutorial/body.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/request-form-models.md",
+        "tutorial/request-forms.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71731924",
+      "query": "How to avoid blocking the asyncio event loop with looping functions",
+      "expected_sources": [
+        "async.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71882419",
+      "query": "FastAPI - How to get the response body in Middleware",
+      "expected_sources": [
+        "advanced/custom-response.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71905671",
+      "query": "How to go through all Pydantic validators even if one fails, and then raise multiple ValueErrors in a FastAPI response?",
+      "expected_sources": [
+        "tutorial/handling-errors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_71941127",
+      "query": "OpenAPI is missing schemas for some of the Pydantic models in FastAPI app",
+      "expected_sources": [
+        "tutorial/body.md",
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/first-steps.md",
+        "tutorial/query-params-str-validations.md",
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72009629",
+      "query": "How to implement pytest for FastAPI with MongoDB(Motor)",
+      "expected_sources": [
+        "advanced/async-tests.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72134530",
+      "query": "Celery, uvicorn and FastAPI",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72217828",
+      "query": "How to get the raw URL path from request in FastAPI?",
+      "expected_sources": [
+        "advanced/sub-applications.md",
+        "advanced/using-request-directly.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72243379",
+      "query": "FastAPI - How to use dependencies inside a Middleware?",
+      "expected_sources": [
+        "tutorial/dependencies/global-dependencies.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72359755",
+      "query": "Aws Api gateway Unable to load fast api swagger docs page",
+      "expected_sources": [
+        "advanced/behind-a-proxy.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72715501",
+      "query": "How to fetch query parameters in FastAPI similar to using 'request.args.get()' in Flask?",
+      "expected_sources": [
+        "tutorial/query-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72801333",
+      "query": "How to pass URL as a path parameter to a FastAPI route?",
+      "expected_sources": [
+        "tutorial/body.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_72958085",
+      "query": "Why do UVICORN/Starlette/FastAPI spawn more threads when not using \"ASYNC\" and don't when using \"ASYNC\"?",
+      "expected_sources": [
+        "async.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73110208",
+      "query": "How to load a different file than index.html in FastAPI root path while using StaticFiles?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/templates.md",
+        "tutorial/path-params.md",
+        "tutorial/static-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73155460",
+      "query": "How to get the cookies from an HTTP request using FastAPI?",
+      "expected_sources": [
+        "tutorial/cookie-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73198957",
+      "query": "How to exclude Optional unset values from a Pydantic model using FastAPI?",
+      "expected_sources": [
+        "python-types.md",
+        "tutorial/query-params-str-validations.md",
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73234675",
+      "query": "How to Download a File after POSTing data using FastAPI?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "deployment/server-workers.md",
+        "tutorial/background-tasks.md",
+        "tutorial/request-forms.md",
+        "tutorial/static-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73248952",
+      "query": "How to handle path parametes with hyphen(-) in a FastAPI application?",
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73263202",
+      "query": "How to display uploaded image in HTML page using FastAPI & Jinja2?",
+      "expected_sources": [
+        "advanced/templates.md",
+        "tutorial/static-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73442335",
+      "query": "How to Upload a large File (≥3GB) to FastAPI backend?",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73547776",
+      "query": "How to redirect from one domain to another and set cookies or headers for the other domain?",
+      "expected_sources": [
+        "deployment/https.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73563804",
+      "query": "What is the recommended way to instantiate and pass around a redis client with FastAPI",
+      "expected_sources": [
+        "tutorial/bigger-applications.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73564771",
+      "query": "FastAPI is very slow in returning a large amount of JSON data",
+      "expected_sources": [
+        "advanced/response-directly.md",
+        "tutorial/encoder.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73585779",
+      "query": "How to return a PDF file from in-memory buffer using FastAPI?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73688641",
+      "query": "How to stream DataFrame using FastAPI without saving the data to csv file?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73716578",
+      "query": "How to stop execution of FastAPI endpoint after a specified time to reduce CPU resource usage/cost?",
+      "expected_sources": [
+        "async.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/handling-errors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73727750",
+      "query": "How to pass env file to FastAPI app via command line",
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73810377",
+      "query": "How to save an uploaded image to FastAPI using Python Imaging Library (PIL)?",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73908734",
+      "query": "How to run Uvicorn FastAPI server as a module from another Python file?",
+      "expected_sources": [
+        "tutorial/first-steps.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73911250",
+      "query": "How to render CSS/JS/Images along with HTML file in FastAPI?",
+      "expected_sources": [
+        "advanced/templates.md",
+        "tutorial/static-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_73962743",
+      "query": "FastAPI is not returning cookies to React frontend",
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74009210",
+      "query": "How to create a FastAPI endpoint that can accept either File/Form or JSON body?",
+      "expected_sources": [
+        "advanced/using-request-directly.md",
+        "tutorial/dependencies/index.md",
+        "tutorial/middleware.md",
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74010813",
+      "query": "FastAPI - How can I modify request from inside dependency?",
+      "expected_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74088761",
+      "query": "Sending POST request to FastAPI app running on localhost using JavaScript Fetch API",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/templates.md",
+        "tutorial/cors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74206034",
+      "query": "How do Uvicorn workers work, and how many do I need for a slim machine?",
+      "expected_sources": [
+        "deployment/docker.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74267757",
+      "query": "How to authorize OpenAPI/Swagger UI page in FastAPI?",
+      "expected_sources": [
+        "advanced/response-cookies.md",
+        "advanced/using-request-directly.md",
+        "tutorial/cookie-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74332593",
+      "query": "How to return Pydantic model using Field aliases instead of names in FastAPI?",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "advanced/response-directly.md",
+        "tutorial/encoder.md",
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74366289",
+      "query": "How to add drop down menu to Swagger UI autodocs based on BaseModel using FastAPI?",
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74498191",
+      "query": "How to define multiple API endpoints in FastAPI with different paths but the same path parameter?",
+      "expected_sources": [
+        "tutorial/path-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74507306",
+      "query": "FastAPI returns \"Error 422: Unprocessable entity\" when I send multipart form data with JavaScript Fetch API",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74617614",
+      "query": "FastAPI add additional argument to running Uvicorn",
+      "expected_sources": [
+        "advanced/settings.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_74759875",
+      "query": "How to send a list of lists as query parameter in FastAPI?",
+      "expected_sources": [
+        "tutorial/body.md",
+        "tutorial/dependencies/index.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75031831",
+      "query": "How to apply FastAPI Middleware on \"non-async def\" endpoints?",
+      "expected_sources": [
+        "async.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75145424",
+      "query": "FastAPI/Starlette: How to handle exceptions inside background tasks?",
+      "expected_sources": [
+        "tutorial/background-tasks.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75167317",
+      "query": "Make Pydantic BaseModel fields optional including sub-models for PATCH",
+      "expected_sources": [
+        "tutorial/body-updates.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75184430",
+      "query": "How to redirect the user to another page after login using JavaScript Fetch API?",
+      "expected_sources": [
+        "tutorial/cors.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75448722",
+      "query": "Is it possible to have a required query parameter with a default value on FastAPI?",
+      "expected_sources": [
+        "tutorial/schema-extra-example.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75486472",
+      "query": "Flask teardown request equivalent in Fastapi",
+      "expected_sources": [
+        "tutorial/middleware.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75714883",
+      "query": "How to test a FastAPI endpoint that uses lifespan function?",
+      "expected_sources": [
+        "advanced/testing-events.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75740652",
+      "query": "FastAPI StreamingResponse not streaming with generator function",
+      "expected_sources": [
+        "advanced/custom-response.md",
+        "deployment/https.md",
+        "tutorial/cookie-params.md",
+        "tutorial/header-params.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75825362",
+      "query": "\"AttributeError: encode\" when returning StreamingResponse in FastAPI",
+      "expected_sources": [
+        "advanced/custom-response.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75871053",
+      "query": "Standard Approach to Adding Services to Python FastAPI App?",
+      "expected_sources": [
+        "tutorial/dependencies/index.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_75998227",
+      "query": "How to define query parameters using Pydantic model in FastAPI?",
+      "expected_sources": [
+        "tutorial/dependencies/index.md",
+        "tutorial/handling-errors.md",
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_76012644",
+      "query": "FastAPI / uvicorn (or hypercorn): where is my root-path?",
+      "expected_sources": [
+        "advanced/behind-a-proxy.md",
+        "advanced/sub-applications.md",
+        "tutorial/bigger-applications.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_76136469",
+      "query": "How to allow hyphen (-) in query parameter name using FastAPI?",
+      "expected_sources": [
+        "tutorial/dependencies/classes-as-dependencies.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_76142431",
+      "query": "How to run another application within the same running event loop?",
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_76363909",
+      "query": "convert sqlalchemy response to pydantic object",
+      "expected_sources": [
+        "tutorial/index.md",
+        "tutorial/response-model.md",
+        "tutorial/sql-databases.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_76970173",
+      "query": "How to get Files and Form data using the Request object in FastAPI?",
+      "expected_sources": [
+        "advanced/using-request-directly.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_77001129",
+      "query": "How to configure FastAPI logging so that it works both with Uvicorn locally and in production?",
+      "expected_sources": [
+        "tutorial/bigger-applications.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_77095776",
+      "query": "FastAPI pydantic data validation for put method if body only contains the updated data",
+      "expected_sources": [
+        "tutorial/body-updates.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_77445628",
+      "query": "Can multiple routers be registered at once in FastAPI?",
+      "expected_sources": [
+        "reference/fastapi.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_77830587",
+      "query": "FastAPI - Swagger UI docs not rendering list array as query parameter",
+      "expected_sources": [
+        "tutorial/query-params-str-validations.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_78654070",
+      "query": "FastAPI SQLAlchemy TypeError: vars() argument must have __dict__ attribute when querying joined tables",
+      "expected_sources": [
+        "tutorial/response-model.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_78844871",
+      "query": "Locking resource in FastAPI - using a multiprocessing Worker",
+      "expected_sources": [
+        "advanced/events.md"
+      ],
+      "category": "stackoverflow"
+    },
+    {
+      "id": "so_79281001",
+      "query": "FastAPI raises 422 Unprocessable Entity error when uploading File through Postman",
+      "expected_sources": [
+        "tutorial/request-files.md"
+      ],
+      "category": "stackoverflow"
+    }
+  ]
+}
