@@ -21,11 +21,16 @@ class GoldenEntry(BaseModel):
     `reference_answer` is required so RAGAS context_precision / context_recall
     have a ground-truth comparator. `expected_answer_keywords` is a lighter
     sanity check used by the runner for quick keyword coverage stats.
+
+    Both are optional (default empty) so retrieval-only datasets with human
+    labels but no written reference answers, such as the Stack Overflow set,
+    load with the same schema. Answer-quality metrics need a non-empty
+    reference and should be skipped for such entries.
     """
 
     id: str
     query: str
-    reference_answer: str
+    reference_answer: str = ""
     expected_answer_keywords: list[str] = Field(default_factory=list)
     expected_sources: list[str] = Field(default_factory=list)
     category: str
