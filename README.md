@@ -213,6 +213,18 @@ tests that need no services, network or models:
 uv run pytest -m "not network and not ollama and not qdrant and not integration"
 ```
 
+### Retrieval eval workflow
+
+`.github/workflows/retrieval-eval.yml` runs the sparse, dense and hybrid
+benchmarks on the golden and StackOverflow datasets against Qdrant and Ollama
+containers started on the runner. It makes no API calls, and it runs weekly and
+on manual dispatch rather than on push, since it ingests the full corpus. When a
+committed reference run is configured for a dataset, `python -m
+fastapi_rag_lab.eval.check_regression` compares the new `hybrid_k5` results with
+it by paired bootstrap over queries, and fails if a metric drops by more than
+the limit or its whole confidence interval lies below zero. It refuses to
+compare runs with different dataset hashes or query sets.
+
 ## Design decisions
 
 Significant architectural choices are documented in

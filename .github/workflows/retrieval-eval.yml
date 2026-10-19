@@ -1,0 +1,117 @@
+# Retrieval evaluation: sparse, dense and hybrid retrieval over the FastAPI docs,
+# compared against a committed reference run with a paired-bootstrap gate.
+#
+# It makes no LLM API calls, so it costs nothing beyond runner minutes: Qdrant and
+# Ollama (nomic-embed-text embeddings) run as containers on the runner. It is not
+# triggered by push or pull_request because it pulls a model, ingests the whole
+# corpus and takes tens of minutes; it runs on demand and weekly instead.
+# Actions pinned by commit SHA for supply chain safety.
+name: Retrieval eval
+
+on:
+  workflow_dispatch:
+    inputs:
+      datasets:
+        description: Comma-separated dataset paths
+        default: tests/eval/stackoverflow/dev.json,tests/eval/golden_dataset.json
+        type: string
+  schedule:
+    - cron: "23 4 * * 1"  # Mondays 04:23 UTC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: retrieval-eval
+  cancel-in-progress: false
+
+env:
+  # Names of committed reference run directories under reports/ (one per dataset).
+  # Left empty until a reference run is committed; the regression check is skipped
+  # for a dataset whose reference is empty or missing.
+  REFERENCE_SO_DEV: ""
+  REFERENCE_GOLDEN: ""
+  QDRANT_URL: http://localhost:6333
+  OLLAMA_HOST: http://localhost:11434
+  DATASETS: ${{ inputs.datasets || 'tests/eval/stackoverflow/dev.json,tests/eval/golden_dataset.json' }}
+
+jobs:
+  eval:
+    name: Retrieval benchmarks and regression check
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57  # v8.0.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --frozen
+
+      - name: Start Qdrant and Ollama
+        run: |
+          docker run -d --name qdrant -p 6333:6333 qdrant/qdrant:v1.12.4
+          docker run -d --name ollama -p 11434:11434 ollama/ollama:0.5.7
+
+      - name: Wait for services
+        run: |
+          wait_for() {
+            for _ in $(seq 1 60); do
+              if curl -fsS "$2" > /dev/null; then echo "$1 ready"; return 0; fi
+              sleep 2
+            done
+            echo "::error::$1 not ready after 120 s"
+            return 1
+          }
+          wait_for Qdrant http://localhost:6333/readyz
+          wait_for Ollama http://localhost:11434/api/version
+
+      - name: Pull embedding model
+        run: |
+          curl -fsS --max-time 900 http://localhost:11434/api/pull \
+            -d '{"model": "nomic-embed-text", "stream": false}'
+
+      - name: Ingest FastAPI docs
+        # Langfuse is not configured here: the client logs a warning and disables itself.
+        run: uv run --frozen python -m fastapi_rag_lab.ingest
+
+      - name: Run benchmarks
+        run: |
+          IFS=',' read -ra DS <<< "$DATASETS"
+          for d in "${DS[@]}"; do
+            stem=$(basename "$d" .json)
+            # The cross-encoder (hybrid_rerank) takes ~6.5 s/query on CPU, so it is left out.
+            uv run --frozen python tests/eval/run_benchmarks.py \
+              --dataset "$d" --strategies sparse,dense,hybrid --top-k 5 \
+              --run-id "ci-${{ github.run_id }}-$stem" --warmup 1
+          done
+
+      - name: Regression check
+        run: |
+          status=0
+          IFS=',' read -ra DS <<< "$DATASETS"
+          for d in "${DS[@]}"; do
+            stem=$(basename "$d" .json)
+            case "$d" in
+              *stackoverflow/dev.json) ref="$REFERENCE_SO_DEV" ;;
+              *golden_dataset.json) ref="$REFERENCE_GOLDEN" ;;
+              *) ref="" ;;
+            esac
+            if [ -z "$ref" ] || [ ! -d "reports/$ref" ]; then
+              echo "::notice::No reference run for $d; regression check skipped"
+              continue
+            fi
+            uv run --frozen python -m fastapi_rag_lab.eval.check_regression \
+              --reference "reports/$ref" \
+              --current "reports/ci-${{ github.run_id }}-$stem" \
+              --config hybrid_k5 || status=1
+          done
+          exit $status
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: retrieval-eval-reports
+          path: reports/ci-*
+          if-no-files-found: warn
