@@ -206,6 +206,13 @@ export OLLAMA_HOST=http://localhost:11434
 uv run pytest tests/ -v
 ```
 
+CI (`.github/workflows/ci.yml`) runs `ruff check`, `ruff format --check` and the
+tests that need no services, network or models:
+
+```bash
+uv run pytest -m "not network and not ollama and not qdrant and not integration"
+```
+
 ## Design decisions
 
 Significant architectural choices are documented in
