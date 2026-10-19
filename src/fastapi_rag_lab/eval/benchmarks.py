@@ -8,6 +8,7 @@ aggregate results.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import statistics
@@ -185,28 +186,38 @@ def run_benchmark(
     *,
     warmup: int = 0,
     argv: list[str] | None = None,
+    checkpoint_path: Path | None = None,
 ) -> BenchmarkResults:
     """Run retrieval-only benchmarks across all configs and queries.
 
     ``warmup`` unmeasured queries are run before timing each config.
     If ``output_path`` is given, the results (with provenance) are written there.
+    If ``checkpoint_path`` is given, each finished config is appended to it as one
+    JSON line, and configs already in it (same dataset sha256) are not run again,
+    so an interrupted run can be resumed. Resumed configs are listed in
+    ``provenance["resumed_configs"]``; their latencies come from the earlier process.
     """
     dataset = load_golden_dataset(dataset_path)
+    dataset_sha256 = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
     started_at = datetime.now(UTC).isoformat()
+    done = _load_checkpoint(checkpoint_path, dataset_sha256, dataset.entries)
+    pending = [c for c in configs if c.label not in done]
+    if done:
+        logger.info("Resuming: %d configs already done: %s", len(done), sorted(done))
 
     # Build shared components once (BM25 index + reranker model are expensive)
     logger.info("Initializing retrievers...")
     dense = DenseRetriever()
     needs_sparse = any(
-        c.strategy in ("sparse", "hybrid", "hybrid_rerank") for c in configs
+        c.strategy in ("sparse", "hybrid", "hybrid_rerank") for c in pending
     )
-    needs_reranker = any(c.strategy == "hybrid_rerank" for c in configs)
+    needs_reranker = any(c.strategy == "hybrid_rerank" for c in pending)
     sparse = SparseRetriever() if needs_sparse else None
     reranker = Reranker() if needs_reranker else None
 
-    per_query: list[PerQueryBenchmark] = []
+    per_query_by_label: dict[str, list[PerQueryBenchmark]] = dict(done)
 
-    for config in configs:
+    for config in pending:
         retriever = build_retriever(config, dense, sparse, reranker)
         logger.info("Benchmarking %s ...", config.label)
 
@@ -216,10 +227,15 @@ def run_benchmark(
             except Exception as exc:
                 logger.warning("Warmup failed for %s: %s", config.label, exc)
 
-        for entry in tqdm(dataset.entries, desc=config.label, unit="q", leave=False):
-            result = _benchmark_one(retriever, entry, config)
-            per_query.append(result)
+        rows = [
+            _benchmark_one(retriever, entry, config)
+            for entry in tqdm(dataset.entries, desc=config.label, unit="q", leave=False)
+        ]
+        per_query_by_label[config.label] = rows
+        if checkpoint_path is not None:
+            _append_checkpoint(checkpoint_path, dataset_sha256, config, rows)
 
+    per_query = [row for c in configs for row in per_query_by_label[c.label]]
     finished_at = datetime.now(UTC).isoformat()
     aggregates = _compute_aggregates(per_query, configs)
 
@@ -239,6 +255,8 @@ def run_benchmark(
             finished_at=finished_at,
         ),
     )
+    if done:
+        results.provenance["resumed_configs"] = sorted(done)
 
     if output_path is not None:
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -249,6 +267,46 @@ def run_benchmark(
         logger.info("Wrote %s", output_path)
 
     return results
+
+
+def _load_checkpoint(
+    path: Path | None, dataset_sha256: str, entries: list[GoldenEntry]
+) -> dict[str, list[PerQueryBenchmark]]:
+    """Return the finished configs stored in a checkpoint file, by label."""
+    if path is None or not path.exists():
+        return {}
+    expected_ids = [e.id for e in entries]
+    done: dict[str, list[PerQueryBenchmark]] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        record = json.loads(line)
+        if record["dataset_sha256"] != dataset_sha256:
+            raise ValueError(f"{path}: checkpoint was made on a different dataset")
+        rows = [PerQueryBenchmark(**r) for r in record["rows"]]
+        if [r.query_id for r in rows] != expected_ids:
+            raise ValueError(f"{path}: {record['config_label']} rows do not match")
+        done[record["config_label"]] = rows
+    return done
+
+
+def _append_checkpoint(
+    path: Path,
+    dataset_sha256: str,
+    config: RetrieverConfig,
+    rows: list[PerQueryBenchmark],
+) -> None:
+    """Append one finished config to the checkpoint file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    record = {
+        "config_label": config.label,
+        "config": asdict(config),
+        "dataset_sha256": dataset_sha256,
+        "finished_at": datetime.now(UTC).isoformat(),
+        "rows": [asdict(r) for r in rows],
+    }
+    with path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def _benchmark_one(

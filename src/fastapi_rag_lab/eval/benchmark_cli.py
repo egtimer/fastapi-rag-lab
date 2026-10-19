@@ -67,13 +67,25 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--warmup", type=int, default=1, help="unmeasured queries per config"
     )
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="continue an unfinished run: configs in its checkpoint are not rerun",
+    )
     return p
 
 
-def prepare_run_dir(out_root: Path, run_id: str) -> Path:
-    """Return the run directory path, refusing one that already exists."""
+CHECKPOINT = "checkpoint.jsonl"
+
+
+def prepare_run_dir(out_root: Path, run_id: str, *, resume: bool = False) -> Path:
+    """Return the run directory path, refusing one that already exists.
+
+    With ``resume``, an existing directory is accepted while it has no
+    ``benchmark.json`` (the run did not finish); a finished run is still refused.
+    """
     run_dir = out_root / run_id
-    if run_dir.exists():
+    if run_dir.exists() and not (resume and not (run_dir / "benchmark.json").exists()):
         raise FileExistsError(f"run directory already exists: {run_dir}")
     return run_dir
 
@@ -86,7 +98,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     run_id = args.run_id or default_run_id(args.dataset)
     try:
-        run_dir = prepare_run_dir(args.out_root, run_id)
+        run_dir = prepare_run_dir(args.out_root, run_id, resume=args.resume)
     except FileExistsError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -104,6 +116,7 @@ def main(argv: list[str] | None = None) -> int:
         benchmark_path,
         warmup=args.warmup,
         argv=command_argv,
+        checkpoint_path=run_dir / CHECKPOINT,
     )
     print_benchmark_summary(results)
 
@@ -120,6 +133,8 @@ def main(argv: list[str] | None = None) -> int:
     }
     (run_dir / "analysis.json").write_text(json.dumps(out, indent=2) + "\n")
     print(format_markdown(analysis))
+    # benchmark.json holds every row now, including the resumed ones
+    (run_dir / CHECKPOINT).unlink(missing_ok=True)
 
     if args.plots_dir is not None:
         from fastapi_rag_lab.eval.plotting import save_all_plots

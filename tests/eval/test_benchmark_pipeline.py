@@ -6,8 +6,9 @@ import socket
 
 import pytest
 
-from fastapi_rag_lab.eval import benchmark_cli, provenance
+from fastapi_rag_lab.eval import benchmark_cli, benchmarks, provenance
 from fastapi_rag_lab.eval.benchmarks import RetrieverConfig, build_retriever
+from fastapi_rag_lab.eval.dataset import GoldenEntry
 from fastapi_rag_lab.retrieval import hybrid as hybrid_mod
 from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
 from fastapi_rag_lab.retrieval.types import RerankedResult, RetrievalCandidate
@@ -189,3 +190,72 @@ def test_cli_parses_options():
 def test_cli_rejects_bad_values(bad):
     with pytest.raises(SystemExit):
         benchmark_cli.build_parser().parse_args(bad)
+
+
+# --- checkpoint and resume -------------------------------------------------
+
+
+def _row(label: str, qid: str) -> benchmarks.PerQueryBenchmark:
+    return benchmarks.PerQueryBenchmark(
+        config_label=label,
+        query_id=qid,
+        query=f"query {qid}",
+        category="factual",
+        retrieved_sources=["a.md"],
+        expected_sources=["a.md"],
+        citation_f1=1.0,
+        citation_precision=1.0,
+        citation_recall=1.0,
+        recall_at_k=1.0,
+        mrr=1.0,
+        ndcg_at_k=1.0,
+        latency_ms=12.5,
+    )
+
+
+def _entries(*ids: str) -> list[GoldenEntry]:
+    return [GoldenEntry(id=i, query=f"query {i}", category="factual") for i in ids]
+
+
+def test_checkpoint_round_trip(tmp_path):
+    path = tmp_path / "checkpoint.jsonl"
+    cfg = RetrieverConfig(strategy="dense", top_k=5)
+    rows = [_row("dense_k5", "q1"), _row("dense_k5", "q2")]
+
+    benchmarks._append_checkpoint(path, "sha", cfg, rows)
+    done = benchmarks._load_checkpoint(path, "sha", _entries("q1", "q2"))
+
+    assert list(done) == ["dense_k5"]
+    assert done["dense_k5"] == rows
+
+
+def test_missing_checkpoint_means_nothing_done(tmp_path):
+    assert benchmarks._load_checkpoint(None, "sha", _entries("q1")) == {}
+    assert benchmarks._load_checkpoint(tmp_path / "none", "sha", _entries("q1")) == {}
+
+
+def test_checkpoint_from_another_dataset_is_refused(tmp_path):
+    path = tmp_path / "checkpoint.jsonl"
+    cfg = RetrieverConfig(strategy="dense", top_k=5)
+    benchmarks._append_checkpoint(path, "sha-a", cfg, [_row("dense_k5", "q1")])
+
+    with pytest.raises(ValueError, match="different dataset"):
+        benchmarks._load_checkpoint(path, "sha-b", _entries("q1"))
+    with pytest.raises(ValueError, match="do not match"):
+        benchmarks._load_checkpoint(path, "sha-a", _entries("q1", "q2"))
+
+
+def test_resume_accepts_only_an_unfinished_run_dir(tmp_path):
+    (tmp_path / "unfinished").mkdir()
+    finished = tmp_path / "finished"
+    finished.mkdir()
+    (finished / "benchmark.json").write_text("{}")
+
+    assert (
+        benchmark_cli.prepare_run_dir(tmp_path, "unfinished", resume=True)
+        == tmp_path / "unfinished"
+    )
+    with pytest.raises(FileExistsError):
+        benchmark_cli.prepare_run_dir(tmp_path, "finished", resume=True)
+    with pytest.raises(FileExistsError):
+        benchmark_cli.prepare_run_dir(tmp_path, "unfinished")
