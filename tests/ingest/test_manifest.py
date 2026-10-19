@@ -17,6 +17,8 @@ VALID_MANIFEST = {
     "embedding_model": "nomic-embed-text",
     "embedding_dimension": 768,
     "collection_name": "fastapi_docs_v1",
+    "ollama_version": "0.35.1",
+    "embedding_model_digest": "0a109f422b47",
 }
 
 

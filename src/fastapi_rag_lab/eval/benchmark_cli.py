@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import logging
+import os
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -16,6 +17,12 @@ from fastapi_rag_lab.eval.benchmarks import (
     print_benchmark_summary,
     run_benchmark,
 )
+from fastapi_rag_lab.ingest.embedder import default_ollama_host
+from fastapi_rag_lab.ingest.runtime_check import (
+    check_runtime_matches_index,
+    format_runtime,
+)
+from fastapi_rag_lab.ingest.store import COLLECTION_NAME
 
 ALL_STRATEGIES = ("sparse", "dense", "hybrid", "hybrid_rerank")
 DEFAULT_STRATEGIES = "dense,hybrid,hybrid_rerank"
@@ -72,6 +79,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="continue an unfinished run: configs in its checkpoint are not rerun",
     )
+    p.add_argument(
+        "--allow-runtime-mismatch",
+        action="store_true",
+        help="run even if the Ollama runtime differs from the one that built the index",
+    )
     return p
 
 
@@ -103,6 +115,33 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
+    qdrant_url = os.environ.get("QDRANT_URL", "http://localhost:6333")
+    try:
+        runtime_check = check_runtime_matches_index(
+            qdrant_url, COLLECTION_NAME, default_ollama_host()
+        )
+    except Exception as exc:
+        print(f"error: cannot check the embedding runtime: {exc}", file=sys.stderr)
+        return 2
+    if runtime_check["match"] is False:
+        msg = (
+            f"embedding runtime mismatch: index built with "
+            f"{format_runtime(runtime_check['index'])}; "
+            f"querying with {format_runtime(runtime_check['query'])}"
+        )
+        if not args.allow_runtime_mismatch:
+            print(
+                f"error: {msg} (pass --allow-runtime-mismatch to run anyway)",
+                file=sys.stderr,
+            )
+            return 2
+        logging.warning("%s; continuing (--allow-runtime-mismatch)", msg)
+        runtime_check["allowed_mismatch"] = True
+    elif runtime_check["match"] is None:
+        logging.warning(
+            "embedding runtime not verified: %s", runtime_check.get("reason")
+        )
+
     configs = [
         RetrieverConfig(strategy=s, top_k=k)
         for s in args.strategies
@@ -117,6 +156,7 @@ def main(argv: list[str] | None = None) -> int:
         warmup=args.warmup,
         argv=command_argv,
         checkpoint_path=run_dir / CHECKPOINT,
+        runtime_check=runtime_check,
     )
     print_benchmark_summary(results)
 

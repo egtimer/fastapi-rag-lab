@@ -16,6 +16,8 @@ REQUIRED_KEYS = {
     "embedding_model",
     "embedding_dimension",
     "collection_name",
+    "ollama_version",
+    "embedding_model_digest",
 }
 
 

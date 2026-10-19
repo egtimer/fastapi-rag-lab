@@ -51,7 +51,7 @@ jobs:
       - name: Start Qdrant and Ollama
         run: |
           docker run -d --name qdrant -p 6333:6333 qdrant/qdrant:v1.12.4
-          docker run -d --name ollama -p 11434:11434 ollama/ollama:0.5.7
+          docker run -d --name ollama -p 11434:11434 ollama/ollama:0.35.1
 
       - name: Wait for services
         run: |

@@ -108,12 +108,17 @@ graph LR
 
 ### Prerequisites
 
-1. Docker and Docker Compose (for Qdrant and Langfuse)
-2. [Ollama](https://ollama.com/) running on the host with required models pulled:
-```bash
-   ollama pull nomic-embed-text
-   ollama pull gemma3:4b
-```
+1. Docker and Docker Compose (for Qdrant, Langfuse and Ollama)
+2. Ollama runs from docker compose, pinned to 0.35.1. After `docker compose up -d`, pull the models:
+
+   ```bash
+   docker compose exec ollama ollama pull nomic-embed-text
+   docker compose exec ollama ollama pull gemma3:4b
+   ```
+
+   A host Ollama works only at exactly the pinned version, because the embeddings
+   depend on the Ollama server version, not only on the model
+   ([ADR-007](docs/decisions/007-embedding-runtime.md)).
 3. Python 3.12+ with [uv](https://docs.astral.sh/uv/)
 
 ### Start services

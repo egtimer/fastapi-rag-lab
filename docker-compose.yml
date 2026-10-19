@@ -12,6 +12,13 @@ services:
       timeout: 3s
       retries: 3
 
+  ollama:
+    image: ollama/ollama:0.35.1
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+
   langfuse-db:
     image: postgres:16-alpine
     environment:
@@ -56,3 +63,4 @@ services:
 volumes:
   qdrant_storage:
   langfuse_db_data:
+  ollama_models:

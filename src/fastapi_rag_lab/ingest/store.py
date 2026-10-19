@@ -28,8 +28,12 @@ def upsert_children(
     *,
     collection_name: str = COLLECTION_NAME,
     qdrant_url: str | None = None,
+    runtime: dict[str, str] | None = None,
 ) -> int:
-    """Upsert child chunks with embeddings into Qdrant."""
+    """Upsert child chunks with embeddings into Qdrant.
+
+    ``runtime`` (see ``embedding_runtime``) is stored in every point payload.
+    """
     if len(children) != len(embeddings):
         raise ValueError(
             f"children ({len(children)}) and embeddings ({len(embeddings)}) "
@@ -62,6 +66,7 @@ def upsert_children(
                     "heading_path": parent.heading_path,
                     "child_index": child.child_index,
                     "ingested_at": ingested_at,
+                    **(runtime or {}),
                 },
             )
         )

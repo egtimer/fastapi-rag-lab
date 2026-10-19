@@ -136,10 +136,18 @@ def ollama_info(
     host = (host or os.environ.get("OLLAMA_HOST") or DEFAULT_OLLAMA_HOST).rstrip("/")
     info: dict[str, Any] = {
         "host": host,
+        "ollama_version": None,
         "embedding_model": model,
         "embedding_model_digest": None,
         "reason": None,
     }
+    reasons = []
+    try:
+        resp = httpx.get(f"{host}/api/version", timeout=HTTP_TIMEOUT)
+        resp.raise_for_status()
+        info["ollama_version"] = resp.json().get("version")
+    except Exception as exc:
+        reasons.append(f"version: {_fail(exc)['reason']}")
     try:
         resp = httpx.get(f"{host}/api/tags", timeout=HTTP_TIMEOUT)
         resp.raise_for_status()
@@ -149,9 +157,10 @@ def ollama_info(
                 info["embedding_model_digest"] = m.get("digest")
                 break
         else:
-            info["reason"] = f"model {model!r} not listed by {host}/api/tags"
+            reasons.append(f"model {model!r} not listed by {host}/api/tags")
     except Exception as exc:
-        info["reason"] = _fail(exc)["reason"]
+        reasons.append(f"digest: {_fail(exc)['reason']}")
+    info["reason"] = "; ".join(reasons) or None
     return info
 
 

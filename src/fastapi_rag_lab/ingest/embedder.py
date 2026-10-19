@@ -15,6 +15,55 @@ EXPECTED_DIMENSION = 768
 BATCH_SIZE = 16
 REQUEST_TIMEOUT = 60.0
 MAX_RETRIES = 3
+DEFAULT_OLLAMA_HOST = "http://localhost:11434"
+RUNTIME_TIMEOUT = 10.0
+RUNTIME_FIELDS = ("ollama_version", "embedding_model", "embedding_model_digest")
+
+
+def default_ollama_host() -> str:
+    return (os.environ.get("OLLAMA_HOST") or DEFAULT_OLLAMA_HOST).rstrip("/")
+
+
+def embedding_runtime(ollama_host: str | None = None) -> dict[str, str]:
+    """Return the Ollama server version and embedding model digest.
+
+    Embeddings depend on the server version (Ollama 0.30.0 changed how
+    nomic-embed-text treats case), so both are recorded with the index.
+    Raises RuntimeError if either cannot be determined.
+    """
+    host = (ollama_host or default_ollama_host()).rstrip("/")
+    try:
+        with httpx.Client(timeout=RUNTIME_TIMEOUT) as client:
+            resp = client.get(f"{host}/api/version")
+            resp.raise_for_status()
+            version = resp.json().get("version")
+            resp = client.get(f"{host}/api/tags")
+            resp.raise_for_status()
+            models = resp.json().get("models", [])
+    except (httpx.HTTPError, ValueError, AttributeError) as exc:
+        raise RuntimeError(
+            f"Cannot determine the Ollama runtime at {host}: {exc}"
+        ) from exc
+
+    if not version:
+        raise RuntimeError(f"Ollama at {host} returned no version from /api/version")
+
+    names = {EMBEDDING_MODEL, f"{EMBEDDING_MODEL}:latest"}
+    digest = None
+    for m in models:
+        if m.get("name") in names or m.get("model") in names:
+            digest = m.get("digest")
+            break
+    if not digest:
+        raise RuntimeError(
+            f"Embedding model {EMBEDDING_MODEL!r} (or :latest) not found in "
+            f"{host}/api/tags; pull it first"
+        )
+    return {
+        "ollama_version": str(version),
+        "embedding_model": EMBEDDING_MODEL,
+        "embedding_model_digest": str(digest),
+    }
 
 
 def embed_texts(texts: list[str]) -> list[list[float]]:

@@ -187,6 +187,7 @@ def run_benchmark(
     warmup: int = 0,
     argv: list[str] | None = None,
     checkpoint_path: Path | None = None,
+    runtime_check: dict | None = None,
 ) -> BenchmarkResults:
     """Run retrieval-only benchmarks across all configs and queries.
 
@@ -195,7 +196,9 @@ def run_benchmark(
     If ``checkpoint_path`` is given, each finished config is appended to it as one
     JSON line, and configs already in it (same dataset sha256) are not run again,
     so an interrupted run can be resumed. Resumed configs are listed in
-    ``provenance["resumed_configs"]``; their latencies come from the earlier process.
+    ``provenance["resumed_configs"]``;
+    ``runtime_check`` (see ``check_runtime_matches_index``) is recorded under
+    ``provenance["embedding_runtime"]``; their latencies come from the earlier process.
     """
     dataset = load_golden_dataset(dataset_path)
     dataset_sha256 = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
@@ -255,6 +258,7 @@ def run_benchmark(
             finished_at=finished_at,
         ),
     )
+    results.provenance["embedding_runtime"] = runtime_check
     if done:
         results.provenance["resumed_configs"] = sorted(done)
 

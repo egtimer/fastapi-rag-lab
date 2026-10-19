@@ -94,6 +94,7 @@ def test_pipeline_end_to_end(tmp_path, monkeypatch):
 
     from langfuse import Langfuse
 
+    from fastapi_rag_lab.ingest.embedder import default_ollama_host, embedding_runtime
     from fastapi_rag_lab.ingest.pipeline import (
         _stage_chunk,
         _stage_embed,
@@ -123,6 +124,7 @@ def test_pipeline_end_to_end(tmp_path, monkeypatch):
         file_count=2,
         parent_count=len(all_parents),
         child_count=len(all_children),
+        runtime=embedding_runtime(default_ollama_host()),
     )
 
     manifest = json.loads(manifest_path.read_text())

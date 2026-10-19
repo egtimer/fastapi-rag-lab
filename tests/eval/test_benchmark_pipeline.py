@@ -259,3 +259,70 @@ def test_resume_accepts_only_an_unfinished_run_dir(tmp_path):
         benchmark_cli.prepare_run_dir(tmp_path, "finished", resume=True)
     with pytest.raises(FileExistsError):
         benchmark_cli.prepare_run_dir(tmp_path, "unfinished")
+
+
+def _mismatch(match, **extra):
+    return {
+        "index": {"ollama_version": "0.20.7"},
+        "query": {"ollama_version": "0.35.1"},
+        "match": match,
+        **extra,
+    }
+
+
+def test_cli_refuses_runtime_mismatch(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(
+        benchmark_cli, "check_runtime_matches_index", lambda *a: _mismatch(False)
+    )
+
+    def boom(*a, **k):
+        raise AssertionError("benchmark must not run")
+
+    monkeypatch.setattr(benchmark_cli, "run_benchmark", boom)
+    assert benchmark_cli.main(["--out-root", str(tmp_path), "--run-id", "r"]) == 2
+    err = capsys.readouterr().err
+    assert "0.20.7" in err and "0.35.1" in err and "--allow-runtime-mismatch" in err
+
+
+def test_cli_allows_runtime_mismatch_and_records_it(tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        benchmark_cli, "check_runtime_matches_index", lambda *a: _mismatch(False)
+    )
+    seen = {}
+
+    class StopError(Exception):
+        pass
+
+    def fake_run(*a, **k):
+        seen.update(k["runtime_check"])
+        raise StopError
+
+    monkeypatch.setattr(benchmark_cli, "run_benchmark", fake_run)
+    with pytest.raises(StopError):
+        benchmark_cli.main(
+            ["--out-root", str(tmp_path), "--run-id", "r", "--allow-runtime-mismatch"]
+        )
+    assert seen["match"] is False and seen["allowed_mismatch"] is True
+
+
+def test_cli_continues_when_runtime_unknown(tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        benchmark_cli,
+        "check_runtime_matches_index",
+        lambda *a: _mismatch(None, reason="index has no runtime fields"),
+    )
+
+    class StopError(Exception):
+        pass
+
+    def fake_run(*a, **k):
+        raise StopError
+
+    monkeypatch.setattr(benchmark_cli, "run_benchmark", fake_run)
+    with pytest.raises(StopError):
+        benchmark_cli.main(["--out-root", str(tmp_path), "--run-id", "r"])
+
+
+def test_ollama_info_has_version_field():
+    o = provenance.ollama_info(_closed_url())
+    assert o["ollama_version"] is None and "version:" in o["reason"]

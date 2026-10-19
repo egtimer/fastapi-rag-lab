@@ -10,7 +10,11 @@ from pathlib import Path
 from langfuse import Langfuse
 
 from fastapi_rag_lab.ingest.chunker import Child, Parent, chunk_markdown
-from fastapi_rag_lab.ingest.embedder import EMBEDDING_MODEL, embed_texts
+from fastapi_rag_lab.ingest.embedder import (
+    default_ollama_host,
+    embed_texts,
+    embedding_runtime,
+)
 from fastapi_rag_lab.ingest.fetcher import (
     DOCS_DIR,
     PINNED_COMMIT_SHA,
@@ -35,6 +39,10 @@ def run_ingest() -> None:
         format="%(asctime)s %(name)s %(levelname)s %(message)s",
     )
 
+    # fail early, before any work, if the runtime cannot be determined
+    runtime = embedding_runtime(default_ollama_host())
+    logger.info("Embedding runtime: %s", runtime)
+
     langfuse = Langfuse()
 
     with langfuse.start_as_current_observation(name="ingest_run"):
@@ -42,12 +50,15 @@ def run_ingest() -> None:
             markdown_paths = _stage_fetch(langfuse)
             all_parents, all_children = _stage_chunk(langfuse, markdown_paths)
             embeddings = _stage_embed(langfuse, all_children)
-            upserted = _stage_upsert(langfuse, all_parents, all_children, embeddings)
+            upserted = _stage_upsert(
+                langfuse, all_parents, all_children, embeddings, runtime
+            )
 
             _write_manifest(
                 file_count=len(markdown_paths),
                 parent_count=len(all_parents),
                 child_count=len(all_children),
+                runtime=runtime,
             )
 
             logger.info(
@@ -123,25 +134,33 @@ def _stage_upsert(
     parents: list[Parent],
     children: list[Child],
     embeddings: list[list[float]],
+    runtime: dict[str, str],
 ) -> int:
     with langfuse.start_as_current_observation(name="upsert"):
         t0 = time.monotonic()
-        count = upsert_children(parents, children, embeddings)
+        count = upsert_children(parents, children, embeddings, runtime=runtime)
         elapsed = time.monotonic() - t0
         logger.info("Upsert: %d points in %.1fs", count, elapsed)
         return count
 
 
-def _write_manifest(file_count: int, parent_count: int, child_count: int) -> None:
+def _write_manifest(
+    file_count: int,
+    parent_count: int,
+    child_count: int,
+    runtime: dict[str, str],
+) -> None:
     manifest = {
         "commit_sha": PINNED_COMMIT_SHA,
         "ingested_at": datetime.now(UTC).isoformat(),
         "file_count": file_count,
         "parent_count": parent_count,
         "child_count": child_count,
-        "embedding_model": EMBEDDING_MODEL,
+        "embedding_model": runtime["embedding_model"],
         "embedding_dimension": VECTOR_DIMENSION,
         "collection_name": COLLECTION_NAME,
+        "ollama_version": runtime["ollama_version"],
+        "embedding_model_digest": runtime["embedding_model_digest"],
     }
     write_manifest(MANIFEST_PATH, manifest)
     logger.info("Manifest written to %s", MANIFEST_PATH)
