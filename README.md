@@ -25,8 +25,9 @@ the code commit, corpus commit, model digests and hardware it ran on.
 - ✅ **Phase 4** — `/query` API with SSE streaming, citations, Langfuse tracing per query, [ADR-004](docs/decisions/004-query-api-streaming.md)
 - ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed yet), [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
+- ✅ **Phase 5.3** — Reproducible retrieval evals: Stack Overflow set (143 dev / 221 test), bootstrap CIs, pinned and recorded runtime, plain hybrid as default, [ADR-007](docs/decisions/007-embedding-runtime.md), [ADR-008](docs/decisions/008-default-retrieval-strategy.md)
 
-**Repo status: retrieval benchmarks done; answer-quality (RAGAS) results not yet published.** Latest: Apr 17, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+**Repo status: retrieval benchmarks done; answer-quality (RAGAS) results not yet published.** Latest: Oct 20, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Why this project exists
 
@@ -80,8 +81,9 @@ graph LR
         Q[POST /query] --> HR[HybridRetriever]
         E -->|top-30 dense| RRF[RRF Fusion]
         F -->|top-30 sparse| RRF
-        RRF -->|top-15| RR[Cross-encoder<br/>bge-reranker-base]
-        RR -->|top-5 + parents| LLM[Ollama LLM<br/>gemma3:4b]
+        RRF -->|top-5 + parents| LLM[Ollama LLM<br/>gemma3:4b]
+        RRF -.->|hybrid_rerank only: top-15| RR[Cross-encoder<br/>bge-reranker-base]
+        RR -.->|top-5 + parents| LLM
         HR --> RRF
         LLM -->|SSE stream| R[Response<br/>+ Citations]
     end
@@ -94,10 +96,10 @@ graph LR
 
 - Python 3.12+
 - FastAPI + Pydantic v2
-- Qdrant (self-hosted via Docker)
-- Ollama on the host: `nomic-embed-text` (embeddings), `gemma3:4b` (generation)
+- Qdrant 1.12.4 (self-hosted via Docker)
+- Ollama 0.35.1, pinned ([ADR-007](docs/decisions/007-embedding-runtime.md)): `nomic-embed-text` (embeddings), `gemma3:4b` (generation)
 - `rank_bm25` for sparse retrieval
-- `sentence-transformers` for cross-encoder reranking (`BAAI/bge-reranker-base`)
+- `sentence-transformers` for the optional cross-encoder reranker (`BAAI/bge-reranker-base`, pinned revision)
 - Langfuse (self-hosted via Docker) for observability
 - RAGAS for evaluation metrics (Phase 5.1)
 - `uv` for dependency management
@@ -174,7 +176,9 @@ export OLLAMA_HOST=http://localhost:11434
 uv run uvicorn fastapi_rag_lab.api.app:app --reload --port 8000
 ```
 
-`POST /query` runs hybrid retrieval, builds a prompt with the top-K parent
+`POST /query` runs hybrid retrieval (dense + BM25 with RRF; set
+`RAG_RETRIEVAL_STRATEGY=hybrid_rerank` to add the cross-encoder, see
+[ADR-008](docs/decisions/008-default-retrieval-strategy.md)), builds a prompt with the top-K parent
 chunks as context, and streams the LLM response token-by-token via SSE.
 Citations (source chunks used) arrive as the final event before the stream
 closes.
@@ -198,9 +202,9 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-79 tests covering ingestion, retrieval, the query API, and the eval
-pipeline. Without Ollama and Qdrant running, 61 pass and 18 are skipped
-(they need those services).
+151 tests covering ingestion, retrieval, the query API, and the eval
+pipeline. 133 need no services, network or models; the other 18 need Qdrant and
+Ollama and are skipped when those are not reachable.
 
 ```bash
 export OLLAMA_HOST=http://localhost:11434
@@ -237,6 +241,8 @@ Significant architectural choices are documented in
 - [004 — Query API streaming](docs/decisions/004-query-api-streaming.md): SSE vs WebSockets, citation format, Langfuse spans
 - [005 — Evaluation strategy](docs/decisions/005-evaluation-strategy.md): RAGAS + custom citation accuracy, threshold rationale, golden-dataset construction
 - [006 — Retrieval benchmarks](docs/decisions/006-retrieval-benchmarks.md): retrieval-only A/B methodology, 9-config cross-product, re-run instructions
+- [007 — Embedding runtime](docs/decisions/007-embedding-runtime.md): why April's numbers did not reproduce, and pinning and recording Ollama, the reranker and Qdrant
+- [008 — Default retrieval strategy](docs/decisions/008-default-retrieval-strategy.md): plain hybrid over hybrid + rerank, chosen on the dev split (a negative result)
 
 ## Evaluation
 
@@ -267,84 +273,114 @@ local model as both producer and judge.
 
 ## Retrieval benchmarks
 
-Comparative benchmarks across 9 configurations (3 retrieval strategies x 3
-top_k values) on the 30-query golden dataset. All metrics are retrieval-only --
-no LLM judge needed -- so results are deterministic and fast to reproduce.
-See [ADR-006](docs/decisions/006-retrieval-benchmarks.md) for methodology.
+Retrieval-only benchmarks (no LLM judge) across four strategies (BM25 only,
+dense only, hybrid with RRF, hybrid plus the cross-encoder reranker) and
+k = 3, 5, 10, on two datasets:
 
-### Quality comparison (top_k=5)
+- **Golden set**: 30 hand-written questions with the docs pages that answer them.
+- **Stack Overflow set**: 364 top-voted `fastapi` questions labelled with the
+  docs pages that answerers linked (CC BY-SA 4.0, see
+  [`tests/eval/stackoverflow/`](tests/eval/stackoverflow/)), split into 143 dev
+  and 221 test questions. The labels are noisy (some links are background
+  reading), so the set measures "found a page a human linked"; absolute numbers
+  are low and only comparisons between strategies on the same questions are
+  meaningful.
 
-![Retrieval quality by strategy](docs/benchmarks/quality_by_strategy.png)
+Every run below was made on the reference runtime (Ollama 0.35.1,
+`nomic-embed-text` `0a109f42…`, reranker revision `2cfc18c9…`, Qdrant 1.12.4)
+on an AMD EPYC 7763 with 4 logical cores and 16 GB RAM, CPU only; the full
+provenance is in each report. Intervals are 95% bootstrap CIs over questions
+(10,000 resamples, seed 0). See [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
+for the method.
 
-| Metric      | Dense | Hybrid (RRF) | Hybrid + Reranker |
-|-------------|------:|--------------:|------------------:|
-| Citation F1 |  0.44 |          0.45 |              0.44 |
-| Recall@5    |  0.88 |          0.98 |              0.90 |
-| nDCG@5      |  0.72 |          0.84 |              0.76 |
-| MRR         |  0.68 |          0.80 |              0.71 |
+![Recall@5 and MRR by strategy on the Stack Overflow dev and test splits, with 95% CIs](docs/benchmarks/quality_ci.png)
 
-Hybrid retrieval (dense + BM25 with RRF fusion) has the best scores at k=5:
-+10pp recall over dense-only, +12pp nDCG, +12pp MRR. The BM25 signal catches
-keyword-specific queries that semantic similarity alone misses. With n=30 the
-margins are small: the +10pp Recall@5 comes from 3 queries that hybrid finds
-and dense misses (0 the other way), and no significance testing has been done
-yet.
+![Per-query retrieval latency by strategy at top_k=5, log scale](docs/benchmarks/latency.png)
 
-The cross-encoder reranker underperforms plain hybrid on this dataset. One
-hypothesis: with only ~2K chunks and a 30-query eval set, the reranker does not
-have enough noise to filter, and it hurts more than it helps by occasionally
-reordering correct results downward; not yet tested with an ablation.
+Both plots come from the committed reports:
+`python -m fastapi_rag_lab.eval.report_plots --run dev=reports/2026-10-20-so-dev-ollama-0.35.1 --run test=reports/2026-10-20-so-test-ollama-0.35.1 --out docs/benchmarks`.
 
-### Recall@K across strategies
+### Stack Overflow test split (n = 221), run once after the choice was made on dev
 
-![Recall@K by strategy](docs/benchmarks/recall_at_k.png)
+`reports/2026-10-20-so-test-ollama-0.35.1`
 
-Hybrid saturates at k=5 (0.98 recall). Dense reaches 0.88 at k=5 and gains nothing from k=10,
-confirming that some queries need the BM25 lexical signal.
+| Strategy (k=5) | Recall@5 | MRR | nDCG@5 | p50 / p95 latency |
+|---|---|---|---|---|
+| Sparse (BM25) | 0.223 [0.173, 0.275] | 0.166 [0.126, 0.208] | 0.168 [0.128, 0.209] | 5 / 7 ms |
+| Dense | 0.294 [0.240, 0.349] | 0.231 [0.186, 0.277] | 0.219 [0.178, 0.260] | 70 / 92 ms |
+| Hybrid (RRF), default | 0.295 [0.240, 0.349] | 0.239 [0.192, 0.287] | 0.229 [0.186, 0.274] | 78 / 103 ms |
+| Hybrid + reranker | 0.303 [0.248, 0.359] | 0.263 [0.212, 0.315] | 0.244 [0.199, 0.290] | 6,786 / 9,614 ms |
 
-### Latency (top_k=5)
+### Stack Overflow dev split (n = 143), used to choose the default
 
-![Latency distribution](docs/benchmarks/latency_distribution.png)
+`reports/2026-10-20-so-dev-ollama-0.35.1`
 
-| Strategy          | p50 (ms) | p95 (ms) |
-|-------------------|---------:|---------:|
-| Dense             |       89 |      108 |
-| Hybrid (RRF)      |      109 |      127 |
-| Hybrid + Reranker |    6,517 |    8,346 |
+| Strategy (k=5) | Recall@5 | MRR | nDCG@5 | p50 / p95 latency |
+|---|---|---|---|---|
+| Sparse (BM25) | 0.220 [0.161, 0.283] | 0.193 [0.140, 0.249] | 0.167 [0.123, 0.214] | 6 / 9 ms |
+| Dense | 0.289 [0.225, 0.356] | 0.252 [0.194, 0.315] | 0.231 [0.177, 0.287] | 71 / 96 ms |
+| Hybrid (RRF), default | 0.284 [0.220, 0.350] | 0.278 [0.215, 0.343] | 0.239 [0.184, 0.294] | 84 / 103 ms |
+| Hybrid + reranker | 0.279 [0.214, 0.346] | 0.226 [0.169, 0.283] | 0.213 [0.163, 0.266] | 6,805 / 9,698 ms |
 
-Dense and hybrid are both under 130ms p95. The cross-encoder adds ~6.5
-seconds per query (hardware not yet documented). Not worth it
-given the quality numbers above -- yet the API currently still uses the
-reranker by default (`HybridRetriever` always reranks); making it configurable
-is planned.
+### Golden set (n = 30)
 
-### Per-category analysis
+`reports/2026-10-20-golden30-ollama-0.35.1`
 
-![Per-category recall](docs/benchmarks/per_category_recall.png)
+| Strategy (k=5) | Recall@5 | MRR | nDCG@5 | p50 / p95 latency |
+|---|---|---|---|---|
+| Sparse (BM25) | 0.883 [0.767, 0.983] | 0.612 [0.486, 0.733] | 0.677 [0.561, 0.785] | 6 / 9 ms |
+| Dense | 0.933 [0.833, 1.000] | 0.719 [0.600, 0.833] | 0.775 [0.669, 0.868] | 75 / 92 ms |
+| Hybrid (RRF), default | 0.900 [0.767, 1.000] | 0.817 [0.700, 0.917] | 0.838 [0.721, 0.938] | 76 / 103 ms |
+| Hybrid + reranker | 0.900 [0.800, 1.000] | 0.679 [0.547, 0.806] | 0.734 [0.616, 0.845] | 6,738 / 9,227 ms |
 
-| Category       | Dense | Hybrid | Hybrid + Reranker |
-|----------------|------:|-------:|------------------:|
-| Conceptual     |  1.00 |   1.00 |              1.00 |
-| Code           |  1.00 |   1.00 |              1.00 |
-| Advanced       |  1.00 |   1.00 |              0.80 |
-| Error handling |  0.80 |   1.00 |              0.80 |
-| Factual        |  0.69 |   0.94 |              0.88 |
+### The reranker does not pay for itself
 
-Hybrid's biggest win is on factual queries (+25pp over dense). These are
-the queries most likely to contain specific terms (e.g. "Pydantic",
-"response_model") where BM25 excels. Conceptual and code queries already
-hit 1.00 recall with dense-only because the semantic signal is strong enough.
+The API used to rerank every query. Paired differences, hybrid + reranker minus
+hybrid, at k=5:
+
+| Dataset | Recall@5 | MRR |
+|---|---|---|
+| Stack Overflow dev (n = 143) | -0.005 [-0.057, +0.046] | -0.052 [-0.105, +0.001] |
+| Stack Overflow test (n = 221) | +0.009 [-0.026, +0.043] | +0.024 [-0.016, +0.065] |
+| Golden (n = 30) | +0.000 [-0.100, +0.100] | -0.138 [-0.256, -0.025] |
+
+On Stack Overflow every interval contains zero, and the MRR difference changes
+sign between dev and test: the reranker's effect there is within the noise,
+in either direction. On the golden set it lowers MRR. It always costs about 80
+times the latency on this CPU (p50 around 6.8 s against 80 ms). Plain `hybrid`
+is the default and `RAG_RETRIEVAL_STRATEGY=hybrid_rerank` turns the reranker
+back on. The choice was made on dev before the test split was run, and nothing
+changed after it; see [ADR-008](docs/decisions/008-default-retrieval-strategy.md).
+This is a result about this model on CPU with these labels, not about
+cross-encoders in general. Hybrid and dense are also within the noise of each
+other on Stack Overflow; hybrid's higher MRR over dense shows only on the
+golden set (+0.097 [+0.000, +0.197] at k=5).
+
+### April's numbers
+
+The first benchmark (`reports/2026-04-17-golden30-benchmark`) reported a
+higher hybrid Recall@5 on the golden set than the pinned runtime gives
+(0.900 [0.767, 1.000]). It reproduces exactly, query by query, on Ollama
+0.20.7, the version it most likely ran on, and not on 0.5.7 or 0.35.1: Ollama
+0.30.0 changed how `nomic-embed-text` handles case, which changes the vectors
+of the same model. Why, and what now
+prevents a silent change of runtime, is in
+[ADR-007](docs/decisions/007-embedding-runtime.md).
 
 ### Re-running benchmarks
 
 ```bash
-OLLAMA_HOST=http://localhost:11434 uv run python tests/eval/run_benchmarks.py \
-  --run-id my-run [--strategies sparse,dense,hybrid,hybrid_rerank] [--top-k 3,5,10] \
-  [--dataset PATH] [--plots-dir docs/benchmarks]
+QDRANT_URL=http://localhost:6333 OLLAMA_HOST=http://localhost:11434 \
+  uv run python tests/eval/run_benchmarks.py --dataset tests/eval/stackoverflow/dev.json \
+  --strategies sparse,dense,hybrid,hybrid_rerank --top-k 3,5,10 --run-id my-run --resume
 ```
 
 Writes `reports/<run-id>/benchmark.json` (with a provenance block) and
-`analysis.json`; plots only if `--plots-dir` is given.
+`analysis.json`; plots only if `--plots-dir` is given. The benchmark refuses an
+Ollama runtime that differs from the one that built the index. `--resume`
+continues an interrupted run from its checkpoint.
+`python -m fastapi_rag_lab.eval.compare_runs reports/<a> reports/<b>` compares
+two runs query by query.
 
 ## Known limitations
 
@@ -354,7 +390,12 @@ limitations:
 - The gold dataset is hand-built and small (30 queries, document-level labels).
   Statistical claims are limited accordingly.
 - Running everything locally on a single machine means latency numbers
-  depend heavily on hardware. The benchmark machine is not documented yet.
+  depend heavily on hardware; each report records the machine it ran on.
+- The Stack Overflow labels are the pages answerers linked, not judged
+  relevance; their precision has not been measured yet.
+- The Qdrant client (1.17.1) is newer than the server (1.12.4) by more than the
+  client supports. Both are recorded in every report; aligning them is pending
+  ([ADR-007](docs/decisions/007-embedding-runtime.md)).
 - `gemma3:4b` is a small model. A larger model would likely improve
   generation quality but the point here is reproducibility, not peak
   accuracy.
