@@ -23,7 +23,7 @@ import httpx
 from fastapi_rag_lab.ingest.embedder import EMBEDDING_MODEL
 from fastapi_rag_lab.ingest.fetcher import PINNED_COMMIT_SHA
 from fastapi_rag_lab.ingest.store import COLLECTION_NAME
-from fastapi_rag_lab.retrieval.reranker import RERANKER_MODEL
+from fastapi_rag_lab.retrieval.reranker import RERANKER_MODEL, RERANKER_REVISION
 
 logger = logging.getLogger(__name__)
 
@@ -227,6 +227,7 @@ def collect_provenance(
         "started_at": started_at,
         "finished_at": finished_at or datetime.now(UTC).isoformat(),
         "reranker_model": RERANKER_MODEL,
+        "reranker_revision": RERANKER_REVISION,
     }
     for name, probe in probes.items():
         try:

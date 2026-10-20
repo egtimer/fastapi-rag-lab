@@ -11,6 +11,8 @@ from .types import FusedResult, RerankedResult
 logger = logging.getLogger(__name__)
 
 RERANKER_MODEL = "BAAI/bge-reranker-base"
+# Hugging Face commit of the model weights; a moving "main" could change the scores
+RERANKER_REVISION = "2cfc18c9415c912f9d8155881c133215df768a70"
 
 
 class Reranker:
@@ -22,8 +24,10 @@ class Reranker:
     candidate set (top-15), not the full corpus.
     """
 
-    def __init__(self, model_name: str = RERANKER_MODEL):
-        self.model = CrossEncoder(model_name, max_length=512)
+    def __init__(
+        self, model_name: str = RERANKER_MODEL, revision: str = RERANKER_REVISION
+    ):
+        self.model = CrossEncoder(model_name, revision=revision, max_length=512)
 
     def rerank(
         self,

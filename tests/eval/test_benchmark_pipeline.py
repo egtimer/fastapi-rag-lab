@@ -11,6 +11,7 @@ from fastapi_rag_lab.eval.benchmarks import RetrieverConfig, build_retriever
 from fastapi_rag_lab.eval.dataset import GoldenEntry
 from fastapi_rag_lab.retrieval import hybrid as hybrid_mod
 from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
+from fastapi_rag_lab.retrieval.reranker import RERANKER_REVISION
 from fastapi_rag_lab.retrieval.types import RerankedResult, RetrievalCandidate
 
 
@@ -153,6 +154,7 @@ def test_collect_provenance_shape(tmp_path, monkeypatch):
     assert p["command"] == "x --y"
     assert p["dataset"]["sha256"]
     assert p["reranker_model"]
+    assert p["reranker_revision"] == RERANKER_REVISION
     assert {"git", "corpus", "qdrant", "ollama", "packages", "hardware"} <= set(p)
     assert p["packages"]["python"]
     assert p["hardware"]["logical_cores"]
