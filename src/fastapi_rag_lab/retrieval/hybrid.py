@@ -40,7 +40,7 @@ class HybridRetriever:
         self,
         collection_name: str = COLLECTION_NAME,
         *,
-        strategy: Strategy = "hybrid_rerank",
+        strategy: Strategy = "hybrid",
         dense: DenseRetriever | None = None,
         sparse: SparseRetriever | None = None,
         reranker: Reranker | None = None,

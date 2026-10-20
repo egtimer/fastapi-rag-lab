@@ -120,7 +120,7 @@ class TestHybridRetriever:
     def hybrid(self):
         from fastapi_rag_lab.retrieval.hybrid import HybridRetriever
 
-        return HybridRetriever()
+        return HybridRetriever(strategy="hybrid_rerank")
 
     def test_returns_reranked_results(self, hybrid):
         results = hybrid.retrieve("How to handle exceptions in FastAPI?", final_k=5)

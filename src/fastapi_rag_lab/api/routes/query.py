@@ -24,16 +24,21 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-def _build_citations(results: list) -> list[Citation]:
-    """Extract citations from reranked retrieval results."""
+def _build_citations(results: list, *, reranked: bool) -> list[Citation]:
+    """Extract citations from retrieval results.
+
+    The relevance score is the one that ordered the results: the cross-encoder
+    score after reranking, the RRF score otherwise.
+    """
     citations = []
     for result in results:
         excerpt = result.chunk_text[:200] if result.chunk_text else ""
+        score = result.rerank_score if reranked else result.rrf_score
         citations.append(
             Citation(
                 source_id=result.chunk_id,
                 parent_id=result.parent_id,
-                relevance_score=round(result.rerank_score, 4),
+                relevance_score=round(score, 4),
                 excerpt=excerpt,
                 source_file=result.metadata.get("source_file", ""),
                 heading_path=result.metadata.get("heading_path", []),
@@ -73,7 +78,7 @@ async def query_endpoint(body: QueryRequest, request: Request):
     retrieval_span.update(output={"result_count": len(results)})
     retrieval_span.end()
 
-    citations = _build_citations(results)
+    citations = _build_citations(results, reranked=retriever.reranker is not None)
     context_blocks = [(i + 1, r.parent_text) for i, r in enumerate(results)]
     prompt = build_prompt(body.query, context_blocks)
 

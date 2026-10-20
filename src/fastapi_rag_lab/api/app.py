@@ -55,7 +55,7 @@ async def lifespan(app: FastAPI):
 
     verify_embedding_runtime()
 
-    strategy = os.environ.get("RAG_RETRIEVAL_STRATEGY", "hybrid_rerank")
+    strategy = os.environ.get("RAG_RETRIEVAL_STRATEGY", "hybrid")
     if strategy not in STRATEGIES:
         raise ValueError(
             f"RAG_RETRIEVAL_STRATEGY must be one of {STRATEGIES}, got {strategy!r}"
