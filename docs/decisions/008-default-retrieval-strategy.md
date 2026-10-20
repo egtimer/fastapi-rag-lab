@@ -77,6 +77,28 @@ It is not evidence that cross-encoders do not work for this corpus. A larger or
 domain-tuned reranker, a GPU, or a different candidate count were not tested.
 The finding is about this model, this configuration and these labels.
 
+## Test split, after the decision
+
+The sections above were written and committed before the test split was run.
+The test split (221 questions) was then run once, with the same grid and the
+code of that commit (`reports/2026-10-20-so-test-ollama-0.35.1`). Nothing was
+changed after seeing it.
+
+Paired differences on test, hybrid + rerank minus hybrid:
+
+| k | Recall@k | MRR | nDCG@k |
+|---|---|---|---|
+| 3 | +0.015 [−0.023, +0.054] (18/17/186) | +0.025 [−0.020, +0.072] (31/27/163) | +0.017 [−0.021, +0.057] (29/29/163) |
+| 5 | +0.009 [−0.026, +0.043] (14/12/195) | +0.024 [−0.016, +0.065] (40/32/149) | +0.015 [−0.017, +0.047] (40/33/148) |
+| 10 | +0.013 [−0.020, +0.046] (13/11/197) | +0.025 [−0.014, +0.064] (47/44/130) | +0.016 [−0.013, +0.046] (45/46/130) |
+
+The sign of the MRR difference flips between dev and test, and every interval
+on both splits contains zero. Test does not confirm that the reranker hurts on
+Stack Overflow questions; together, the two splits show no detectable effect in
+either direction. The golden set still shows an MRR loss. What holds on every
+dataset is the latency: p50 6,786 ms with the reranker against 78 ms without on
+test. With no demonstrated quality gain, plain `hybrid` stays the default.
+
 ## Consequences
 
 - The default query path no longer loads the cross-encoder, so the API starts

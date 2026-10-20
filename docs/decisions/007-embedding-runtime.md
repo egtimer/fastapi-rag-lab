@@ -1,8 +1,7 @@
 # ADR 007: Pin and Record the Retrieval Runtime
 
 ## Status
-Proposed -- 2026-10-20 (the evidence section is completed once the
-2026-10-20 runs are committed)
+Accepted -- 2026-10-20
 
 ## Context
 
@@ -54,9 +53,30 @@ change.
 
 ## Evidence
 
-To be completed from the 2026-10-20 reports: the April check on Ollama 0.20.7
-compared per question with `reports/2026-04-17-golden30-benchmark`, and the
-reference runs on 0.35.1 compared with the 0.5.7 runs of 2026-10-19.
+Source lists compared query by query with
+
+```bash
+uv run python -m fastapi_rag_lab.eval.compare_runs reports/<a> reports/<b>
+```
+
+- **April reproduces on Ollama 0.20.7.** `reports/2026-10-20-golden30-ollama-0.20.7`
+  (fresh ingest and run on 0.20.7, the last Ollama release before the April
+  run and older than the 0.30.0 lowercasing change) against
+  `reports/2026-04-17-golden30-benchmark`: the ordered source lists are
+  identical for all 30 questions in all 9 configs. The reranked configs match
+  too, so the reranker revision pinned above ranks these questions as April's
+  did.
+- **0.35.1 against 0.5.7.** `reports/2026-10-20-golden30-ollama-0.35.1` against
+  `reports/2026-10-19-golden30-benchmark`: 358 of 360 identical lists,
+  with the same Recall@k in every config. On the Stack Overflow dev split
+  (`reports/2026-10-20-so-dev-ollama-0.35.1` against
+  `reports/2026-10-19-so-dev-benchmark`) BM25 is identical in all 143
+  questions and the dense-based configs differ on between 1 and 9 of them;
+  Recall@k changes only for `hybrid_k5` (0.277 to 0.284). The two versions give close but not
+  bit-identical vectors: the differences are reorderings among chunks whose
+  dense scores are nearly tied, and repeating those queries on 0.35.1 returns
+  the same lists. 0.35.1 is the reference; the 0.5.7 runs stay in
+  `reports/` as the earlier check.
 
 ## Consequences
 
