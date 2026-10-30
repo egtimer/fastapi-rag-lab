@@ -104,7 +104,7 @@ def test_sheet_has_no_verdicts_and_labels_are_validated(tmp_path: Path):
     assert (
         labels.main(["--items", str(items), "--questions", str(tmp_path / "none")]) == 0
     )
-    sheet = (items / "labeling_sheet.md").read_text()
+    sheet = (items / "labeling_sheet_01.md").read_text()
     assert "## j-01: question 1" in sheet and "answer 3" in sheet
     assert (
         labels.main(["--items", str(items), "--questions", str(tmp_path / "none")]) == 2

@@ -1,8 +1,9 @@
 """Labelling sheet for the human calibration labels, and reading them back.
 
-``sheet`` writes, into the items run, ``labeling_sheet.md`` (each item's
-question, the sources the generator saw and its answer; never a judge verdict)
-and ``labels.csv`` with an empty ``label`` column. The labeller fills in
+``sheet`` writes, into the items run, ``labeling_sheet_NN.md`` files of
+``PER_FILE`` items each (the question, the sources the generator saw and its
+answer; never a judge verdict; split so GitHub can render them) and
+``labels.csv`` with an empty ``label`` column. The labeller fills in
 ``supported``, ``unsupported`` or ``unsure`` per item, by the same definitions
 the judge gets (written at the top of the sheet).
 
@@ -25,6 +26,7 @@ from fastapi_rag_lab.eval.judge.judge import LABELS
 UNSURE = "unsure"
 HUMAN_LABELS = (*LABELS, UNSURE)
 DEFAULT_QUESTIONS = Path("tests/eval/stackoverflow/questions.jsonl")
+PER_FILE = 10
 
 INSTRUCTIONS = """\
 # Judge calibration: labelling sheet
@@ -79,10 +81,13 @@ def render_item(item: dict[str, Any], link: str | None) -> str:
 def write_sheet(
     items: list[dict[str, Any]], run_dir: Path, links: dict[str, str]
 ) -> None:
-    body = [INSTRUCTIONS, ""] + [
-        render_item(it, links.get(it["question_id"])) for it in items
-    ]
-    (run_dir / "labeling_sheet.md").write_text("\n".join(body), encoding="utf-8")
+    for k in range(0, len(items), PER_FILE):
+        chunk = items[k : k + PER_FILE]
+        body = [INSTRUCTIONS, ""] + [
+            render_item(it, links.get(it["question_id"])) for it in chunk
+        ]
+        name = f"labeling_sheet_{k // PER_FILE + 1:02d}.md"
+        (run_dir / name).write_text("\n".join(body), encoding="utf-8")
     csv_path = run_dir / "labels.csv"
     if csv_path.exists():
         raise FileExistsError(f"{csv_path} exists; not overwriting labels")
@@ -125,7 +130,7 @@ def main(argv: list[str] | None = None) -> int:
     except FileExistsError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
-    print(f"wrote labeling_sheet.md and labels.csv for {len(items)} items")
+    print(f"wrote the labelling sheets and labels.csv for {len(items)} items")
     return 0
 
 
