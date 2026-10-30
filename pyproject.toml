@@ -28,6 +28,9 @@ dev = [
     "pytest",
     "pytest-asyncio",
 ]
+judge = [
+    "anthropic>=1,<2",
+]
 
 # CPU-only torch: the reranker and sentence-transformers run on CPU here and in CI, and the
 # default PyPI wheels pull several GB of CUDA libraries.
