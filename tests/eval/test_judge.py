@@ -150,3 +150,121 @@ def test_sample_is_seeded_and_independent_of_file_order():
     a = [e.id for e in sample_entries(entries, 5, seed=0)]
     b = [e.id for e in sample_entries(list(reversed(entries)), 5, seed=0)]
     assert a == b and len(set(a)) == 5
+
+
+def test_unparsed_keeps_the_whole_reply():
+    long = (
+        '{"rationale": "quotes "inside" break it", "label": "unsupported"}' + "x" * 500
+    )
+    v = parse_verdict(long)
+    assert v.label == "unparsed"
+    assert v.rationale == long  # not truncated to 200 characters
+    assert v.raw == long
+
+
+def test_prompt_v2_adds_the_citation_rule_and_v1_is_frozen():
+    from fastapi_rag_lab.eval.judge.judge import JUDGE_SYSTEM, JUDGE_SYSTEM_V2, PROMPTS
+
+    assert PROMPTS == {"v1": JUDGE_SYSTEM, "v2": JUDGE_SYSTEM_V2}
+    assert "citation" not in JUDGE_SYSTEM
+    assert "invented quotation" in JUDGE_SYSTEM_V2
+    assert JUDGE_SYSTEM_V2.startswith(JUDGE_SYSTEM[:200])  # same opening, v2 extends
+
+
+class FakeToolSDK(FakeSDK):
+    """Answers a forced tool call with a verdict object."""
+
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        block = SimpleNamespace(
+            type="tool_use",
+            name="verdict",
+            input={"rationale": "r", "label": "supported"},
+        )
+        return SimpleNamespace(
+            content=[block], usage=self.usage, stop_reason="tool_use"
+        )
+
+
+def test_structured_run_parses_the_tool_call_and_logs_text(tmp_path: Path):
+    items = _items(tmp_path)
+    sdk = FakeToolSDK("")
+    argv = [
+        "--items",
+        str(items),
+        "--model",
+        "haiku",
+        "--budget-usd",
+        "1",
+        "--run-id",
+        "r",
+        "--out-root",
+        str(tmp_path),
+        "--prompt",
+        "v2",
+        "--effort",
+        "medium",
+        "--structured",
+        "--preregistered-labels",
+        str(items / "items.jsonl"),
+    ]
+    assert run_judge.main(argv, sdk_client=sdk) == 0
+    call = sdk.calls[0]
+    assert call["tool_choice"] == {"type": "tool", "name": "verdict"}
+    assert call["output_config"] == {"effort": "medium"}
+    assert "invented quotation" in call["system"]
+    rows = [
+        json.loads(line)
+        for line in (tmp_path / "r" / "judgements.jsonl").read_text().splitlines()
+    ]
+    assert {r["label"] for r in rows} == {"supported"}
+    assert "raw_reply" not in rows[0]
+    calls = [
+        json.loads(line)
+        for line in (tmp_path / "r" / "llm_calls.jsonl").read_text().splitlines()
+    ]
+    assert json.loads(calls[0]["text"])["label"] == "supported"
+    summary = json.loads((tmp_path / "r" / "summary.json").read_text())
+    assert summary["judge_prompt_version"] == "v2"
+    assert summary["structured_output"] is True
+    assert summary["model"]["effort"] == "medium"
+    assert len(summary["items_sha256"]) == 64
+    assert summary["preregistered_labels"]["sha256"] == summary["items_sha256"]
+
+
+def test_second_labeller_and_hash(tmp_path: Path):
+    items = _items(tmp_path)
+    assert labels.main(["--items", str(items)]) == 0
+    assert labels.main(["--items", str(items), "--labeller", "ana"]) == 0
+    assert (items / "labels_ana.csv").exists()
+    rule = (items / "LABELLING_RULE.md").read_text()
+    assert "invented quotation" in rule
+    assert "invented quotation" not in (items / "labeling_sheet_01.md").read_text()
+    assert (
+        labels.main(["--items", str(items), "--labeller", "ana"]) == 2
+    )  # no overwrite
+    assert labels.main(["--hash", str(items / "labels_ana.csv")]) == 0
+    assert (items / "labels_ana.csv.sha256").read_text().endswith("labels_ana.csv\n")
+
+
+def test_agreement_with_a_second_human():
+    human = {"j-01": "supported", "j-02": "unsupported", "j-03": "unsupported"}
+    ana = {"j-01": "supported", "j-02": "supported", "j-03": "unsupported"}
+    judge = {"j-01": "supported", "j-02": "unsupported", "j-03": "unsupported"}
+    report = agreement.agreement_report(
+        human,
+        {"sonnet": judge, "sonnet_retest": judge},
+        humans={"ana": ana},
+        resamples=50,
+    )
+    keys = set(report["comparisons"])
+    assert keys == {
+        "human_vs_ana",
+        "human_vs_sonnet",
+        "human_vs_sonnet_retest",
+        "ana_vs_sonnet",
+        "ana_vs_sonnet_retest",
+        "sonnet_vs_sonnet_retest",
+    }
+    assert report["comparisons"]["human_vs_ana"]["n"] == 3
+    assert report["comparisons"]["sonnet_vs_sonnet_retest"]["accuracy"]["value"] == 1.0
