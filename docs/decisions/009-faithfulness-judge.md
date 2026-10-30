@@ -1,7 +1,7 @@
 # ADR 009: A Faithfulness Judge, Calibrated Against Human Labels
 
 ## Status
-Proposed -- 2026-10-31 (the judge for the full run is not chosen yet)
+Accepted -- 2026-10-31
 
 ## Context
 
@@ -92,12 +92,22 @@ person; it is not yet a measured hallucination rate for the system.
 - Both judges agree with the human well beyond chance; their intervals
   overlap, so n = 50 does not separate them. Sonnet had no unparsed replies
   and the higher point estimates; Haiku costs about 16 times less per answer.
-- Running a judge over the 251 questions of golden + Stack Overflow test would
-  cost about $0.14 with Haiku or $2.22 with Sonnet at the measured cost per
-  answer, plus about 10 hours of `gemma3:4b` generation on the 4-core CPU. It
-  is pending, and the choice of judge for it is open.
-- Any later change to the judge prompt (for example, making the citation rule
-  explicit, or asking for escaped JSON) needs a new judge run on these 50
-  labelled answers before its numbers are used.
+- The judge prompt stays as it was frozen. Changing it now, after reading
+  these 50 labels, and re-scoring it on the same 50 would tune the judge to
+  its own evaluation set.
+- Judging the 251 questions of golden + Stack Overflow test is not run in this
+  phase. At the measured cost per answer it would cost about $0.14 with Haiku
+  or $2.22 with Sonnet, plus about 10 hours of `gemma3:4b` generation on the
+  4-core CPU; which judge to use is decided when it is run.
 - One labeller and 50 items: the CIs are wide, and the labels encode one
   person's reading of "material claim".
+
+## Future work
+
+Each of these changes the judge, so its agreement must be measured again on a
+new set of human-labelled answers, not on these 50:
+
+- Make the citation rule explicit in the judge prompt (invented quotations and
+  claims attributed to a source that does not make them are `unsupported`).
+- Force structured output for Haiku (for example a JSON schema on the
+  response) so that malformed JSON can no longer leave answers unparsed.

@@ -40,7 +40,7 @@ the code commit, corpus commit, model digests and hardware it ran on.
 | April's golden numbers | Reproduce query by query on Ollama 0.20.7, not on 0.5.7 or 0.35.1; the embedding runtime is now pinned and checked | [ADR-007](docs/decisions/007-embedding-runtime.md) |
 | Faithfulness judge vs human (n = 50) | Sonnet 5.5 kappa 0.82 [0.63, 0.96]; Haiku 5.5 kappa 0.73 [0.51, 0.91] (47 parsed) | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
 | `gemma3:4b` answers fully supported by their sources (human labels, 50 dev questions) | 17 of 50 | `reports/2026-10-30-judge-items-so-dev-50` |
-| Judged faithfulness on golden + Stack Overflow test (251 questions) | Pending | — |
+| Judged faithfulness on golden + Stack Overflow test (251 questions) | Not run in this phase | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
 
 Intervals are 95% bootstrap CIs over questions. All runs are on CPU (4 cores)
 and record their runtime in the report's provenance.
@@ -316,8 +316,11 @@ labelled `unsupported` by the human, so excluding them flatters Haiku (41 of
 50 matches when they count as misses). The two judges' intervals overlap: 50
 answers and one labeller do not separate them. The human found 17 of the 50
 answers fully supported by their sources. Calibration cost: $0.47 in total.
-Running a judge over the 251 golden and Stack Overflow test questions is
-pending. Details, confusion matrices and the commands are in
+Judging the 251 golden and Stack Overflow test questions is not run in this
+phase. The judge prompt stays as it was frozen before the labels were read;
+making the citation rule explicit in it, and forcing structured output for
+Haiku, are future work that needs a new set of human labels to validate.
+Details, confusion matrices and the commands are in
 [ADR-009](docs/decisions/009-faithfulness-judge.md); the runs are in
 `reports/2026-10-30-judge-items-so-dev-50` and `reports/2026-10-31-judge-*`.
 
