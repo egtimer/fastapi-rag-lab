@@ -1,51 +1,51 @@
 item_id,label,note
-j-01,,
-j-02,,
-j-03,,
-j-04,,
-j-05,,
-j-06,,
-j-07,,
-j-08,,
-j-09,,
-j-10,,
-j-11,,
-j-12,,
-j-13,,
-j-14,,
-j-15,,
-j-16,,
-j-17,,
-j-18,,
-j-19,,
-j-20,,
-j-21,,
-j-22,,
-j-23,,
-j-24,,
-j-25,,
-j-26,,
-j-27,,
-j-28,,
-j-29,,
-j-30,,
-j-31,,
-j-32,,
-j-33,,
-j-34,,
-j-35,,
-j-36,,
-j-37,,
-j-38,,
-j-39,,
-j-40,,
-j-41,,
-j-42,,
-j-43,,
-j-44,,
-j-45,,
-j-46,,
-j-47,,
-j-48,,
-j-49,,
-j-50,,
+j-01,unsupported,"Attributes redirects and setting X-Forwarded-* headers to CORSMiddleware; invents allow_origin param; allow_credentials=True with ['*'] contradicts Source 4"
+j-02,unsupported,"url_for('static', filename=...) signature not shown in sources"
+j-03,unsupported,"Claims the endpoint returns a new file, but the code returns JSON with a filename; sources show no file response"
+j-04,unsupported,"Request 'body attribute' not in sources"
+j-05,supported,"All claims restate Sources 1-3"
+j-06,unsupported,"Says 'yes' although Source 5 says any default makes it optional; claims Query(default='rick') raises an error, contradicting Source 1"
+j-07,unsupported,"Claims lifespan can stop endpoint execution; passing startup/shutdown handlers to lifespan contradicts Source 2"
+j-08,unsupported,"Invents task.sleep and depend(); 'must be async def' contradicts Source 3; example misattributed and altered"
+j-09,unsupported,"extra=forbid does not make fields optional; Annotated[BaseModel, Form()] sub-model and BaseModelV2 as best practice not in sources"
+j-10,unsupported,"url_for filename= signature and automatic root_path handling not in sources"
+j-11,unsupported,"Content restates Sources 2-4, but cites invented example.com URLs as Source 3/4 (fabricated citation = false claim about sources)"
+j-12,unsupported,"Swaps the aliases: says BaseModelV2 is Pydantic v1, contradicting Source 1; middleware docs URL not in sources; root_path is automatic only for mounts, not proxies"
+j-13,unsupported,"@app.operation decorator does not appear in the sources"
+j-14,supported,"All claims restate Source 1"
+j-15,unsupported,"Says to include before adding the 'inner' router to the app; Source 5 says before including the outer router; 'at once' registration not in sources"
+j-16,unsupported,"Claims custom decorators can process requests before/after; Source 1 describes custom Request/APIRoute classes, not decorators"
+j-17,supported,"Restates Sources 1/5 (def runs in threadpool) and Source 4 (yield + EventSourceResponse)"
+j-18,unsupported,"Mixes SSE with JSON Lines: says omitting the return type sends JSON Lines under EventSourceResponse; response_class set on the response object rather than the decorator"
+j-19,unsupported,"Says uncaught exceptions are forwarded automatically, which Source 2 says was the pre-0.110 behavior; invents DatabaseSession, stream_data and StreamingResponse import from fastapi"
+j-20,unsupported,"Code includes a router into itself; claims both endpoints share {item_id}; misstates the composite-body note from Source 4"
+j-21,unsupported,"Code uses item: Item = Body() and claims it expects the body directly; sources only show Body(embed=True)"
+j-22,unsupported,"Worker processes without async and 'event loop threading' with async are not in sources"
+j-23,unsupported,"--log-level option, uvloop in dev mode and logging-to-file advice are not in sources"
+j-24,supported,"Restates Sources 1, 2 and 4; does not actually use Request, but makes no claim about it"
+j-25,supported,"Correctly says sources do not cover dropdowns; swagger_ui_parameters facts match Source 1; JavaScript/plugin remark is hedged"
+j-26,supported,"Restates Sources 1-4"
+j-27,unsupported,"Says HTTPException handler is overridden with @app.exception_handler(RequestValidationError); says plain text comes from reusing fastapi.exception_handlers"
+j-28,supported,"Correctly says sources do not cover middleware; rest restates Sources 1-2"
+j-29,supported,"All claims from Source 1"
+j-30,unsupported,"FastAPI facts match Source 3, but says extra=forbid is covered in Source 1 and 'demonstrated in the example code', which it is not (false claim about sources)"
+j-31,unsupported,"Tells the user to set the response's 'cookies parameter', which no source shows"
+j-32,unsupported,"Says to put the static files in app/static/; Source 4 places static/ at the project root next to app/. Rest restates Sources 1-5"
+j-33,unsupported,"Invents type-hinted request/bytes handling and Content-Disposition via response parameter; UploadFile/File(...) upload code not in sources and does not download anything"
+j-34,unsupported,"HTTPException(status_code=..., detail=...) and status.HTTP_500_INTERNAL_SERVER_ERROR are not shown in sources"
+j-35,unsupported,"Bare 'Yes'; sources only show adding X-Process-Time as a response header in middleware, nothing about Uvicorn logs"
+j-36,supported,"Restates Sources 2, 4 and 5 (standard extras, fastapi dev/run)"
+j-37,unsupported,"Claims background tasks do not block and are designed not to block the event loop, not in sources; says yield-dependency exceptions are handled after the response, the pre-0.106 behavior in Source 5; fake Source 1 URL"
+j-38,supported,"Restates Sources 2 and 5; does not answer the query-parameter question but makes no false claim"
+j-39,supported,"Correctly says sources do not cover sending images; rest restates Source 5"
+j-40,unsupported,"Attributes lack of security integration to Hug (Source 3 says APIStar); claims OpenAPI operation generation extends APIStar"
+j-41,unsupported,"Correctly says sources do not cover it, but then recommends Pydantic's ValidationError, an API name no source shows"
+j-42,supported,"Restates Sources 1, 3 and 5 (including the @app.vibe() claim, which Source 5 does state); correctly says no project structure is given"
+j-43,supported,"Correctly says sources do not cover reusing httpx.AsyncClient; TestClient/HTTPX and add_middleware facts match Sources 1-5"
+j-44,supported,"Restates Sources 1, 2, 4 and 5; correctly says aliases are not covered"
+j-45,supported,"Restates Sources 2, 3 and 5; does not answer the question but makes no false claim"
+j-46,unsupported,"swagger_ui_parameters={'default_size': 'full'}, list[str] query-param code and lists sent as a JSON array are not in sources"
+j-47,unsupported,"FileResponse(BytesIO, media_type=...) with PIL/numpy conversion not in sources; Source 4 only notes returning a FileResponse directly"
+j-48,supported,"Restates Sources 1-3 and 5 (Depends takes a callable, no registration, classes as callables)"
+j-49,unsupported,"Claims validation error responses and returning a Response directly slow down responses; not in sources"
+j-50,supported,"Restates Sources 1, 3 and 5; correctly says sources do not explain the Ingress docs problem"
