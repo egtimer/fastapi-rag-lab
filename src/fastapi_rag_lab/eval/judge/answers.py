@@ -30,6 +30,7 @@ import httpx
 from fastapi_rag_lab.api.llm.ollama_client import OllamaClient
 from fastapi_rag_lab.api.prompt import build_prompt
 from fastapi_rag_lab.eval.dataset import load_golden_dataset
+from fastapi_rag_lab.eval.judge.items import read_items  # noqa: F401  (re-export)
 from fastapi_rag_lab.eval.provenance import collect_provenance
 from fastapi_rag_lab.ingest.embedder import default_ollama_host
 from fastapi_rag_lab.ingest.runtime_check import check_runtime_matches_index
@@ -48,13 +49,6 @@ def sample_entries(entries: list, n: int, seed: int) -> list:
     if not 0 < n <= len(ordered):
         raise ValueError(f"n must be between 1 and {len(ordered)}, got {n}")
     return random.Random(seed).sample(ordered, n)
-
-
-def read_items(path: Path) -> list[dict[str, Any]]:
-    if not path.exists():
-        return []
-    with path.open(encoding="utf-8") as fh:
-        return [json.loads(line) for line in fh if line.strip()]
 
 
 def model_digest(host: str, model: str) -> str | None:
