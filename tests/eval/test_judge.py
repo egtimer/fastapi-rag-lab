@@ -131,6 +131,10 @@ def test_kappa_and_comparisons():
     # po = 0.75, pe = 0.5*0.25 + 0.5*0.75 = 0.5
     assert agreement.cohens_kappa(a, b) == pytest.approx(0.5)
     assert agreement.cohens_kappa(["supported"] * 3, ["supported"] * 3) is None
+    unsupported_recall = agreement.class_agreement("unsupported")
+    assert unsupported_recall(a, b) == 1.0  # both unsupported items kept
+    assert agreement.class_agreement("supported")(a, b) == 0.5
+    assert unsupported_recall(["supported"], ["supported"]) is None
     human = {"j-01": "supported", "j-02": "unsure", "j-03": "unsupported"}
     judge = {"j-01": "supported", "j-02": "supported", "j-03": "unparsed"}
     report = agreement.agreement_report(human, {"haiku": judge}, resamples=200)

@@ -57,6 +57,22 @@ def cohens_kappa(a: Sequence[str], b: Sequence[str]) -> float | None:
     return (po - pe) / (1 - pe)
 
 
+def class_agreement(label: str) -> Metric:
+    """Share of the items ``a`` labels ``label`` that ``b`` labels the same.
+
+    With the human as ``a`` this is the judge's recall on that class; None when
+    ``a`` never uses the label.
+    """
+
+    def metric(a: Sequence[str], b: Sequence[str]) -> float | None:
+        idx = [i for i, x in enumerate(a) if x == label]
+        if not idx:
+            return None
+        return sum(b[i] == label for i in idx) / len(idx)
+
+    return metric
+
+
 def _percentile(sorted_values: list[float], q: float) -> float:
     pos = q * (len(sorted_values) - 1)
     lo = int(pos)
@@ -114,6 +130,15 @@ def compare(
         "n": len(ids),
         "accuracy": bootstrap(a, b, accuracy, resamples=resamples, seed=seed),
         "kappa": bootstrap(a, b, cohens_kappa, resamples=resamples, seed=seed),
+        "per_class_of_first": {
+            label: {
+                "n": a.count(label),
+                **bootstrap(
+                    a, b, class_agreement(label), resamples=resamples, seed=seed
+                ),
+            }
+            for label in LABELS
+        },
         "confusion": {
             "labels": list(LABELS),
             "rows": "first",
@@ -167,6 +192,12 @@ def format_report(report: Mapping[str, Any]) -> str:
     for name, r in report["comparisons"].items():
         lines.append(
             f"{name:<20}{r['n']:>4}  {_ci(r['accuracy']):<24}{_ci(r['kappa'])}"
+        )
+    for name, r in report["comparisons"].items():
+        per = r["per_class_of_first"]
+        lines.append(
+            f"{name} per class of first: "
+            + ", ".join(f"{k} (n={v['n']}) {_ci(v)}" for k, v in per.items())
         )
     for name, r in report["comparisons"].items():
         lines.append(
