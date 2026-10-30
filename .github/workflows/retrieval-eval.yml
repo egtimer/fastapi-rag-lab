@@ -26,11 +26,12 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Names of committed reference run directories under reports/ (one per dataset).
-  # Left empty until a reference run is committed; the regression check is skipped
-  # for a dataset whose reference is empty or missing.
-  REFERENCE_SO_DEV: ""
-  REFERENCE_GOLDEN: ""
+  # Names of committed reference run directories under reports/ (one per dataset),
+  # made by this workflow itself (scheduled run 40306048985 on 74958c0), so the
+  # reference and the checked run share the runner setup. The regression check is
+  # skipped for a dataset whose reference is empty or missing.
+  REFERENCE_SO_DEV: ci-40306048985-dev
+  REFERENCE_GOLDEN: ci-40306048985-golden_dataset
   QDRANT_URL: http://localhost:6333
   OLLAMA_HOST: http://localhost:11434
   DATASETS: ${{ inputs.datasets || 'tests/eval/stackoverflow/dev.json,tests/eval/golden_dataset.json' }}

@@ -26,8 +26,24 @@ the code commit, corpus commit, model digests and hardware it ran on.
 - ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed yet), [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
 - ✅ **Phase 5.3** — Reproducible retrieval evals: Stack Overflow set (143 dev / 221 test), bootstrap CIs, pinned and recorded runtime, plain hybrid as default, [ADR-007](docs/decisions/007-embedding-runtime.md), [ADR-008](docs/decisions/008-default-retrieval-strategy.md)
+- ✅ **Phase 5.4** — Answer faithfulness judge (Claude Haiku 5.5 / Sonnet 5.5) calibrated against 50 human-labelled answers, [ADR-009](docs/decisions/009-faithfulness-judge.md)
 
-**Repo status: retrieval benchmarks done; answer-quality (RAGAS) results not yet published.** Latest: Oct 20, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+**Repo status: retrieval benchmarks and the judge calibration done; judged answer faithfulness on the test questions not yet run.** Latest: Oct 30, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+
+## Results at a glance
+
+| What | Result | Source |
+|---|---|---|
+| Retrieval, Stack Overflow test (n = 221), default `hybrid`, k=5 | Recall@5 0.295 [0.240, 0.349], MRR 0.239 [0.192, 0.287], p50 78 ms | `reports/2026-10-20-so-test-ollama-0.35.1` |
+| Retrieval, golden set (n = 30), `hybrid`, k=5 | Recall@5 0.900 [0.767, 1.000], MRR 0.817 [0.700, 0.917] | `reports/2026-10-20-golden30-ollama-0.35.1` |
+| Cross-encoder reranker vs plain hybrid, MRR at k=5 | dev −0.052 [−0.105, +0.001], test +0.024 [−0.016, +0.065]: no detectable effect, about 80× the latency | [ADR-008](docs/decisions/008-default-retrieval-strategy.md) |
+| April's golden numbers | Reproduce query by query on Ollama 0.20.7, not on 0.5.7 or 0.35.1; the embedding runtime is now pinned and checked | [ADR-007](docs/decisions/007-embedding-runtime.md) |
+| Faithfulness judge vs human (n = 50) | Sonnet 5.5 kappa 0.82 [0.63, 0.96]; Haiku 5.5 kappa 0.73 [0.51, 0.91] (47 parsed) | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
+| `gemma3:4b` answers fully supported by their sources (human labels, 50 dev questions) | 17 of 50 | `reports/2026-10-30-judge-items-so-dev-50` |
+| Judged faithfulness on golden + Stack Overflow test (251 questions) | Not run in this phase | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
+
+Intervals are 95% bootstrap CIs over questions. All runs are on CPU (4 cores)
+and record their runtime in the report's provenance.
 
 ## Why this project exists
 
@@ -202,8 +218,8 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-151 tests covering ingestion, retrieval, the query API, and the eval
-pipeline. 133 need no services, network or models; the other 18 need Qdrant and
+161 tests covering ingestion, retrieval, the query API, and the eval
+pipeline. 143 need no services, network or models; the other 18 need Qdrant and
 Ollama and are skipped when those are not reachable.
 
 ```bash
@@ -243,6 +259,7 @@ Significant architectural choices are documented in
 - [006 — Retrieval benchmarks](docs/decisions/006-retrieval-benchmarks.md): retrieval-only A/B methodology, 9-config cross-product, re-run instructions
 - [007 — Embedding runtime](docs/decisions/007-embedding-runtime.md): why April's numbers did not reproduce, and pinning and recording Ollama, the reranker and Qdrant
 - [008 — Default retrieval strategy](docs/decisions/008-default-retrieval-strategy.md): plain hybrid over hybrid + rerank, chosen on the dev split (a negative result)
+- [009 — Faithfulness judge](docs/decisions/009-faithfulness-judge.md): an LLM judge of whether answers stay within their sources, calibrated against human labels
 
 ## Evaluation
 
@@ -270,6 +287,42 @@ prints a summary table to stdout, and exits non-zero if any threshold
 fails. See [ADR-005](docs/decisions/005-evaluation-strategy.md) for the
 methodology, threshold rationale, and the trade-offs of using a small
 local model as both producer and judge.
+
+### Answer faithfulness: judge calibration
+
+The RAGAS judge above is the same small model that writes the answers. To
+check answers with something stronger, a Claude judge reads the question, the
+five sources the generator saw and the answer, and says whether the answer is
+`supported` by those sources or `unsupported`. It does not judge whether the
+answer is useful. Before using it for any reported number, it was calibrated
+against human labels on 50 Stack Overflow dev questions, answered through the
+API's own path (`hybrid`, top_k 5, `gemma3:4b` on Ollama 0.35.1).
+
+The labelling rule:
+
+- `supported` means faithful to the five sources, not a useful answer.
+- Any material claim that is not in the sources is `unsupported`, even if it
+  is true of FastAPI.
+- An invented quotation, or attributing to a source something it does not
+  say, is `unsupported`.
+
+| Judge | n | Accuracy | Cohen's kappa | On human `supported` (n = 17) | On human `unsupported` | Cost per answer |
+|---|---|---|---|---|---|---|
+| Claude Haiku 5.5 | 47 | 0.87 [0.77, 0.96] | 0.73 [0.51, 0.91] | 0.88 [0.70, 1.00] | 0.87 [0.73, 0.97] (n = 30) | $0.00054 |
+| Claude Sonnet 5.5 | 50 | 0.92 [0.84, 0.98] | 0.82 [0.63, 0.96] | 0.88 [0.70, 1.00] | 0.94 [0.85, 1.00] (n = 33) | $0.0089 |
+
+Haiku returned three replies that were not valid JSON; all three answers were
+labelled `unsupported` by the human, so excluding them flatters Haiku (41 of
+50 matches when they count as misses). The two judges' intervals overlap: 50
+answers and one labeller do not separate them. The human found 17 of the 50
+answers fully supported by their sources. Calibration cost: $0.47 in total.
+Judging the 251 golden and Stack Overflow test questions is not run in this
+phase. The judge prompt stays as it was frozen before the labels were read;
+making the citation rule explicit in it, and forcing structured output for
+Haiku, are future work that needs a new set of human labels to validate.
+Details, confusion matrices and the commands are in
+[ADR-009](docs/decisions/009-faithfulness-judge.md); the runs are in
+`reports/2026-10-30-judge-items-so-dev-50` and `reports/2026-10-30-judge-*`.
 
 ## Retrieval benchmarks
 
@@ -392,7 +445,11 @@ limitations:
 - Running everything locally on a single machine means latency numbers
   depend heavily on hardware; each report records the machine it ran on.
 - The Stack Overflow labels are the pages answerers linked, not judged
-  relevance; their precision has not been measured yet.
+  relevance; their precision has not been measured yet (a 60-pair sample is
+  in `tests/eval/stackoverflow/label_audit/`, waiting for review).
+- The faithfulness judge is calibrated on 50 answers labelled by one person;
+  its agreement numbers have wide intervals, and judged faithfulness on the
+  test questions has not been run.
 - The Qdrant client (1.17.1) is newer than the server (1.12.4) by more than the
   client supports. Both are recorded in every report; aligning them is pending
   ([ADR-007](docs/decisions/007-embedding-runtime.md)).
