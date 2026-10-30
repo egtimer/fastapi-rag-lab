@@ -183,7 +183,7 @@
   },
   "items_run": "2026-10-30-judge-items-so-dev-50",
   "judge_runs": {
-    "haiku": "2026-10-31-judge-haiku-so-dev-50",
-    "sonnet": "2026-10-31-judge-sonnet-so-dev-50"
+    "haiku": "2026-10-30-judge-haiku-so-dev-50",
+    "sonnet": "2026-10-30-judge-sonnet-so-dev-50"
   }
 }

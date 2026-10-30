@@ -28,7 +28,7 @@ the code commit, corpus commit, model digests and hardware it ran on.
 - ✅ **Phase 5.3** — Reproducible retrieval evals: Stack Overflow set (143 dev / 221 test), bootstrap CIs, pinned and recorded runtime, plain hybrid as default, [ADR-007](docs/decisions/007-embedding-runtime.md), [ADR-008](docs/decisions/008-default-retrieval-strategy.md)
 - ✅ **Phase 5.4** — Answer faithfulness judge (Claude Haiku 5.5 / Sonnet 5.5) calibrated against 50 human-labelled answers, [ADR-009](docs/decisions/009-faithfulness-judge.md)
 
-**Repo status: retrieval benchmarks and the judge calibration done; judged answer faithfulness on the test questions not yet run.** Latest: Oct 31, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
+**Repo status: retrieval benchmarks and the judge calibration done; judged answer faithfulness on the test questions not yet run.** Latest: Oct 30, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Results at a glance
 
@@ -322,7 +322,7 @@ making the citation rule explicit in it, and forcing structured output for
 Haiku, are future work that needs a new set of human labels to validate.
 Details, confusion matrices and the commands are in
 [ADR-009](docs/decisions/009-faithfulness-judge.md); the runs are in
-`reports/2026-10-30-judge-items-so-dev-50` and `reports/2026-10-31-judge-*`.
+`reports/2026-10-30-judge-items-so-dev-50` and `reports/2026-10-30-judge-*`.
 
 ## Retrieval benchmarks
 

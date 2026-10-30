@@ -10,7 +10,7 @@ judged. Writes, into a new ``<out-root>/<run-id>/``:
 
     uv run --extra judge python -m fastapi_rag_lab.eval.judge.run_judge \\
         --items reports/2026-10-30-judge-items-so-dev-50 --model haiku \\
-        --budget-usd 0.10 --run-id 2026-10-31-judge-haiku-so-dev-50
+        --budget-usd 0.10 --run-id 2026-10-30-judge-haiku-so-dev-50
 """
 
 from __future__ import annotations

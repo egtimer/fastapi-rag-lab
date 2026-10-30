@@ -1,7 +1,7 @@
 # ADR 009: A Faithfulness Judge, Calibrated Against Human Labels
 
 ## Status
-Accepted -- 2026-10-31
+Accepted -- 2026-10-30
 
 ## Context
 
@@ -51,16 +51,16 @@ directory: 17 `supported`, 33 `unsupported`, no `unsure`.
 
 ## Results
 
-Judges: `reports/2026-10-31-judge-haiku-so-dev-50` and
-`reports/2026-10-31-judge-sonnet-so-dev-50`; agreement:
-`reports/2026-10-31-judge-agreement-so-dev-50/agreement.json`, from
+Judges: `reports/2026-10-30-judge-haiku-so-dev-50` and
+`reports/2026-10-30-judge-sonnet-so-dev-50`; agreement:
+`reports/2026-10-30-judge-agreement-so-dev-50/agreement.json`, from
 
 ```bash
 uv run python -m fastapi_rag_lab.eval.judge.agreement \
   --items reports/2026-10-30-judge-items-so-dev-50 \
-  --judge haiku=reports/2026-10-31-judge-haiku-so-dev-50 \
-  --judge sonnet=reports/2026-10-31-judge-sonnet-so-dev-50 \
-  --out reports/2026-10-31-judge-agreement-so-dev-50/agreement.json
+  --judge haiku=reports/2026-10-30-judge-haiku-so-dev-50 \
+  --judge sonnet=reports/2026-10-30-judge-sonnet-so-dev-50 \
+  --out reports/2026-10-30-judge-agreement-so-dev-50/agreement.json
 ```
 
 95% percentile bootstrap CIs, items resampled, B = 10,000, seed 0. Per-class
