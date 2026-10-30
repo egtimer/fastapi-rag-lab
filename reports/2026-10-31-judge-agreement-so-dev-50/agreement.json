@@ -1,0 +1,189 @@
+{
+  "counts": {
+    "human": {
+      "unsupported": 33,
+      "supported": 17
+    },
+    "haiku": {
+      "unparsed": 3,
+      "supported": 19,
+      "unsupported": 28
+    },
+    "sonnet": {
+      "unsupported": 33,
+      "supported": 17
+    }
+  },
+  "comparisons": {
+    "human_vs_haiku": {
+      "n": 47,
+      "accuracy": {
+        "value": 0.8723404255319149,
+        "ci_low": 0.7659574468085106,
+        "ci_high": 0.9574468085106383,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7304015296367113,
+        "ci_low": 0.5052196071163826,
+        "ci_high": 0.9099616858237549,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 17,
+          "value": 0.8823529411764706,
+          "ci_low": 0.7,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 30,
+          "value": 0.8666666666666667,
+          "ci_low": 0.7333333333333333,
+          "ci_high": 0.96875,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            15,
+            2
+          ],
+          [
+            4,
+            26
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.3617021276595745,
+        "second": 0.40425531914893614
+      }
+    },
+    "human_vs_sonnet": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.92,
+        "ci_low": 0.84,
+        "ci_high": 0.98,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.82174688057041,
+        "ci_low": 0.6280991735537189,
+        "ci_high": 0.9586776859504131,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 17,
+          "value": 0.8823529411764706,
+          "ci_low": 0.7,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 33,
+          "value": 0.9393939393939394,
+          "ci_low": 0.8461538461538461,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            15,
+            2
+          ],
+          [
+            2,
+            31
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.34,
+        "second": 0.34
+      }
+    },
+    "haiku_vs_sonnet": {
+      "n": 47,
+      "accuracy": {
+        "value": 0.8723404255319149,
+        "ci_low": 0.7659574468085106,
+        "ci_high": 0.9574468085106383,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7304015296367113,
+        "ci_low": 0.5052631578947369,
+        "ci_high": 0.9116541353383459,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 19,
+          "value": 0.7894736842105263,
+          "ci_low": 0.5833333333333334,
+          "ci_high": 0.9523809523809523,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 28,
+          "value": 0.9285714285714286,
+          "ci_low": 0.8181818181818182,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            15,
+            4
+          ],
+          [
+            2,
+            26
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.40425531914893614,
+        "second": 0.3617021276595745
+      }
+    }
+  },
+  "bootstrap": {
+    "B": 10000,
+    "seed": 0,
+    "confidence": 0.95,
+    "method": "percentile bootstrap, items resampled with replacement"
+  },
+  "items_run": "2026-10-30-judge-items-so-dev-50",
+  "judge_runs": {
+    "haiku": "2026-10-31-judge-haiku-so-dev-50",
+    "sonnet": "2026-10-31-judge-sonnet-so-dev-50"
+  }
+}
