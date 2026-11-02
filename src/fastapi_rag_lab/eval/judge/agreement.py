@@ -12,6 +12,11 @@ raters used one label only) is left out of the interval and counted in
         --items reports/2026-10-30-judge-items-so-dev-50 \\
         --judge haiku=reports/<haiku run> --judge sonnet=reports/<sonnet run> \\
         --out reports/<agreement run>/agreement.json
+
+A second human labeller (``--human NAME=labels_NAME.csv``) is one more rater:
+``human_vs_NAME`` is the human-human agreement, the ceiling a judge is measured
+against, and every judge is also compared with that labeller. Two runs of the
+same judge passed as two ``--judge`` entries give its test-retest agreement.
 """
 
 from __future__ import annotations
@@ -25,7 +30,7 @@ from itertools import combinations
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from fastapi_rag_lab.eval.judge.answers import read_items
+from fastapi_rag_lab.eval.judge.items import read_items
 from fastapi_rag_lab.eval.judge.judge import LABELS, SUPPORTED
 from fastapi_rag_lab.eval.judge.labels import read_labels
 
@@ -156,17 +161,27 @@ def agreement_report(
     human: Mapping[str, str],
     judges: Mapping[str, Mapping[str, str]],
     *,
+    humans: Mapping[str, Mapping[str, str]] | None = None,
     resamples: int = RESAMPLES,
     seed: int = SEED,
 ) -> dict[str, Any]:
-    raters = {"human": human, **judges}
+    """Pairwise comparisons: the human against every other rater, the other
+    humans against every judge, and every pair of judges."""
+    humans = dict(humans or {})
+    raters = {"human": human, **humans, **judges}
+    others = [*humans, *judges]
+    pairs = [
+        *(("human", r) for r in others),
+        *((h, j) for h in humans for j in judges),
+        *combinations(judges, 2),
+    ]
     return {
         "counts": {
             name: dict(Counter(labels.values())) for name, labels in raters.items()
         },
         "comparisons": {
             f"{x}_vs_{y}": compare(raters[x], raters[y], resamples=resamples, seed=seed)
-            for x, y in [*(("human", j) for j in judges), *combinations(judges, 2)]
+            for x, y in pairs
         },
         "bootstrap": {
             "B": resamples,
@@ -218,11 +233,19 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--items", type=Path, required=True)
     p.add_argument("--labels", type=Path, help="default: labels.csv in the items run")
     p.add_argument("--judge", type=_judge_arg, action="append", required=True)
+    p.add_argument(
+        "--human",
+        type=_judge_arg,
+        action="append",
+        default=[],
+        help="NAME=labels csv of another human labeller (repeatable)",
+    )
     p.add_argument("--out", type=Path, required=True)
     args = p.parse_args(argv)
     ids = {i["item_id"] for i in read_items(args.items / "items.jsonl")}
     try:
         human = read_labels(args.labels or args.items / "labels.csv", ids)
+        humans = {name: read_labels(path, ids) for name, path in args.human}
     except ValueError as exc:
         print(f"error: labels: {exc}", file=sys.stderr)
         return 2
@@ -230,9 +253,10 @@ def main(argv: list[str] | None = None) -> int:
         name: {j["item_id"]: j["label"] for j in read_items(path / "judgements.jsonl")}
         for name, path in args.judge
     }
-    report = agreement_report(human, judges)
+    report = agreement_report(human, judges, humans=humans)
     report["items_run"] = args.items.name
     report["judge_runs"] = {name: path.name for name, path in args.judge}
+    report["human_labels"] = {name: str(path) for name, path in args.human}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(format_report(report))

@@ -97,8 +97,19 @@ class BudgetedClient:
         return self._sdk
 
     def complete(
-        self, system: str, user: str, *, item_id: str
+        self,
+        system: str,
+        user: str,
+        *,
+        item_id: str,
+        tool: dict[str, Any] | None = None,
     ) -> tuple[str, CallUsage]:
+        """One call. With ``tool``, the model is forced to call it (structured
+        output) and the returned text is that call's input as JSON.
+
+        The reply text is written to the log whole, so every verdict, parsed
+        or not, can be read back from ``llm_calls.jsonl``.
+        """
         if self.spent >= self.budget_usd:
             raise BudgetExceeded(self.spent, self.budget_usd)
         kwargs: dict[str, Any] = {
@@ -109,11 +120,23 @@ class BudgetedClient:
         }
         if self.model.effort:
             kwargs["output_config"] = {"effort": self.model.effort}
+        if tool is not None:
+            kwargs["tools"] = [tool]
+            kwargs["tool_choice"] = {"type": "tool", "name": tool["name"]}
         start = time.perf_counter()
         response = self._get_sdk().messages.create(**kwargs)
-        text = "".join(
-            b.text for b in response.content if getattr(b, "type", None) == "text"
-        )
+        if tool is not None:
+            inputs = [
+                b.input
+                for b in response.content
+                if getattr(b, "type", None) == "tool_use"
+                and getattr(b, "name", None) == tool["name"]
+            ]
+            text = json.dumps(inputs[0], ensure_ascii=False) if inputs else ""
+        else:
+            text = "".join(
+                b.text for b in response.content if getattr(b, "type", None) == "text"
+            )
         usage = CallUsage(
             item_id=item_id,
             input_tokens=response.usage.input_tokens or 0,
@@ -126,6 +149,10 @@ class BudgetedClient:
         if self.log_path is not None:
             with self.log_path.open("a", encoding="utf-8") as fh:
                 fh.write(
-                    json.dumps({"model": self.model.model, **asdict(usage)}) + "\n"
+                    json.dumps(
+                        {"model": self.model.model, **asdict(usage), "text": text},
+                        ensure_ascii=False,
+                    )
+                    + "\n"
                 )
         return text, usage

@@ -1,5 +1,7 @@
 {
-  "run_id": "2026-10-31-judge-sonnet-so-dev-50",
+  "run_id": "2026-10-30-judge-sonnet-so-dev-50",
+  "run_id_as_passed": "2026-10-31-judge-sonnet-so-dev-50",
+  "run_id_note": "the run was started with --run-id dated 2026-10-31 (UTC+1 clock) and the folder was renamed to the UTC date; corrected 2026-10-30, nothing else in this file changed",
   "items_run": "2026-10-30-judge-items-so-dev-50",
   "n_items": 50,
   "n_judged": 50,
