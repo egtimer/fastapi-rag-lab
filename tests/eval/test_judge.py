@@ -268,3 +268,28 @@ def test_agreement_with_a_second_human():
     }
     assert report["comparisons"]["human_vs_ana"]["n"] == 3
     assert report["comparisons"]["sonnet_vs_sonnet_retest"]["accuracy"]["value"] == 1.0
+
+
+def test_origin_claims_and_summary(tmp_path: Path):
+    from fastapi_rag_lab.eval.judge import origin
+
+    assert origin.split_claims("a; b ;; c") == ["a", "b", "c"]
+    assert origin.split_claims("") == []
+    out = tmp_path / "o"
+    out.mkdir()
+    (out / "origin_labels.csv").write_text(
+        "item_id,claim_no,claim,origin,evidence\n"
+        "j-01,1,x,in_corpus_not_retrieved,\n"
+        "j-01,2,y,in_corpus_not_retrieved,\n"
+        "j-02,1,z,false,\n"
+        "j-03,1,w,,\n"
+    )
+    assert origin.summarize(out) == 0
+    summary = json.loads((out / "summary.json").read_text())
+    assert summary["claims_labelled"] == 3
+    assert summary["items"] == 2
+    assert summary["items_only_retrieval_failure"] == 1
+    (out / "origin_labels.csv").write_text(
+        "item_id,claim_no,claim,origin,evidence\nj-01,1,x,nonsense,\n"
+    )
+    assert origin.summarize(out) == 2

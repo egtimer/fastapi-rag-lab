@@ -139,6 +139,37 @@ The result to report is "v2 moved Sonnet from X/50 to Y/50 on new labels",
 with the items that flipped. If v2 is not better on new labels, that is the
 result; it goes in ADR 010 either way.
 
+## 3b. Where the unsupported claims come from, $0, about 2 hours of reading
+
+The judge says 33 of 50 answers are unsupported. That is several different
+failures: the claim contradicts a source, the claim is in the docs but was
+not retrieved, the claim is true but not in the corpus, the claim is false,
+or the claim is about the sources themselves. `origin.py` searches the
+whole chunk corpus for every claim in the labeller's notes and writes a
+review sheet marking which matching sections were among the five retrieved
+sources. The reviewer writes one origin per claim; `--summarize` counts.
+
+```bash
+uv run python -m fastapi_rag_lab.ingest   # only for data/raw/fastapi_docs; no Ollama needed for the fetch
+uv run python -m fastapi_rag_lab.eval.judge.origin \
+  --items reports/2026-10-30-judge-items-so-dev-50 \
+  --out reports/<date>-unsupported-origin-so-dev-50
+# ... fill origin_labels.csv from origin_sheet.md (60 claims) ...
+uv run python -m fastapi_rag_lab.eval.judge.origin --summarize reports/<date>-unsupported-origin-so-dev-50
+```
+
+`reports/2026-11-02-unsupported-origin-so-dev-50` holds a first sheet,
+built with an approximate tokenizer (tiktoken's vocabulary could not be
+downloaded where it was built), so chunk boundaries differ slightly from
+the index; re-run it on a machine with the real tokenizer before labelling,
+or label from it as is: the question "is this claim anywhere in the docs"
+does not depend on chunk boundaries.
+
+The sentence this produces: "of the 33 unsupported answers, X contain a
+claim that is in the FastAPI docs but was not retrieved, Y a claim that is
+true but not in the corpus, Z a false claim". It separates retrieval
+failure from generation failure, which the judge alone cannot.
+
 ## 4. Tagging, and what the tag does and does not show
 
 After the runs above are committed, tag the commit:
