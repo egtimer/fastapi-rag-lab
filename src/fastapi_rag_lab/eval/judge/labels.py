@@ -69,7 +69,29 @@ CITATION_RULE = """\
   the source says, not whether the advice is sensible.
 """
 
-LABELLING_RULE = INSTRUCTIONS.replace("- `unsure`:", CITATION_RULE + "- `unsure`:")
+SECOND_LABELLER = """\
+
+## For a second labeller
+
+The point of your labels is human-human agreement, the ceiling any LLM judge
+is measured against. That only works if:
+
+- You label yourself, without any AI assistant (no ChatGPT, Claude, Copilot
+  or similar), and without searching for the answers. Use the sources in the
+  sheet and nothing else.
+- You do not look at anyone else's labels (`labels.csv`) or at any `judge-*`
+  folder until your `labels_<name>.csv` is committed.
+- You apply the rule above as written, including the two points on claims
+  about the sources. If you disagree with the rule, label by it anyway and put
+  your disagreement in `note`.
+- `unsure` is allowed; a guess is not.
+
+Expect 2 to 3 hours for 50 items. Thank you.
+"""
+
+LABELLING_RULE = (
+    INSTRUCTIONS.replace("- `unsure`:", CITATION_RULE + "- `unsure`:") + SECOND_LABELLER
+)
 
 
 def question_links(path: Path) -> dict[str, str]:

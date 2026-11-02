@@ -10,7 +10,9 @@ from agentic-sql-assistant (``evals/judge/judge.py``).
 
 from __future__ import annotations
 
+import hashlib
 import json
+import sys
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -129,3 +131,21 @@ def parse_verdict(text: str) -> Verdict:
     # Unparsed: keep the whole reply. The 2026-10-30 runs kept 200 characters,
     # which left Haiku's three unparsed replies unverifiable from the report.
     return Verdict(label=UNPARSED, rationale=text.strip(), raw=text)
+
+
+def prompt_sha256(version: str) -> str:
+    """sha256 of a judge prompt's text; recorded in every run's summary.
+
+    Committing it before labelling starts (``python -m ...judge --hash v2 >
+    reports/<items run>/prompt.sha256``) is what makes "the prompt was frozen
+    before the labels" checkable instead of taken on trust.
+    """
+    return hashlib.sha256(PROMPTS[version].encode("utf-8")).hexdigest()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    versions = (
+        sys.argv[2:] if len(sys.argv) > 2 and sys.argv[1] == "--hash" else PROMPTS
+    )
+    for v in versions:
+        print(f"{prompt_sha256(v)}  judge prompt {v}")

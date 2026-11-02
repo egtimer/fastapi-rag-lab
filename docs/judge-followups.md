@@ -12,15 +12,34 @@ Rules that apply to every run below:
   the 50 of ADR 009.
 - Pre-register labels: hash a labels file and commit the hash BEFORE the judge
   run that will be compared with it, then pass it to the run.
+- Pre-register the prompt too: `prompt.sha256` in the items run, committed
+  before labelling starts, is what makes "the prompt was frozen before the
+  labels" checkable. For the 2026-10-30 run it was not done; the file there
+  only shows that the prompt in the code is the one the runs recorded.
 - A judge run id is new every time; nothing is overwritten.
+- The API key lives in the environment of the machine that runs the judge
+  (a Codespace, a laptop). It is never pasted into a chat, an issue or a file.
 
 ## 1. Second human labeller (the ceiling), $0
 
 The sheets and an empty `labels_second.csv` are already in
 `reports/2026-10-30-judge-items-so-dev-50/`, with `LABELLING_RULE.md` (the
-sheet rule plus the citation rule the first labeller added mid-pass). The
-second labeller reads the five `labeling_sheet_NN.md`, fills in
-`labels_second.csv` and never opens a `judge-*` folder.
+sheet rule plus the citation rule the first labeller added mid-pass, and the
+conditions below). The second labeller reads the five
+`labeling_sheet_NN.md`, fills in `labels_second.csv` and never opens a
+`judge-*` folder.
+
+Who, and under what conditions (say it to them explicitly; it is also at the
+end of `LABELLING_RULE.md`):
+
+- A real person labelling without any AI assistant. If they use ChatGPT,
+  Claude or Copilot, the "human-human ceiling" is not human and the number is
+  worthless. Ask them to confirm this in the commit message.
+- Not a colleague from the day job on work time (no material or hours from
+  the labeller's employer): a friend who programs, or a former colleague.
+- Blind: they never see `labels.csv` or a `judge-*` folder before their file
+  is committed.
+- Named or described in the post ("a second engineer, labelling blind").
 
 ```bash
 # before they start (already done for labels.csv: labels.csv.sha256)
@@ -41,9 +60,19 @@ uv run python -m fastapi_rag_lab.eval.judge.agreement \
 look at j-36 and j-42 first: that settles whether the first labeller or
 Sonnet is the outlier on "follows directly from them".
 
-## 2. Sonnet test-retest and effort `medium`, about $1, 4 minutes
+## 2. Sonnet test-retest, and two explorations, about $1, 4 minutes
 
-Same prompt (v1), same 50 items. Three runs, three new ids.
+Same prompt (v1), same 50 items. Three runs, three new ids. Only the first
+is a measurement; the other two are exploration, and the post must say so:
+
+- **Retest** (Sonnet, v1, effort `low`, again): how stable the judge is.
+  Reportable as is.
+- **Effort `medium`** and **Haiku `--structured`** are settings changed after
+  seeing these 50 labels, so a higher kappa on these same 50 is not "the
+  judge improved"; that claim needs new labels (section 3). What IS
+  reportable from them: whether the four Sonnet disagreements move with
+  effort, and whether structured output recovers Haiku's three `unparsed`
+  replies, which is a mechanical fix, not a judgement change.
 
 ```bash
 export ANTHROPIC_API_KEY=...
@@ -110,12 +139,20 @@ The result to report is "v2 moved Sonnet from X/50 to Y/50 on new labels",
 with the items that flipped. If v2 is not better on new labels, that is the
 result; it goes in ADR 010 either way.
 
-## 4. Tagging
+## 4. Tagging, and what the tag does and does not show
 
-After the runs above are committed, tag the commit and cite the tag in the
-post instead of "the runs came from a working tree":
+After the runs above are committed, tag the commit:
 
 ```bash
-git tag -a judge-calibration-v1 -m "ADR 009 calibration, plumbing and follow-ups"
-git push origin judge-calibration-v1
+git tag -a v-judge-cal-1 -m "ADR 009 calibration: prompt v1, runs, plumbing"
+git push origin v-judge-cal-1
 ```
+
+The tag shows WHICH prompt ran: `prompt.sha256` in the items run (v1 =
+`9aadfd71…`) equals the sha256 of `judge_system_prompt` in both
+`summary.json` files. That is reproducibility.
+
+It does not show WHEN: git dates are set by whoever commits, so the tag is
+no proof that the prompt was frozen before the labels were read. The post
+keeps saying that part rests on the author's word, and says that the next
+round commits `prompt.sha256` before labelling starts (section 3 does).

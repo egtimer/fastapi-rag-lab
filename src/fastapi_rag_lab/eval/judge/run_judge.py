@@ -41,6 +41,7 @@ from fastapi_rag_lab.eval.judge.judge import (
     VERDICT_TOOL,
     judge_user,
     parse_verdict,
+    prompt_sha256,
 )
 from fastapi_rag_lab.eval.judge.llm import (
     FAILURE_STOP_REASONS,
@@ -181,6 +182,7 @@ def main(argv: list[str] | None = None, *, sdk_client: Any = None) -> int:
             "output_per_mtok": model.output_per_mtok,
         },
         "judge_prompt_version": args.prompt,
+        "judge_prompt_sha256": prompt_sha256(args.prompt),
         "judge_system_prompt": system,
         "structured_output": args.structured,
         "command": " ".join(
