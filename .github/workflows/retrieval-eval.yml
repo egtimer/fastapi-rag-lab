@@ -30,6 +30,9 @@ env:
   # made by this workflow itself (scheduled run 40306048985 on 74958c0), so the
   # reference and the checked run share the runner setup. The regression check is
   # skipped for a dataset whose reference is empty or missing.
+  # Run 40306048985 was an Actions run of this repository before it was recreated on
+  # 2026-11-03; its logs are no longer available. The reports it produced are committed
+  # in reports/ci-40306048985-*.
   REFERENCE_SO_DEV: ci-40306048985-dev
   REFERENCE_GOLDEN: ci-40306048985-golden_dataset
   QDRANT_URL: http://localhost:6333
