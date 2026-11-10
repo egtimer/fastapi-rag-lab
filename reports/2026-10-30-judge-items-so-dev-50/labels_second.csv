@@ -1,51 +1,51 @@
 item_id,label,note
-j-01,,
-j-02,,
-j-03,,
-j-04,,
-j-05,,
-j-06,,
-j-07,,
-j-08,,
-j-09,,
-j-10,,
-j-11,,
-j-12,,
-j-13,,
-j-14,,
-j-15,,
-j-16,,
-j-17,,
-j-18,,
-j-19,,
-j-20,,
-j-21,,
-j-22,,
-j-23,,
-j-24,,
-j-25,,
-j-26,,
-j-27,,
-j-28,,
-j-29,,
-j-30,,
-j-31,,
-j-32,,
-j-33,,
-j-34,,
-j-35,,
-j-36,,
-j-37,,
-j-38,,
-j-39,,
-j-40,,
-j-41,,
-j-42,,
-j-43,,
-j-44,,
-j-45,,
-j-46,,
-j-47,,
-j-48,,
-j-49,,
-j-50,,
+j-01,unsupported,"CORSMiddleware said to handle redirects; allow_origin= param and RedirectResponse not in sources; allow_credentials=True with wildcards contradicts source 4"
+j-02,unsupported,"url_for('static', filename='styles.css') not shown in sources (template is an include placeholder); filename= kwarg invented"
+j-03,unsupported,"claims code returns a file named processed_file.csv but code returns JSON; file-return mechanism not in sources"
+j-04,unsupported,"'body attribute' of Request not shown in sources (reference block is a placeholder)"
+j-05,supported,
+j-06,unsupported,"says a required param with a default is possible (source 5: any default makes it optional) and that Query(default='rick') raises an error (sources show it as valid)"
+j-07,unsupported,"lifespan presented as a way to stop endpoint execution; passing event handlers to lifespan not in sources"
+j-08,unsupported,"task.sleep(), depend(), 'must be async def' (contradicts source 3), example mislabelled as Source 5, pre-0.106 behaviour inverted"
+j-09,unsupported,"extra=forbid presented as the key to optional fields; 'without a type annotation' and Annotated[BaseModel, Form()] sub-model not in sources"
+j-10,unsupported,"url_for(..., filename=...) not shown; 'url_for handles root_path prefix automatically' not in sources"
+j-11,unsupported,"content fine but cites invented URLs (example.com/source3, /source4)"
+j-12,unsupported,"BaseModel/BaseModelV2 v1-v2 mapping inverted vs source 1; adding-middleware URL not in sources"
+j-13,unsupported,"@app.operation decorator does not exist in sources"
+j-14,supported,
+j-15,unsupported,"says router.include_router must be done before including the *inner* router in the app; source 5 says before including the outer router. Borderline"
+j-16,unsupported,"opening claim that custom decorators process requests before/after is not in sources (source 1 is about custom Request/APIRoute classes). Borderline, rest is supported"
+j-17,supported,
+j-18,unsupported,"conflates SSE and JSON Lines: says omitting return type under SSE sends 'JSON Lines'. Borderline"
+j-19,unsupported,"'uncaught exceptions automatically forwarded' is the pre-0.110 behaviour the source says was removed; exception history garbled; code not from sources"
+j-20,unsupported,"code includes a router in itself; claims endpoints share {item_id}; callbacks/OpenAPI expressions misapplied"
+j-21,supported,"Body() without embed not literally shown but follows from sources 2-3"
+j-22,unsupported,"'spawns multiple worker processes' and 'event loop threading' not in sources"
+j-23,unsupported,"--log-level and its values not in sources; 'uvloop during development' not stated"
+j-24,supported,"does not use Request object but makes no unsupported claim"
+j-25,supported,
+j-26,supported,
+j-27,unsupported,"says HTTPException handler is overridden with @app.exception_handler(RequestValidationError); plain-text advice misattributed to fastapi.exception_handlers"
+j-28,supported,
+j-29,supported,
+j-30,unsupported,"extra=forbid attributed to Source 1 and 'demonstrated in the example code' - it is in Source 3 and absent from the shown code. Rest supported"
+j-31,unsupported,"advises setting a 'cookies parameter' on Response; no such parameter in sources. Borderline, rest supported"
+j-32,supported,"app/static/ given only as 'e.g.'"
+j-33,unsupported,"Content-Disposition, File(...), bytes/io.BytesIO hints etc. not in sources"
+j-34,unsupported,"HTTPException(status_code=, detail=) and status.HTTP_500_INTERNAL_SERVER_ERROR not in sources"
+j-35,unsure,"bare 'Yes'; sources show X-Process-Time via middleware header, not uvicorn logs"
+j-36,supported,
+j-37,unsupported,"invented URL for Source 1 (sourcecode.readthedocs.io); 'do not block the event loop' not in sources; source 5 misread"
+j-38,supported,"answers about headers not query params but all claims are in sources"
+j-39,supported,
+j-40,unsupported,"'lack of security integration' attributed to Hug (source says APIStar); openapi_extra as 'direct extension of APIStar' speculative"
+j-41,supported,
+j-42,supported,"@app.vibe() is a joke source but answer reports what it says"
+j-43,supported,
+j-44,supported,
+j-45,supported,
+j-46,unsupported,"swagger_ui_parameters={'default_size': 'full'} invented; Swagger UI list behaviour and 'sent as JSON array' not in sources"
+j-47,unsupported,"PIL/BytesIO/FileResponse(img_buf) code not in sources (source 4 only says use FileResponse)"
+j-48,supported,
+j-49,unsupported,"validation errors adding response time and returning Response directly being slower are not in sources"
+j-50,supported,
