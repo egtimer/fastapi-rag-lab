@@ -1,0 +1,22 @@
+{
+  "claims_labelled": 60,
+  "claims_total": 60,
+  "items": 33,
+  "by_claim": {
+    "in_sources_contradicted": 22,
+    "false": 21,
+    "in_corpus_not_retrieved": 4,
+    "about_sources": 4,
+    "unclear": 4,
+    "true_not_in_corpus": 5
+  },
+  "items_with_origin": {
+    "in_sources_contradicted": 15,
+    "false": 18,
+    "in_corpus_not_retrieved": 4,
+    "about_sources": 4,
+    "unclear": 4,
+    "true_not_in_corpus": 3
+  },
+  "items_only_retrieval_failure": 2
+}

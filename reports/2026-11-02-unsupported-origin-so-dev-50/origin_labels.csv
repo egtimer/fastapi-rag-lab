@@ -1,61 +1,61 @@
 item_id,claim_no,claim,origin,evidence
-j-01,1,Attributes redirects and setting X-Forwarded-* headers to CORSMiddleware,,
-j-01,2,invents allow_origin param,,
-j-01,3,allow_credentials=True with ['*'] contradicts Source 4,,
-j-02,1,"url_for('static', filename=...) signature not shown in sources",,
-j-03,1,"Claims the endpoint returns a new file, but the code returns JSON with a filename",,
-j-03,2,sources show no file response,,
-j-04,1,Request 'body attribute' not in sources,,
-j-06,1,Says 'yes' although Source 5 says any default makes it optional,,
-j-06,2,"claims Query(default='rick') raises an error, contradicting Source 1",,
-j-07,1,Claims lifespan can stop endpoint execution,,
-j-07,2,passing startup/shutdown handlers to lifespan contradicts Source 2,,
-j-08,1,Invents task.sleep and depend(),,
-j-08,2,'must be async def' contradicts Source 3,,
-j-08,3,example misattributed and altered,,
-j-09,1,extra=forbid does not make fields optional,,
-j-09,2,"Annotated[BaseModel, Form()] sub-model and BaseModelV2 as best practice not in sources",,
-j-10,1,url_for filename= signature and automatic root_path handling not in sources,,
-j-11,1,"Content restates Sources 2-4, but cites invented example.com URLs as Source 3/4 (fabricated citation = false claim about sources)",,
-j-12,1,"Swaps the aliases: says BaseModelV2 is Pydantic v1, contradicting Source 1",,
-j-12,2,middleware docs URL not in sources,,
-j-12,3,"root_path is automatic only for mounts, not proxies",,
-j-13,1,@app.operation decorator does not appear in the sources,,
-j-15,1,Says to include before adding the 'inner' router to the app,,
-j-15,2,Source 5 says before including the outer router,,
-j-15,3,'at once' registration not in sources,,
-j-16,1,Claims custom decorators can process requests before/after,,
-j-16,2,"Source 1 describes custom Request/APIRoute classes, not decorators",,
-j-18,1,Mixes SSE with JSON Lines: says omitting the return type sends JSON Lines under EventSourceResponse,,
-j-18,2,response_class set on the response object rather than the decorator,,
-j-19,1,"Says uncaught exceptions are forwarded automatically, which Source 2 says was the pre-0.110 behavior",,
-j-19,2,"invents DatabaseSession, stream_data and StreamingResponse import from fastapi",,
-j-20,1,Code includes a router into itself,,
-j-20,2,claims both endpoints share {item_id},,
-j-20,3,misstates the composite-body note from Source 4,,
-j-21,1,Code uses item: Item = Body() and claims it expects the body directly,,
-j-21,2,sources only show Body(embed=True),,
-j-22,1,Worker processes without async and 'event loop threading' with async are not in sources,,
-j-23,1,"--log-level option, uvloop in dev mode and logging-to-file advice are not in sources",,
-j-27,1,Says HTTPException handler is overridden with @app.exception_handler(RequestValidationError),,
-j-27,2,says plain text comes from reusing fastapi.exception_handlers,,
-j-30,1,"FastAPI facts match Source 3, but says extra=forbid is covered in Source 1 and 'demonstrated in the example code', which it is not (false claim about sources)",,
-j-31,1,"Tells the user to set the response's 'cookies parameter', which no source shows",,
-j-32,1,Says to put the static files in app/static/,,
-j-32,2,Source 4 places static/ at the project root next to app/. Rest restates Sources 1-5,,
-j-33,1,Invents type-hinted request/bytes handling and Content-Disposition via response parameter,,
-j-33,2,UploadFile/File(...) upload code not in sources and does not download anything,,
-j-34,1,"HTTPException(status_code=..., detail=...) and status.HTTP_500_INTERNAL_SERVER_ERROR are not shown in sources",,
-j-35,1,Bare 'Yes',,
-j-35,2,"sources only show adding X-Process-Time as a response header in middleware, nothing about Uvicorn logs",,
-j-37,1,"Claims background tasks do not block and are designed not to block the event loop, not in sources",,
-j-37,2,"says yield-dependency exceptions are handled after the response, the pre-0.106 behavior in Source 5",,
-j-37,3,fake Source 1 URL,,
-j-40,1,Attributes lack of security integration to Hug (Source 3 says APIStar),,
-j-40,2,claims OpenAPI operation generation extends APIStar,,
-j-41,1,"Correctly says sources do not cover it, but then recommends Pydantic's ValidationError, an API name no source shows",,
-j-46,1,"swagger_ui_parameters={'default_size': 'full'}, list[str] query-param code and lists sent as a JSON array are not in sources",,
-j-47,1,"FileResponse(BytesIO, media_type=...) with PIL/numpy conversion not in sources",,
-j-47,2,Source 4 only notes returning a FileResponse directly,,
-j-49,1,Claims validation error responses and returning a Response directly slow down responses,,
-j-49,2,not in sources,,
+j-01,1,Attributes redirects and setting X-Forwarded-* headers to CORSMiddleware,in_sources_contradicted,"advanced/behind-a-proxy.md + deployment/https.md (both retrieved): the proxy sets X-Forwarded-* headers, not CORSMiddleware"
+j-01,2,invents allow_origin param,false,grep 'allow_origin=' -> 0 files; real parameter is allow_origins (tutorial/cors.md)
+j-01,3,allow_credentials=True with ['*'] contradicts Source 4,in_sources_contradicted,tutorial/cors.md:62 (retrieved): none of allow_origins/methods/headers can be ['*'] if allow_credentials=True
+j-02,1,"url_for('static', filename=...) signature not shown in sources",false,"grep 'filename=' -> 0 docs; docs_src/templates/templates/item.html uses url_for('static', path=...). Flask signature"
+j-03,1,"Claims the endpoint returns a new file, but the code returns JSON with a filename",false,"False statement about its own code (returns JSON, not a file)"
+j-03,2,sources show no file response,in_corpus_not_retrieved,"Labeller's note; the missing mechanism (FileResponse) is in advanced/custom-response.md, not retrieved"
+j-04,1,Request 'body attribute' not in sources,in_corpus_not_retrieved,"how-to/custom-request-and-route.md (Request.body()) and advanced/path-operation-advanced-configuration.md:154 (body as bytes), not retrieved. It is a method, not an attribute"
+j-06,1,Says 'yes' although Source 5 says any default makes it optional,in_sources_contradicted,tutorial/query-params-str-validations.md 'Default values' note (retrieved): any default makes it optional
+j-06,2,"claims Query(default='rick') raises an error, contradicting Source 1",in_sources_contradicted,tutorial/query-params-str-validations.md 'Alternative (old): Query as the default value' (retrieved): Query(default=...) is valid
+j-07,1,Claims lifespan can stop endpoint execution,false,Nothing in the corpus about per-request timeouts; lifespan only runs at startup/shutdown (advanced/events.md)
+j-07,2,passing startup/shutdown handlers to lifespan contradicts Source 2,in_sources_contradicted,"advanced/events.md:91 (retrieved): lifespan OR startup/shutdown events, not both"
+j-08,1,Invents task.sleep and depend(),false,grep 'task.sleep' and 'depend()' -> 0 files
+j-08,2,'must be async def' contradicts Source 3,in_sources_contradicted,tutorial/background-tasks.md:28: 'async def or normal def'. Not among the sheet's candidates; relies on the note saying it is Source 3
+j-08,3,example misattributed and altered,about_sources,Example attributed to a source that does not contain it in that form
+j-09,1,extra=forbid does not make fields optional,in_sources_contradicted,"release-notes.md 0.114.0 (retrieved): extra=forbid rejects extra fields, nothing about optional"
+j-09,2,"Annotated[BaseModel, Form()] sub-model and BaseModelV2 as best practice not in sources",false,BaseModelV2 is only an import alias in release-notes.md 0.119.0; no nested model inside a Form model anywhere (tutorial/request-form-models.md)
+j-10,1,url_for filename= signature and automatic root_path handling not in sources,false,grep 'filename=' -> 0 docs; url_for uses path= (advanced/templates.md)
+j-11,1,"Content restates Sources 2-4, but cites invented example.com URLs as Source 3/4 (fabricated citation = false claim about sources)",about_sources,grep 'example.com/source' -> 0 files; invented citation URLs
+j-12,1,"Swaps the aliases: says BaseModelV2 is Pydantic v1, contradicting Source 1",in_sources_contradicted,"release-notes.md 0.119.0 (retrieved): BaseModelV2 is the pydantic v2 alias, pydantic.v1 BaseModel is v1"
+j-12,2,middleware docs URL not in sources,false,"Answer cites https://fastapi.tiangolo.com/advanced/adding-middleware/: grep 'adding-middleware' -> 0 files. Real page advanced/middleware/ is in reference/middleware.md, not retrieved"
+j-12,3,"root_path is automatic only for mounts, not proxies",in_sources_contradicted,release-notes.md 0.56.0 (retrieved): automatic only for mounted apps; behind a proxy you pass root_path / --root-path
+j-13,1,@app.operation decorator does not appear in the sources,false,grep '@app.operation' -> 0 files
+j-15,1,Says to include before adding the 'inner' router to the app,in_sources_contradicted,tutorial/bigger-applications.md 'Include an APIRouter in another' (retrieved): before including the outer router in the app
+j-15,2,Source 5 says before including the outer router,in_sources_contradicted,Same claim as row 1 (labeller's wording of the source)
+j-15,3,'at once' registration not in sources,unclear,"Vague: one include_router call per router, but one call on a nested router does register several. Not stated in corpus"
+j-16,1,Claims custom decorators can process requests before/after,in_sources_contradicted,"release-notes.md 0.41.0 (retrieved): that capability is of custom Request/APIRoute classes, not decorators"
+j-16,2,"Source 1 describes custom Request/APIRoute classes, not decorators",in_sources_contradicted,Same claim as row 1 (labeller's wording of the source)
+j-18,1,Mixes SSE with JSON Lines: says omitting the return type sends JSON Lines under EventSourceResponse,in_sources_contradicted,tutorial/server-sent-events.md 'No Return Type' vs tutorial/stream-json-lines.md:105 (both retrieved): JSON Lines only applies without EventSourceResponse
+j-18,2,response_class set on the response object rather than the decorator,false,"response_class is a decorator parameter (advanced/custom-response.md, not retrieved; tutorial/server-sent-events.md retrieved)"
+j-19,1,"Says uncaught exceptions are forwarded automatically, which Source 2 says was the pre-0.110 behavior",in_sources_contradicted,advanced/advanced-dependencies.md:141 (retrieved): automatic forwarding was the behaviour before 0.110.0
+j-19,2,"invents DatabaseSession, stream_data and StreamingResponse import from fastapi",false,grep 'DatabaseSession' and 'from fastapi import StreamingResponse' -> 0 files; it lives in fastapi.responses
+j-20,1,Code includes a router into itself,false,release-notes.md 0.128.7 (not retrieved): including a router into itself raises an error
+j-20,2,claims both endpoints share {item_id},false,False statement about its own code
+j-20,3,misstates the composite-body note from Source 4,in_sources_contradicted,release-notes.md 0.32.0 (retrieved): the note is about schema IDs for same-named functions with composite bodies
+j-21,1,Code uses item: Item = Body() and claims it expects the body directly,true_not_in_corpus,True: Body() without embed expects the body directly. Docs only show Body(embed=True) (tutorial/body-multiple-params.md); Body() alone appears only in docs_src for singular values
+j-21,2,sources only show Body(embed=True),true_not_in_corpus,Same claim as row 1 (labeller's observation)
+j-22,1,Worker processes without async and 'event loop threading' with async are not in sources,false,"async.md:418 (not retrieved): def path operations run in a threadpool; workers are a deployment choice, unrelated to async"
+j-23,1,"--log-level option, uvloop in dev mode and logging-to-file advice are not in sources",unclear,"Mixed: grep '--log-level' -> 0 files (uvicorn option, not shown for fastapi CLI); uvloop is in the corpus but not tied to dev mode; nothing on logging to file"
+j-27,1,Says HTTPException handler is overridden with @app.exception_handler(RequestValidationError),in_sources_contradicted,tutorial/handling-errors.md:126 (retrieved): that decorator is for RequestValidationError; HTTPException has its own handler
+j-27,2,says plain text comes from reusing fastapi.exception_handlers,in_sources_contradicted,tutorial/handling-errors.md: plain text comes from PlainTextResponse; fastapi.exception_handlers (line 240) reuses the default JSON handlers
+j-30,1,"FastAPI facts match Source 3, but says extra=forbid is covered in Source 1 and 'demonstrated in the example code', which it is not (false claim about sources)",about_sources,Says Source 1 covers extra=forbid and that the example shows it; neither is so
+j-31,1,"Tells the user to set the response's 'cookies parameter', which no source shows",false,"grep 'cookies=' -> 0 files; cookies are set with response.set_cookie(...) (advanced/response-cookies.md, not retrieved)"
+j-32,1,Says to put the static files in app/static/,in_sources_contradicted,how-to/custom-docs-ui-assets.md:80-86: static/ at project root next to app/. Sheet shows these sections as not retrieved; relies on the note saying it is Source 4. grep 'app/static' -> 0
+j-32,2,Source 4 places static/ at the project root next to app/. Rest restates Sources 1-5,in_sources_contradicted,Same claim as row 1 (labeller's wording of the source)
+j-33,1,Invents type-hinted request/bytes handling and Content-Disposition via response parameter,unclear,"Mixed speculation: no typed 'request' parameter; Content-Disposition is in advanced/custom-response.md (not retrieved) but via FileResponse(filename=), not as described"
+j-33,2,UploadFile/File(...) upload code not in sources and does not download anything,in_corpus_not_retrieved,"tutorial/request-files.md (UploadFile + File), not retrieved. Correct code, but it uploads instead of downloading"
+j-34,1,"HTTPException(status_code=..., detail=...) and status.HTTP_500_INTERNAL_SERVER_ERROR are not shown in sources",in_corpus_not_retrieved,"tutorial/handling-errors.md 'Use HTTPException' (not retrieved); 'detail=' text in release-notes.md. HTTP_500_INTERNAL_SERVER_ERROR itself: grep -> 0, but a real constant"
+j-35,1,Bare 'Yes',true_not_in_corpus,Possible with custom middleware/logging config; nothing in the corpus about uvicorn log format
+j-35,2,"sources only show adding X-Process-Time as a response header in middleware, nothing about Uvicorn logs",true_not_in_corpus,Same claim as row 1 (labeller's observation; corpus only has X-Process-Time in tutorial/middleware.md)
+j-37,1,"Claims background tasks do not block and are designed not to block the event loop, not in sources",false,Not in corpus and wrong in general: an async def task with blocking work blocks the event loop; tutorial/background-tasks.md:78 points to Celery for heavy work
+j-37,2,"says yield-dependency exceptions are handled after the response, the pre-0.106 behavior in Source 5",in_sources_contradicted,release-notes.md 0.106.0 (retrieved): exit code after the response was the pre-0.106 behaviour
+j-37,3,fake Source 1 URL,about_sources,grep 'sourcecode.readthedocs' -> 0 files; invented URL for Source 1
+j-40,1,Attributes lack of security integration to Hug (Source 3 says APIStar),in_sources_contradicted,alternatives.md:370 (retrieved): 'it didn't have security integration' is said of APIStar
+j-40,2,claims OpenAPI operation generation extends APIStar,unclear,"Interpretive: alternatives.md:360,398 says APIStar generated OpenAPI and FastAPI is its 'spiritual successor', not that operation generation extends it"
+j-41,1,"Correctly says sources do not cover it, but then recommends Pydantic's ValidationError, an API name no source shows",true_not_in_corpus,pydantic.ValidationError is a real Pydantic API; corpus only has RequestValidationError (tutorial/handling-errors.md)
+j-46,1,"swagger_ui_parameters={'default_size': 'full'}, list[str] query-param code and lists sent as a JSON array are not in sources",false,"grep 'default_size' -> 0 files; tutorial/query-params-str-validations.md:241-250: lists need Query() and are sent as ?q=foo&q=bar, not a JSON array"
+j-47,1,"FileResponse(BytesIO, media_type=...) with PIL/numpy conversion not in sources",false,"FileResponse takes a file path (advanced/custom-response.md, not retrieved), not a BytesIO"
+j-47,2,Source 4 only notes returning a FileResponse directly,false,Same claim as row 1 (labeller's wording of the source)
+j-49,1,Claims validation error responses and returning a Response directly slow down responses,false,Validation-error handling has no link to response speed anywhere. Partly grounded: advanced/response-directly.md:13 does say returning JSONResponse directly is slower than a response model
+j-49,2,not in sources,false,Same claim as row 1 (labeller's observation)
