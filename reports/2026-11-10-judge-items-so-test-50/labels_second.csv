@@ -1,51 +1,51 @@
 item_id,label,note
-j-01,,
-j-02,,
-j-03,,
-j-04,,
-j-05,,
-j-06,,
-j-07,,
-j-08,,
-j-09,,
-j-10,,
-j-11,,
-j-12,,
-j-13,,
-j-14,,
-j-15,,
-j-16,,
-j-17,,
-j-18,,
-j-19,,
-j-20,,
-j-21,,
-j-22,,
-j-23,,
-j-24,,
-j-25,,
-j-26,,
-j-27,,
-j-28,,
-j-29,,
-j-30,,
-j-31,,
-j-32,,
-j-33,,
-j-34,,
-j-35,,
-j-36,,
-j-37,,
-j-38,,
-j-39,,
-j-40,,
-j-41,,
-j-42,,
-j-43,,
-j-44,,
-j-45,,
-j-46,,
-j-47,,
-j-48,,
-j-49,,
-j-50,,
+j-01,unsupported,El código (os.remove antes de FileResponse) no está en las fuentes; dice que scope=function borra después de enviar la respuesta y la Fuente 5 dice antes
+j-02,unsupported,El código (request.json() / Response(content=item.json())) no aparece en las fuentes
+j-03,supported,Parafrasea la Fuente 5; da por hecho que el usuario lee el Request directamente pero lo afirma en condicional
+j-04,supported,Resumen fiel de las fuentes de dependencias
+j-05,unsupported,Dice que el contexto implica que JSONResponse es el método preferido y describe json.dumps con conocimiento externo; las fuentes prefieren response model
+j-06,unsupported,Afirma que default_response_class sobrescribe los encoders de jsonable_encoder; las fuentes no dicen eso
+j-07,supported,Respuesta truncada; lo que afirma sobre UploadFile está en la Fuente 1; algo de relleno sobre rendimiento
+j-08,unsupported,Dudoso: atribuye a la Fuente 5 el consejo de asegurar el Content-Type y especificar origenes; la fuente solo describe un fallo ya corregido
+j-09,supported,--reload solo para desarrollo y fastapi run sin auto-reload están en las fuentes; Windows no se menciona pero queda cubierto
+j-10,unsupported,Código con response.status_code y Response(status_code=200) y el valor por defecto 200 no están en las fuentes
+j-11,unsupported,Dudoso: identifica el error 'There was an error parsing the body' con el JSON de RequestValidationError; las fuentes no mencionan ese error
+j-12,unsupported,Código con pandas/to_dict no está en las fuentes; dice que el contexto asume un DataFrame
+j-13,supported,docs_url=None y la cita son literales de la Fuente 1
+j-14,unsupported,Código no mostrado en las fuentes; presenta Form() como JSON cuando las fuentes dicen que no se puede mezclar con Body JSON
+j-15,unsupported,Presenta orm_mode=True como solución al error de la pregunta y lo llama mecanismo de clonado; las fuentes no hacen esa conexión
+j-16,supported,Modelo de salida con response_model y separate_input_output_schemas=False están en las fuentes
+j-17,unsupported,Atribuye al contexto buenas prácticas sobre IDs y secretos del cliente que la Fuente 4 (id y secret_name del héroe) no dice; añade afirmaciones sobre scopes
+j-18,unsupported,"Dudoso: la llamada StaticFiles(directory=""static"", name=""static"") no aparece en las fuentes; el resto sí"
+j-19,unsupported,Empieza con 'Yes' a si fastapi contrib tiene paginador y las fuentes no hablan de eso; el resto sí está en las fuentes
+j-20,unsupported,Código inventado; dice starlette.responses.Response 'as shown in the documentation' y afirma cosas sobre Response que no están
+j-21,supported,Todo está en las fuentes; la URL de response-directly aparece en la Fuente 1 con ancla y la respuesta la da sin el ancla
+j-22,supported,Las afirmaciones sobre FastAPI (body / Pydantic / openapi_extra / form data) están en las fuentes; poco relevante para la pregunta
+j-23,supported,Dice correctamente que el contexto no cubre el error; URL presente en la Fuente 4; el último párrafo es una sugerencia genérica con 'may'
+j-24,supported,Casi literal de las fuentes; la URL está en la Fuente 4
+j-25,unsupported,Dice 'Example (as shown in Source 1)' pero ese código no está en la fuente y usa Response en vez de FileResponse
+j-26,unsupported,asyncio.create_task / Celery / @fastapi.background() y la explicación del bloqueo no están en las fuentes
+j-27,unsupported,Inventa 'from main import FastAPIApp' como causa del error; dice que admin.py lleva el prefix cuando la fuente dice lo contrario
+j-28,unsupported,Dudoso: todo fiel salvo la última frase (usar el dict para construir el request body de PATCH/PUT) que la fuente no dice
+j-29,supported,Tags / dependencias globales / sub-aplicaciones / Depends están en las fuentes
+j-30,unsupported,Presenta --forwarded-allow-ips como control de acceso por IP; las fuentes dicen que es para confiar en cabeceras del proxy; ejemplo con comas inventado
+j-31,unsupported,Tergiversa el cambio de 0.110.0 (la fuente habla de excepción capturada con except y no relanzada) y añade que el comportamiento optimiza el rendimiento
+j-32,unsupported,OpenCV / StreamingResponse / endpoints de stream y el código no están en las fuentes
+j-33,unsupported,Causas inventadas (JSON anidado / dependencias no registradas / WSGI / APIStar); las fuentes no dicen nada de eso
+j-34,unsupported,La URL https://fastapi.tiangolo.com/reference/ no está en las fuentes; generaliza BackgroundTasks a reutilizar objetos entre endpoints
+j-35,supported,Cabeceras X-Forwarded-* y --forwarded-allow-ips según las fuentes; la nota de seguridad se deduce del texto
+j-36,supported,Código y explicación literales de las notas de versión 0.113.0 y 0.114.0
+j-37,unsupported,Dice que el CLI de FastAPI se encarga de actualizar FastAPI (pip install --upgrade); la fuente no dice eso
+j-38,unsupported,Código y parámetro response_class en APIRouter no están en las fuentes (solo default_response_class); respuesta truncada
+j-39,unsupported,Agotamiento de recursos y demás causas y soluciones no están en las fuentes
+j-40,unsupported,Dice que \f no afecta a lo que muestran los docs interactivos; la Fuente 2 dice que lo truncado no aparece en la documentación
+j-41,supported,Fiel a las fuentes (incluida la de las bromas) y dice bien que no cubren la expiración
+j-42,supported,Dice correctamente que no se cubre la autenticación de estáticos; la URL está en la Fuente 5
+j-43,unsupported,async_background=True y await background_tasks.add_task no están en las fuentes aunque dice 'based on Source 4'; tergiversa lo de 0.121.0
+j-44,unsupported,Afirmaciones sobre el generador async_session() que las fuentes no mencionan
+j-45,unsupported,Aplica 'disponible desde 0.67.0' (dataclasses en la Fuente 5) a renderizar arrays NumPy; el resto y las URLs sí están
+j-46,supported,Resumen fiel de la Fuente 1 (herencia BaseUser/UserIn y filtrado)
+j-47,unsupported,Imports ResponseModel y JSONResponse desde fastapi y el código no están en las fuentes; dice que response_model valida los datos entrantes
+j-48,unsupported,Dice que bump-pydantic y json_schema_extra aseguran mensajes de error consistentes; las fuentes no dicen eso
+j-49,supported,Frases literales de las fuentes; la de Iterable[Item] está fuera de contexto pero no añade nada que no esté
+j-50,supported,Resumen de las fuentes sin afirmaciones técnicas nuevas; no responde a la pregunta pero eso no se juzga
