@@ -1,0 +1,82 @@
+{
+  "run_id": "2026-11-10-judge-items-so-test-50",
+  "started_at": "2026-11-10T13:58:27.387868+00:00",
+  "seed": 1,
+  "n": 50,
+  "top_k": 5,
+  "strategy": "hybrid",
+  "generator": {
+    "model": "gemma3:4b",
+    "digest": "68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7",
+    "prompt": "fastapi_rag_lab.api.prompt.QUERY_SYSTEM_PROMPT"
+  },
+  "embedding_runtime": {
+    "index": {
+      "ollama_version": "0.35.1",
+      "embedding_model": "nomic-embed-text",
+      "embedding_model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "query": {
+      "ollama_version": "0.35.1",
+      "embedding_model": "nomic-embed-text",
+      "embedding_model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "match": true
+  },
+  "provenance": {
+    "command": "answers.py --dataset tests/eval/stackoverflow/test.json --n 50 --seed 1 --run-id 2026-11-10-judge-items-so-test-50",
+    "started_at": null,
+    "finished_at": "2026-11-10T13:58:27.411328+00:00",
+    "reranker_model": "BAAI/bge-reranker-base",
+    "reranker_revision": "2cfc18c9415c912f9d8155881c133215df768a70",
+    "git": {
+      "commit": "3d3ce459b75893d81f10450e58d0f0ea46dd69ce",
+      "dirty": false,
+      "reason": null
+    },
+    "dataset": {
+      "path": "tests/eval/stackoverflow/test.json",
+      "sha256": "71783f0c9850801f2d5c2ff7b964dbd488045e8a6a7357f8ecd3df9d4374236b",
+      "entry_count": 221,
+      "reason": null
+    },
+    "corpus": {
+      "pinned_commit": "eba8942c81dbf990d25fbae34e6601bdbc21e74b",
+      "manifest_sha256": "e6aeb80162f358d890a32e5abde234de5d7bfc944ca71c8e6ef100fef2c9bb22",
+      "manifest_commit": "eba8942c81dbf990d25fbae34e6601bdbc21e74b",
+      "doc_count": 154,
+      "parent_count": 1085,
+      "chunk_count": 2054,
+      "reason": null
+    },
+    "qdrant": {
+      "url": "http://localhost:6333",
+      "collection": "fastapi_docs_v1",
+      "server_version": "1.12.4",
+      "point_count": 2054,
+      "reason": null
+    },
+    "ollama": {
+      "host": "http://localhost:11434",
+      "ollama_version": "0.35.1",
+      "embedding_model": "nomic-embed-text",
+      "embedding_model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "reason": null
+    },
+    "packages": {
+      "python": "3.12.3",
+      "torch": "2.11.0+cpu",
+      "sentence-transformers": "5.4.0",
+      "qdrant-client": "1.17.1",
+      "rank-bm25": "0.2.2",
+      "numpy": "2.4.4"
+    },
+    "hardware": {
+      "cpu_model": "AMD EPYC 7763 64-Core Processor",
+      "logical_cores": 4,
+      "ram_bytes": 16770486272,
+      "os": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.39",
+      "reasons": []
+    }
+  }
+}
