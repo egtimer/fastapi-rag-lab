@@ -84,11 +84,17 @@ warrant an ADR:
   when something fails — debugging a 5-level chain of polymorphic abstractions
   is brutal. See [ADR-003](docs/decisions/003-hybrid-retrieval.md).
 - **Real services over mocks.** Integration tests run against real Ollama + real
-  Qdrant and are skipped when those services are absent. Unit tests cover
-  metrics and schemas, and one test (`tests/ingest/test_embedder.py`)
-  monkeypatches the HTTP client. Mocks give false confidence: tests pass but
-  the system fails in production because the mock did not reflect real
-  behaviour, so I prefer real services wherever practical.
+  Qdrant and are skipped when those services are absent. The tests that run
+  without services do use stand-ins where a service would otherwise be
+  needed: the Ollama HTTP client (`tests/ingest/test_embedder.py`,
+  `tests/ingest/test_runtime.py`), the Qdrant client
+  (`tests/ingest/test_runtime.py`), the runtime check behind the API
+  (`tests/api/test_runtime_guard.py`), the retriever and reranker
+  (`tests/retrieval/test_hybrid_strategy.py`,
+  `tests/eval/test_benchmark_pipeline.py`) and the Anthropic SDK
+  (`tests/eval/test_judge.py`). They check the logic around those calls, not
+  the services themselves; mocks give false confidence about a service's real
+  behaviour, so the integration tests are what show the system works.
 - **Observability from day one.** Langfuse traces every query (retrieval span +
   generation span + total latency). You cannot optimise what you cannot measure.
 - **ADRs for every significant decision.** Future-me (and reviewers) need to
