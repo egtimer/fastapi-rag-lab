@@ -1,0 +1,192 @@
+{
+  "batches": {
+    "dev": [
+      "reports/2026-10-30-judge-items-so-dev-50",
+      "reports/2026-10-30-judge-sonnet-so-dev-50"
+    ],
+    "test": [
+      "reports/2026-11-10-judge-items-so-test-50",
+      "reports/2026-11-16-judge-sonnet-v1-so-test-50"
+    ]
+  },
+  "comparisons": {
+    "human_vs_second": {
+      "n": 99,
+      "accuracy": {
+        "value": 0.9494949494949495,
+        "ci_low": 0.9090909090909091,
+        "ci_high": 0.98989898989899,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.8926945588554086,
+        "ci_low": 0.7906976744186046,
+        "ci_high": 0.9780439121756488,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 37,
+          "value": 0.9459459459459459,
+          "ci_low": 0.8636363636363636,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 62,
+          "value": 0.9516129032258065,
+          "ci_low": 0.8923076923076924,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            35,
+            2
+          ],
+          [
+            3,
+            59
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.37373737373737376,
+        "second": 0.3838383838383838
+      }
+    },
+    "human_vs_sonnet_v1": {
+      "n": 100,
+      "accuracy": {
+        "value": 0.9,
+        "ci_low": 0.84,
+        "ci_high": 0.95,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7780736795383933,
+        "ci_low": 0.6373307543520309,
+        "ci_high": 0.896351575456053,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 37,
+          "value": 0.7837837837837838,
+          "ci_low": 0.6428571428571429,
+          "ci_high": 0.9117647058823529,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 63,
+          "value": 0.9682539682539683,
+          "ci_low": 0.9193548387096774,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            29,
+            8
+          ],
+          [
+            2,
+            61
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.37,
+        "second": 0.31
+      }
+    },
+    "second_vs_sonnet_v1": {
+      "n": 99,
+      "accuracy": {
+        "value": 0.8686868686868687,
+        "ci_low": 0.797979797979798,
+        "ci_high": 0.9292929292929293,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7124022346368716,
+        "ci_low": 0.5592163846838826,
+        "ci_high": 0.8482592511495511,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 38,
+          "value": 0.7368421052631579,
+          "ci_low": 0.5897435897435898,
+          "ci_high": 0.875,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 61,
+          "value": 0.9508196721311475,
+          "ci_low": 0.890625,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            28,
+            10
+          ],
+          [
+            3,
+            58
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.3838383838383838,
+        "second": 0.31313131313131315
+      }
+    }
+  },
+  "paired_difference_human_second_minus_human_sonnet_v1": {
+    "n": 99,
+    "value": 0.11576801536735093,
+    "ci_low": -0.03736109793871625,
+    "ci_high": 0.2765957356287217,
+    "share_le_zero": 0.0608
+  },
+  "kappa_ci_width": {
+    "human_vs_second": {
+      "dev_only": 0.2875104777870915,
+      "combined": 0.18734623775704418
+    }
+  },
+  "bootstrap": {
+    "B": 10000,
+    "seed": 0,
+    "confidence": 0.95,
+    "method": "percentile bootstrap, items resampled with replacement"
+  }
+}
