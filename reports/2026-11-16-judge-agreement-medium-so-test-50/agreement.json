@@ -1,0 +1,354 @@
+{
+  "counts": {
+    "human": {
+      "unsupported": 30,
+      "supported": 20
+    },
+    "second": {
+      "unsupported": 32,
+      "supported": 18
+    },
+    "sonnet_v1": {
+      "unsupported": 36,
+      "supported": 14
+    },
+    "sonnet_medium": {
+      "unsupported": 36,
+      "supported": 14
+    }
+  },
+  "comparisons": {
+    "human_vs_second": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.96,
+        "ci_low": 0.9,
+        "ci_high": 1.0,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.9152542372881355,
+        "ci_low": 0.782608695652174,
+        "ci_high": 1.0,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 20,
+          "value": 0.9,
+          "ci_low": 0.75,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 30,
+          "value": 1.0,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            18,
+            2
+          ],
+          [
+            0,
+            30
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.4,
+        "second": 0.36
+      }
+    },
+    "human_vs_sonnet_v1": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.88,
+        "ci_low": 0.78,
+        "ci_high": 0.96,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7368421052631579,
+        "ci_low": 0.5283018867924529,
+        "ci_high": 0.9110320284697508,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 20,
+          "value": 0.7,
+          "ci_low": 0.5,
+          "ci_high": 0.8888888888888888,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 30,
+          "value": 1.0,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            14,
+            6
+          ],
+          [
+            0,
+            30
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.4,
+        "second": 0.28
+      }
+    },
+    "human_vs_sonnet_medium": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.88,
+        "ci_low": 0.78,
+        "ci_high": 0.96,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7368421052631579,
+        "ci_low": 0.5283018867924529,
+        "ci_high": 0.9110320284697508,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 20,
+          "value": 0.7,
+          "ci_low": 0.5,
+          "ci_high": 0.8888888888888888,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 30,
+          "value": 1.0,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            14,
+            6
+          ],
+          [
+            0,
+            30
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.4,
+        "second": 0.28
+      }
+    },
+    "second_vs_sonnet_v1": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.88,
+        "ci_low": 0.78,
+        "ci_high": 0.96,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7262773722627738,
+        "ci_low": 0.5045045045045045,
+        "ci_high": 0.9082568807339448,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 18,
+          "value": 0.7222222222222222,
+          "ci_low": 0.5,
+          "ci_high": 0.9230769230769231,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 32,
+          "value": 0.96875,
+          "ci_low": 0.8928571428571429,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            13,
+            5
+          ],
+          [
+            1,
+            31
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.36,
+        "second": 0.28
+      }
+    },
+    "second_vs_sonnet_medium": {
+      "n": 50,
+      "accuracy": {
+        "value": 0.88,
+        "ci_low": 0.78,
+        "ci_high": 0.96,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 0.7262773722627738,
+        "ci_low": 0.5045045045045045,
+        "ci_high": 0.9082568807339448,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 18,
+          "value": 0.7222222222222222,
+          "ci_low": 0.5,
+          "ci_high": 0.9230769230769231,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 32,
+          "value": 0.96875,
+          "ci_low": 0.8928571428571429,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            13,
+            5
+          ],
+          [
+            1,
+            31
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.36,
+        "second": 0.28
+      }
+    },
+    "sonnet_v1_vs_sonnet_medium": {
+      "n": 50,
+      "accuracy": {
+        "value": 1.0,
+        "ci_low": 1.0,
+        "ci_high": 1.0,
+        "frac_undefined": 0.0
+      },
+      "kappa": {
+        "value": 1.0,
+        "ci_low": 1.0,
+        "ci_high": 1.0,
+        "frac_undefined": 0.0
+      },
+      "per_class_of_first": {
+        "supported": {
+          "n": 14,
+          "value": 1.0,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        },
+        "unsupported": {
+          "n": 36,
+          "value": 1.0,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "frac_undefined": 0.0
+        }
+      },
+      "confusion": {
+        "labels": [
+          "supported",
+          "unsupported"
+        ],
+        "rows": "first",
+        "columns": "second",
+        "matrix": [
+          [
+            14,
+            0
+          ],
+          [
+            0,
+            36
+          ]
+        ]
+      },
+      "share_supported": {
+        "first": 0.28,
+        "second": 0.28
+      }
+    }
+  },
+  "bootstrap": {
+    "B": 10000,
+    "seed": 0,
+    "confidence": 0.95,
+    "method": "percentile bootstrap, items resampled with replacement"
+  },
+  "items_run": "2026-11-10-judge-items-so-test-50",
+  "judge_runs": {
+    "sonnet_v1": "2026-11-16-judge-sonnet-v1-so-test-50",
+    "sonnet_medium": "2026-11-16-judge-sonnet-medium-so-test-50"
+  },
+  "human_labels": {
+    "second": "reports/2026-11-10-judge-items-so-test-50/labels_second.csv"
+  }
+}
