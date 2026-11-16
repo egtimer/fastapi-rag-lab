@@ -136,7 +136,7 @@ graph LR
 - Ollama 0.35.1, pinned ([ADR-007](docs/decisions/007-embedding-runtime.md)): `nomic-embed-text` (embeddings), `gemma3:4b` (generation)
 - `rank_bm25` for sparse retrieval
 - `sentence-transformers` for the optional cross-encoder reranker (`BAAI/bge-reranker-base`, pinned revision)
-- Langfuse (self-hosted via Docker) for observability
+- Langfuse 2.95.11 (self-hosted via Docker, pinned in `docker-compose.yml`) for observability
 - RAGAS for evaluation metrics (Phase 5.1)
 - `uv` for dependency management
 - `pytest` integration tests against real services
