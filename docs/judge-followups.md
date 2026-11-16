@@ -5,6 +5,23 @@ four things open. This file is the runbook for them, in the order that
 moves the result most. Costs are from the 2026-10-30 runs ($0.0089 per
 answer for Sonnet, $0.00054 for Haiku, 3,795 input tokens per prompt).
 
+**Status (2026-11-16): all steps below are done.** The results are in the
+addendum of [ADR 009](decisions/009-faithfulness-judge.md) (2026-11-16) and
+the tag `v-judge-cal-2`; the commands below are kept as the record of how
+they were run.
+
+- [x] 1. Second labeller: dev 50, 2026-11-10 (`reports/2026-11-10-judge-agreement-two-humans`)
+- [x] 2. Test-retest, effort `medium`, Haiku structured: 2026-11-10
+  (`reports/2026-11-10-judge-agreement-retest`); the retest was extended to six
+  Sonnet runs on 2026-11-16 (`reports/2026-11-16-judge-agreement-retest-x6`)
+- [x] 3. Held-out 50 with v1 and v2: items and prompt hashes 2026-11-11, judge
+  runs 2026-11-16 (`reports/2026-11-16-judge-agreement-so-test-50`); effort
+  `medium` on the held-out 50 (`reports/2026-11-16-judge-agreement-medium-so-test-50`);
+  both batches together (`reports/2026-11-16-judge-agreement-n100`)
+- [x] 3b. Origin of the unsupported claims: 60 claims labelled, 2026-11-11
+  (`reports/2026-11-02-unsupported-origin-so-dev-50`)
+- [x] 4. Tags: `v-judge-cal-1` and `v-judge-cal-2`
+
 Rules that apply to every run below:
 
 - The v1 prompt stays frozen. v2 (`--prompt v2`) adds the citation rule the
@@ -21,6 +38,8 @@ Rules that apply to every run below:
   (a Codespace, a laptop). It is never pasted into a chat, an issue or a file.
 
 ## 1. Second human labeller (the ceiling), $0
+
+**Done** 2026-11-10.
 
 The sheets and an empty `labels_second.csv` are already in
 `reports/2026-10-30-judge-items-so-dev-50/`, with `LABELLING_RULE.md` (the
@@ -61,6 +80,8 @@ look at j-36 and j-42 first: that settles whether the first labeller or
 Sonnet is the outlier on "follows directly from them".
 
 ## 2. Sonnet test-retest, and two explorations, about $1, 4 minutes
+
+**Done** 2026-11-10; retest extended to six runs on 2026-11-16.
 
 Same prompt (v1), same 50 items. Three runs, three new ids. Only the first
 is a measurement; the other two are exploration, and the post must say so:
@@ -106,6 +127,8 @@ run is the v1 prompt with a forced tool call: it should have zero
 
 ## 3. Prompt v2 on a fresh held-out 50 (closing the loop)
 
+**Done** 2026-11-16, plus a run at effort `medium` on the same 50.
+
 About 2 hours of `gemma3:4b` generation on the 4-core CPU, 2 to 3 hours of
 labelling, $0.47 of judging. The 50 come from the Stack Overflow TEST split
 with a new seed, so they overlap neither the dev calibration set nor each
@@ -137,9 +160,13 @@ uv run python -m fastapi_rag_lab.eval.judge.agreement \
 
 The result to report is "v2 moved Sonnet from X/50 to Y/50 on new labels",
 with the items that flipped. If v2 is not better on new labels, that is the
-result; it goes in ADR 010 either way.
+result. It went into the addendum of ADR 009 (2026-11-16), not a new ADR:
+v2 moved one verdict (kappa 0.74 to 0.78 on the held-out 50), within the
+run-to-run noise, so v1 stays the judge.
 
 ## 3b. Where the unsupported claims come from, $0, about 2 hours of reading
+
+**Done** 2026-11-11.
 
 The judge says 33 of 50 answers are unsupported. That is several different
 failures: the claim contradicts a source, the claim is in the docs but was
@@ -171,6 +198,8 @@ true but not in the corpus, Z a false claim". It separates retrieval
 failure from generation failure, which the judge alone cannot.
 
 ## 4. Tagging, and what the tag does and does not show
+
+**Done**: `v-judge-cal-1` (round 1) and `v-judge-cal-2` (round 2).
 
 After the runs above are committed, tag the commit:
 
