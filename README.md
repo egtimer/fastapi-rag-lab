@@ -1,6 +1,10 @@
 # fastapi-rag-lab
 
-> **RAG over the FastAPI documentation, and the evaluations that show how well it retrieves.**
+**Write-up: [Measure the judge before you trust it](https://egtimer.dev/en/blog/measure-the-judge/)**:
+two people hand-labelled 100 of this system's answers to check a Claude faithfulness judge.
+
+> **RAG over the FastAPI documentation, and the evaluations that show how well it retrieves
+> and whether its answers stay within their sources.**
 > Hybrid retrieval (dense + BM25, optional cross-encoder rerank), SSE streaming with
 > citations, Langfuse tracing, hand-written orchestration without LangChain.
 
@@ -13,9 +17,34 @@ evaluation against a corpus I actually know well. Most RAG tutorials stop at
 and tells you honestly when it doesn't.
 
 Everything runs locally: Ollama for embeddings and generation, Qdrant for
-vector storage, Langfuse for traces. No API keys are needed. Every benchmark
-number comes from a run committed under [`reports/`](reports/), which records
-the code commit, corpus commit, model digests and hardware it ran on.
+vector storage, Langfuse for traces. No API keys are needed, except for the
+Claude faithfulness judge. Every reported number comes from a run committed
+under [`reports/`](reports/), which records the code commit, corpus commit,
+model digests and hardware it ran on.
+
+## Results at a glance
+
+| What | Result | Source |
+|---|---|---|
+| Faithfulness judge (Claude Sonnet 5.5, prompt v1) vs me, both batches (n = 100) | kappa 0.78 [0.64, 0.90], accuracy 0.90 [0.84, 0.95] | `reports/2026-11-16-judge-agreement-n100` |
+| Same judge vs the second labeller (n = 99) | kappa 0.71 [0.56, 0.85] | `reports/2026-11-16-judge-agreement-n100` |
+| Two humans, labelling blind (n = 99) | kappa 0.89 [0.79, 0.98] | `reports/2026-11-16-judge-agreement-n100` |
+| Human–human kappa minus human–judge kappa, paired over the same items | +0.12 [−0.04, +0.28]: the judge agrees with me less than a second person does, but at n = 100 the gap cannot be told apart from zero | `reports/2026-11-16-judge-agreement-n100` |
+| Held-out 50 (Stack Overflow test split; items and prompt hashes committed before labelling, labels before the judge ran) | v1 kappa 0.74 [0.53, 0.91]; v2 (citation rule made explicit) 0.78 [0.59, 0.95]; v1 at effort `medium` gives the same verdicts as v1 on all 50 | `reports/2026-11-16-judge-agreement-so-test-50`, `reports/2026-11-16-judge-agreement-medium-so-test-50` |
+| Six runs of the same judge (v1, effort `low`) on the same 50 dev answers | kappa vs me 0.68 to 0.82, mean 0.79; 45 of 50 answers get the same verdict in all six runs | `reports/2026-11-16-judge-agreement-retest-x6` |
+| `gemma3:4b` answers fully supported by their sources (my labels) | 17 of 50 dev, 20 of 50 held-out | `reports/2026-10-30-judge-items-so-dev-50`, `reports/2026-11-10-judge-items-so-test-50` |
+| Retrieval, Stack Overflow test (n = 221), default `hybrid`, k=5 | Recall@5 0.295 [0.240, 0.349], MRR 0.239 [0.192, 0.287], p50 78 ms | `reports/2026-10-20-so-test-ollama-0.35.1` |
+| Retrieval, golden set (n = 30), `hybrid`, k=5 | Recall@5 0.900 [0.767, 1.000], MRR 0.817 [0.700, 0.917] | `reports/2026-10-20-golden30-ollama-0.35.1` |
+| Cross-encoder reranker vs plain hybrid, MRR at k=5 | dev −0.052 [−0.105, +0.001], test +0.024 [−0.016, +0.065]: no detectable effect, about 80× the latency | [ADR-008](docs/decisions/008-default-retrieval-strategy.md) |
+| April's golden numbers | Reproduce query by query on Ollama 0.20.7, not on 0.5.7 or 0.35.1; the embedding runtime is now pinned and checked | [ADR-007](docs/decisions/007-embedding-runtime.md) |
+| Judged faithfulness on golden + Stack Overflow test (251 questions) | Not run yet | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
+
+Intervals are 95% bootstrap CIs over questions (10,000 resamples, seed 0).
+Retrieval runs are on CPU (4 cores) and record their runtime in the report's
+provenance. The first calibration (50 dev answers, one labeller) gave the
+judge kappa 0.82; that was the top of the six-run range, and it fell to 0.74
+on the held-out 50. Details in [Answer faithfulness](#answer-faithfulness-judge-calibration)
+and [ADR-009](docs/decisions/009-faithfulness-judge.md).
 
 ## Roadmap
 
@@ -26,24 +55,9 @@ the code commit, corpus commit, model digests and hardware it ran on.
 - ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed yet), [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
 - ✅ **Phase 5.3** — Reproducible retrieval evals: Stack Overflow set (143 dev / 221 test), bootstrap CIs, pinned and recorded runtime, plain hybrid as default, [ADR-007](docs/decisions/007-embedding-runtime.md), [ADR-008](docs/decisions/008-default-retrieval-strategy.md)
-- ✅ **Phase 5.4** — Answer faithfulness judge (Claude Haiku 5.5 / Sonnet 5.5) calibrated against 50 human-labelled answers, [ADR-009](docs/decisions/009-faithfulness-judge.md)
+- ✅ **Phase 5.4** — Answer faithfulness judge (Claude Haiku 5.5 / Sonnet 5.5) calibrated against 100 answers labelled by two people (50 dev, 50 held-out from test), [ADR-009](docs/decisions/009-faithfulness-judge.md)
 
-**Repo status: retrieval benchmarks and the judge calibration done; judged answer faithfulness on the test questions not yet run.** Latest: Oct 30, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
-
-## Results at a glance
-
-| What | Result | Source |
-|---|---|---|
-| Retrieval, Stack Overflow test (n = 221), default `hybrid`, k=5 | Recall@5 0.295 [0.240, 0.349], MRR 0.239 [0.192, 0.287], p50 78 ms | `reports/2026-10-20-so-test-ollama-0.35.1` |
-| Retrieval, golden set (n = 30), `hybrid`, k=5 | Recall@5 0.900 [0.767, 1.000], MRR 0.817 [0.700, 0.917] | `reports/2026-10-20-golden30-ollama-0.35.1` |
-| Cross-encoder reranker vs plain hybrid, MRR at k=5 | dev −0.052 [−0.105, +0.001], test +0.024 [−0.016, +0.065]: no detectable effect, about 80× the latency | [ADR-008](docs/decisions/008-default-retrieval-strategy.md) |
-| April's golden numbers | Reproduce query by query on Ollama 0.20.7, not on 0.5.7 or 0.35.1; the embedding runtime is now pinned and checked | [ADR-007](docs/decisions/007-embedding-runtime.md) |
-| Faithfulness judge vs human (n = 50) | Sonnet 5.5 kappa 0.82 [0.63, 0.96]; Haiku 5.5 kappa 0.73 [0.51, 0.91] (47 parsed) | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
-| `gemma3:4b` answers fully supported by their sources (human labels, 50 dev questions) | 17 of 50 | `reports/2026-10-30-judge-items-so-dev-50` |
-| Judged faithfulness on golden + Stack Overflow test (251 questions) | Not run in this phase | [ADR-009](docs/decisions/009-faithfulness-judge.md) |
-
-Intervals are 95% bootstrap CIs over questions. All runs are on CPU (4 cores)
-and record their runtime in the report's provenance.
+**Repo status: retrieval benchmarks and the judge calibration (n = 100, two labellers) done; judged answer faithfulness on the test questions not yet run.** Latest: Nov 16, 2026 ([commits](https://github.com/egtimer/fastapi-rag-lab/commits/main)).
 
 ## Why this project exists
 
@@ -295,8 +309,10 @@ check answers with something stronger, a Claude judge reads the question, the
 five sources the generator saw and the answer, and says whether the answer is
 `supported` by those sources or `unsupported`. It does not judge whether the
 answer is useful. Before using it for any reported number, it was calibrated
-against human labels on 50 Stack Overflow dev questions, answered through the
-API's own path (`hybrid`, top_k 5, `gemma3:4b` on Ollama 0.35.1).
+against two human labellers on 100 Stack Overflow questions (50 dev, then 50
+held out from the test split), answered through the API's own path
+(`hybrid`, top_k 5, `gemma3:4b` on Ollama 0.35.1). The full account is in the
+write-up, [Measure the judge before you trust it](https://egtimer.dev/en/blog/measure-the-judge/).
 
 The labelling rule:
 
@@ -305,6 +321,8 @@ The labelling rule:
   is true of FastAPI.
 - An invented quotation, or attributing to a source something it does not
   say, is `unsupported`.
+
+**First calibration: 50 dev answers, one labeller (2026-10-30).**
 
 | Judge | n | Accuracy | Cohen's kappa | On human `supported` (n = 17) | On human `unsupported` | Cost per answer |
 |---|---|---|---|---|---|---|
@@ -316,13 +334,55 @@ labelled `unsupported` by the human, so excluding them flatters Haiku (41 of
 50 matches when they count as misses). The two judges' intervals overlap: 50
 answers and one labeller do not separate them. The human found 17 of the 50
 answers fully supported by their sources. Calibration cost: $0.47 in total.
-Judging the 251 golden and Stack Overflow test questions is not run in this
-phase. The judge prompt stays as it was frozen before the labels were read;
-making the citation rule explicit in it, and forcing structured output for
-Haiku, are future work that needs a new set of human labels to validate.
-Details, confusion matrices and the commands are in
-[ADR-009](docs/decisions/009-faithfulness-judge.md); the runs are in
-`reports/2026-10-30-judge-items-so-dev-50` and `reports/2026-10-30-judge-*`.
+The v1 prompt stayed as it was frozen before these labels were read.
+
+**Second labeller.** A second engineer labelled the same 50 blind, without
+AI assistance, from the same rule: kappa 0.87 [0.71, 1.00] with me (n = 49,
+one `unsure`), and 0.70 with Sonnet
+(`reports/2026-11-10-judge-agreement-two-humans`).
+
+**Stability.** Sonnet v1 at effort `low` run six times on the same 50 answers:
+kappa with me 0.82, 0.68, 0.82, 0.77, 0.82, 0.82 (mean 0.79, SD 0.055).
+Run-to-run kappa is 0.86 to 1.00, and 45 of the 50 answers get the same
+verdict in all six runs, so a single run's kappa carries judge noise on top of
+the sampling interval; the first calibration's 0.82 was the top of this range
+(`reports/2026-11-16-judge-agreement-retest-x6`). Two
+settings were also tried on these 50 after seeing the labels, so they are
+explorations, not results: effort `medium` (kappa 0.86) and Haiku with forced
+structured output (no unparsed replies, but kappa 0.59, with more false
+`supported`; `reports/2026-11-10-judge-agreement-retest`).
+
+**Held-out 50 (pre-registered).** 50 new questions from the Stack Overflow
+test split (seed 1). The items, labelling sheets and the sha256 of both judge
+prompts were committed before labelling started (af60c2d); both labels files
+were committed before any judge ran on these items. Prompt v2 adds the
+citation rule to v1.
+
+| Comparison (held-out, n = 50) | Accuracy | Cohen's kappa |
+|---|---|---|
+| Me vs second labeller | 0.96 [0.90, 1.00] | 0.92 [0.78, 1.00] |
+| Me vs Sonnet v1 | 0.88 [0.78, 0.96] | 0.74 [0.53, 0.91] |
+| Me vs Sonnet v2 | 0.90 [0.82, 0.98] | 0.78 [0.59, 0.95] |
+| Me vs Sonnet v1 at effort `medium` | 0.88 | 0.74 (same verdicts as v1 on all 50) |
+
+Every judge disagreement on the held-out set is an answer I labelled
+`supported` that the judge called `unsupported` (6 with v1, 5 with v2). v2
+changed one verdict, which is within the run-to-run noise above.
+
+**Both batches (n = 100).** Sonnet v1 against me: kappa 0.78 [0.64, 0.90],
+accuracy 0.90 [0.84, 0.95]; against the second labeller: 0.71 [0.56, 0.85]
+(n = 99). The two humans: 0.89 [0.79, 0.98] (n = 99). Paired over the same
+items, human–human kappa minus human–judge kappa is +0.12 [−0.04, +0.28]:
+the judge sits below a second person, but 100 answers cannot rule out no
+gap. Eight of the ten disagreements with me are the judge calling a
+supported answer `unsupported`, so the judge is the stricter reader. Script
+and output: `reports/2026-11-16-judge-agreement-n100`.
+
+Judging the 251 golden and Stack Overflow test questions has not been run
+yet. Details, confusion matrices and the commands are in
+[ADR-009](docs/decisions/009-faithfulness-judge.md) and
+[`docs/judge-followups.md`](docs/judge-followups.md); the runs are in
+`reports/*-judge-*`.
 
 ## Retrieval benchmarks
 
@@ -447,9 +507,13 @@ limitations:
 - The Stack Overflow labels are the pages answerers linked, not judged
   relevance; their precision has not been measured yet (a 60-pair sample is
   in `tests/eval/stackoverflow/label_audit/`, waiting for review).
-- The faithfulness judge is calibrated on 50 answers labelled by one person;
-  its agreement numbers have wide intervals, and judged faithfulness on the
-  test questions has not been run.
+- The faithfulness judge is calibrated on 100 answers and two labellers. The
+  kappa intervals at n = 100 are still 0.19 to 0.29 wide, the gap between judge and
+  second human (+0.12 [−0.04, +0.28]) is not resolved at this n, and a single
+  judge run moves by up to 0.14 in kappa on the same answers. The judge is
+  `claude-sonnet-5-5` called by alias, so a model update can change it; every
+  run records the model id and date. Judged faithfulness on the test questions
+  has not been run.
 - The Qdrant client (1.17.1) is newer than the server (1.12.4) by more than the
   client supports. Both are recorded in every report; aligning them is pending
   ([ADR-007](docs/decisions/007-embedding-runtime.md)).

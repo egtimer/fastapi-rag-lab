@@ -1,7 +1,8 @@
 # ADR 009: A Faithfulness Judge, Calibrated Against Human Labels
 
 ## Status
-Accepted -- 2026-10-30
+Accepted -- 2026-10-30. Addendum 2026-11-16: second labeller, stability and a
+pre-registered held-out 50 (see the end of this ADR).
 
 ## Context
 
@@ -111,3 +112,71 @@ new set of human-labelled answers, not on these 50:
   claims attributed to a source that does not make them are `unsupported`).
 - Force structured output for Haiku (for example a JSON schema on the
   response) so that malformed JSON can no longer leave answers unparsed.
+
+## Addendum (2026-11-16): second labeller, stability, held-out 50
+
+The four open points of this ADR were run as described in
+[`docs/judge-followups.md`](../judge-followups.md). The decision above stands:
+Sonnet 5.5 with prompt v1 at effort `low` is the judge. Write-up:
+[Measure the judge before you trust it](https://egtimer.dev/en/blog/measure-the-judge/).
+
+**Second labeller (dev 50).** A second engineer labelled the same 50 answers
+blind, without AI assistance (`labels_second.csv` in
+`reports/2026-10-30-judge-items-so-dev-50`): kappa 0.87 [0.71, 1.00] with the
+first labeller (n = 49, one `unsure`); Sonnet 0.70 [0.47, 0.88] and Haiku 0.60
+[0.35, 0.82] with the second labeller
+(`reports/2026-11-10-judge-agreement-two-humans`).
+
+**Stability (dev 50).** Sonnet v1 at effort `low` run six times
+(`reports/2026-11-16-judge-agreement-retest-x6`): kappa with the first
+labeller 0.82, 0.68, 0.82, 0.77, 0.82, 0.82 (mean 0.79, SD 0.055); run-to-run
+kappa 0.86 to 1.00; 45 of 50 answers get the same verdict in all six runs. The
+0.82 reported above was the top of this range.
+
+**Explorations (dev 50, not results).** Chosen after the labels were read, so
+they cannot show an improvement on these items
+(`reports/2026-11-10-judge-agreement-retest`): effort `medium` 0.86
+[0.68, 1.00]; Haiku with forced structured output, no unparsed replies but
+kappa 0.59 [0.36, 0.80], with more false `supported`.
+
+**Held-out 50.** New items from the Stack Overflow test split (seed 1,
+`reports/2026-11-10-judge-items-so-test-50`). Items, labelling sheets and the
+sha256 of prompts v1 and v2 were committed before labelling (af60c2d); the
+second labeller's labels and hash in f43cd86, the first labeller's in 48fde44,
+both before the first judge run on these items (2026-11-16 09:31 UTC). v2 is
+v1 plus the citation rule (invented quotations and claims attributed to a
+source that does not make them are `unsupported`).
+
+| Comparison (held-out, n = 50) | Accuracy | Cohen's kappa |
+|---|---|---|
+| First vs second labeller | 0.96 [0.90, 1.00] | 0.92 [0.78, 1.00] |
+| First labeller vs Sonnet v1 | 0.88 [0.78, 0.96] | 0.74 [0.53, 0.91] |
+| First labeller vs Sonnet v2 | 0.90 [0.82, 0.98] | 0.78 [0.59, 0.95] |
+| First labeller vs Sonnet v1, effort `medium` | 0.88 | 0.74, same verdicts as v1 on all 50 |
+
+All judge disagreements on these items are answers the first labeller called
+`supported` (6 with v1, 5 with v2). v2 changed one verdict, which is within
+the run-to-run noise, so v1 is kept; effort `medium` changed none.
+
+**Both batches (n = 100).** `reports/2026-11-16-judge-agreement-n100`
+(`combined.py` in that directory):
+
+| Comparison | n | Accuracy | Cohen's kappa |
+|---|---|---|---|
+| First vs second labeller | 99 | 0.95 [0.91, 0.99] | 0.89 [0.79, 0.98] |
+| First labeller vs Sonnet v1 | 100 | 0.90 [0.84, 0.95] | 0.78 [0.64, 0.90] |
+| Second labeller vs Sonnet v1 | 99 | 0.87 [0.80, 0.93] | 0.71 [0.56, 0.85] |
+
+Paired over the same 99 items, human–human kappa minus first-labeller–judge
+kappa is +0.12 [−0.04, +0.28] (6% of resamples at or below zero). Confusion
+with the first labeller (rows human, columns judge; `supported`,
+`unsupported`): [[29, 8], [2, 61]]; the judge is the stricter reader.
+
+**Consequences.**
+
+- The judge's agreement is reported as 0.78 [0.64, 0.90] on n = 100, not 0.82
+  on n = 50.
+- A single run's kappa carries judge noise (SD 0.055 over six runs) on top of
+  the sampling interval; claims about a prompt or setting change smaller than
+  that need repeated runs.
+- Judging the 251 golden and Stack Overflow test questions is still not run.
