@@ -1,51 +1,51 @@
 item_id,label,note
-j-01,,
-j-02,,
-j-03,,
-j-04,,
-j-05,,
-j-06,,
-j-07,,
-j-08,,
-j-09,,
-j-10,,
-j-11,,
-j-12,,
-j-13,,
-j-14,,
-j-15,,
-j-16,,
-j-17,,
-j-18,,
-j-19,,
-j-20,,
-j-21,,
-j-22,,
-j-23,,
-j-24,,
-j-25,,
-j-26,,
-j-27,,
-j-28,,
-j-29,,
-j-30,,
-j-31,,
-j-32,,
-j-33,,
-j-34,,
-j-35,,
-j-36,,
-j-37,,
-j-38,,
-j-39,,
-j-40,,
-j-41,,
-j-42,,
-j-43,,
-j-44,,
-j-45,,
-j-46,,
-j-47,,
-j-48,,
-j-49,,
-j-50,,
+j-01,unsupported,"El código borra el archivo antes de devolverlo y no usa Depends; la nota final dice que el borrado ocurre tras enviar la respuesta, y la fuente 5 dice que scope=""function"" cierra antes de enviarla"
+j-02,unsupported,"El código (Request, request.json(), item.json(), Response(content=...)) no aparece en ninguna fuente; la fuente 5 solo dice que el body se declara con modelos Pydantic"
+j-03,supported,Reformula casi literalmente la fuente 5: lo leído directamente del Request no se valida y lo declarado normalmente sí
+j-04,supported,"Todas las afirmaciones están en las fuentes 2, 4 y 5 (lógica compartida, conexiones a BD, seguridad, grafo de dependencias, validación automática)"
+j-05,unsupported,Dice que JSONResponse está pensado para serializar eficientemente con modelos Pydantic; las fuentes 2 y 3 dicen que con response model no se usa JSONResponse y que este es más lento. Lo de json.dumps como poco óptimo no está en las fuentes
+j-06,unsupported,"Atribución falsa: default_response_class (fuente 4) cambia la clase de respuesta por defecto, no los encoders de jsonable_encoder; ninguna fuente dice que se puedan sobrescribir así"
+j-07,supported,"Lo afirmado sobre UploadFile (archivo spooled, metadatos, métodos async, threadpool) está en las fuentes 1 y 3; no llega a afirmar nada sobre shutil; respuesta truncada"
+j-08,unsupported,"Dudoso: la nota atribuida a la fuente 5 añade consejos que esa fuente no da (asegurar el Content-Type, especificar ""siempre"" orígenes, métodos y cabeceras); el resto sí está en las fuentes 1 a 4"
+j-09,supported,"La fuente 1 dice que --reload consume más recursos, es más inestable y no debe usarse en producción; la fuente 3 dice que fastapi run desactiva auto-reload"
+j-10,unsupported,El patrón del código (parámetro response: Response con response.status_code) y el valor por defecto 200 no aparecen en las fuentes
+j-11,unsupported,"Dudoso: afirma que el error ""There was an error parsing the body"" devuelve el JSON con loc, msg y type; la fuente 1 describe ese JSON para datos inválidos pero no menciona ese error"
+j-12,unsupported,"El código con pandas (pd.DataFrame, to_dict(orient='records')) y response_model=Item devolviendo una lista no está en las fuentes, que no mencionan DataFrames"
+j-13,supported,"Cita literal de la fuente 1: docs_url=None desactiva Swagger UI, servido en /docs"
+j-14,unsupported,Dice que se pueden combinar datos JSON (vía Form) con archivos y da código con Form(...) y Form(default=[]) que las fuentes no muestran; las fuentes 1 y 4 dicen que no se pueden declarar campos Body JSON junto a File y Form
+j-15,unsupported,"Dudoso: cada hecho está en las fuentes 3 y 5, pero las presenta como la solución al error de la pregunta (orm_mode, arreglo de 0.123.3), relación que ninguna fuente establece"
+j-16,supported,Modelo de salida distinto con response_model y filtrado (fuente 1); separate_input_output_schemas=False y su caso de uso (fuentes 3 y 5)
+j-17,unsupported,"Dudoso: el punto 5 convierte el ejemplo del id y secret_name del Hero (fuente 4, tutorial SQL) en una recomendación de seguridad sobre IDs y secretos de OAuth que la fuente no hace"
+j-18,supported,"Importar y montar StaticFiles, directory y name, y la URL /static/redoc.standalone.js están en las fuentes 1, 2 y 5; la llamada exacta StaticFiles(directory=..., name=...) la compone la respuesta"
+j-19,supported,"Dudoso por el ""Yes"" inicial, pero todo lo afirmado (cualquier BD, SQLModel, lista de bases, los dos generadores de proyecto) está en las fuentes 1, 2 y 4"
+j-20,unsupported,"El código con Response(content=str(...), media_type=""text/plain""), la mención a starlette.responses.Response ""como en la documentación"" y lo de quitar response_model no están en las fuentes"
+j-21,supported,"Response directa con cabeceras y cookies (fuentes 1 y 3), los tres apartados de exception handlers (fuente 5) y JSONResponse por defecto (fuente 4)"
+j-22,supported,"Métodos para enviar body y modelos Pydantic (fuente 2), openapi_extra y YAML (fuente 5), codificación de formularios (fuente 4); lo de Axios es texto de enlace genérico"
+j-23,supported,"Modelos Pydantic con Form y Cookie (fuentes 1, 2 y 5), extra forbid (fuente 4); dice correctamente que las fuentes no cubren archivos junto a form models; el consejo final es genérico y condicional"
+j-24,supported,"Casi literal de las fuentes 1, 3, 4 y 5"
+j-25,unsupported,"Atribución falsa: presenta como ""ejemplo de la fuente 1"" un código con Response(content=open(...).read()) que no está en ella y contradice su nota de usar FileResponse"
+j-26,unsupported,"Casi todo es conocimiento externo (bloqueo del event loop, asyncio.create_task, Celery) e inventa un decorador @fastapi.background(); las fuentes no hablan de ThreadPoolExecutor"
+j-27,unsupported,"Inventa que FastAPI espera ""from main import FastAPIApp"" y dice que admin.py lleva el prefijo y las dependencias, cuando la fuente 4 dice que se pasan en include_router sin modificar el router"
+j-28,unsupported,"Dudoso: lo de model_dump(exclude_unset=True) está en la fuente 3, pero la frase final dice que el dict sirve para construir el body de un PATCH o PUT; la fuente lo usa para actualizar el modelo guardado con model_copy(update=...)"
+j-29,supported,"Tags (fuente 1), dependencias globales (fuente 2), sub-aplicaciones y root_path (fuente 3) y Depends (fuente 4)"
+j-30,unsupported,Presenta --forwarded-allow-ips como control de acceso a endpoints; las fuentes dicen que solo indica de qué IPs se confían las cabeceras reenviadas. La lista separada por comas y el aviso de seguridad sobre el comodín no están en las fuentes
+j-31,unsupported,Deforma la fuente 4: describe el cambio de 0.110.0 como excepciones no manejadas (la fuente habla de excepciones capturadas con except y no relanzadas) y mezcla el comportamiento anterior a 0.106.0 bajo 0.110.0
+j-32,unsupported,"Todo lo de OpenCV (VideoCapture, imencode), StreamingResponse importado de fastapi y los endpoints /stream/* no está en las fuentes"
+j-33,unsupported,"Las causas del 422 son inventadas (dependencias no registradas, limitaciones WSGI heredadas, legado de APIStar); la fuente 5 describe otros frameworks, no el comportamiento de FastAPI"
+j-34,unsupported,Dice que el mismo objeto se reutiliza entre endpoints distintos (la fuente 5 habla de niveles dentro de una misma petición) y da un enlace fastapi.tiangolo.com/reference/ que no está en la fuente 4
+j-35,supported,"Cabeceras X-Forwarded-*, --forwarded-allow-ips y que sin ella el servidor no las interpreta (fuentes 3 y 4); lo del Request está en la fuente 2"
+j-36,supported,El código es literal de las fuentes 3 y 4 y la explicación sigue las fuentes 1 y 2
+j-37,unsupported,"Dice que el CLI de FastAPI se encarga de actualizar FastAPI (pip install --upgrade fastapi); en la fuente 1 ese es un comando pip aparte, no una función del CLI"
+j-38,unsupported,APIRouter(response_class=...) y router.response_class no aparecen en las fuentes (la fuente 2 habla de default_response_class); el código con response.headers tampoco está
+j-39,unsupported,"Las causas y soluciones (agotamiento de recursos, que fastapi dev provoca problemas de recursos, bucles infinitos, monitorizar con top) son conocimiento externo; las fuentes no tratan cierres inesperados"
+j-40,unsupported,Dice que el \f no afecta a lo que se muestra en la documentación interactiva; la fuente 2 dice que lo truncado no aparece en la documentación y que solo otras herramientas como Sphinx usan el resto
+j-41,supported,"Forbid extra cookies y error (fuentes 1 y 4), navegadores y JavaScript (fuente 5); dice correctamente que las fuentes no tratan la expiración"
+j-42,supported,"Dice correctamente que las fuentes no explican la autenticación de rutas estáticas; el resto (enlace, /static, directory y name) está en las fuentes 1 y 5"
+j-43,unsupported,"Atribución falsa: el código ""basado en la fuente 4"" usa async_background=True y await background_tasks.add_task(...), que no están en ninguna fuente"
+j-44,unsupported,Las fuentes no mencionan async_session(); la afirmación de que está diseñado para gestionar sesiones con varios hilos por petición es inventada
+j-45,unsupported,Atribuye a la versión 0.67.0 la posible disponibilidad de renderizar arrays NumPy; la fuente 5 da esa versión para dataclasses
+j-46,supported,"Reformula la fuente 1: BaseUser y UserIn, anotación del tipo de retorno y filtrado de datos"
+j-47,unsupported,"Importa ResponseModel y JSONResponse desde fastapi, que las fuentes no muestran, y dice que jsonable_encoder valida el JSON entrante"
+j-48,unsupported,Afirma que bump-pydantic y json_schema_extra garantizan mensajes de error consistentes; las fuentes no relacionan ninguno de los dos con el formato de los errores
+j-49,supported,"Frases copiadas literalmente de las fuentes 1 a 4, aunque la de Iterable[Item] queda fuera de contexto"
+j-50,supported,"Dudoso: resumen fiel de las fuentes 1 a 4 (Hug, APIStar, workers, webhooks, tutorial) con algún adorno genérico; no responde a la pregunta"
