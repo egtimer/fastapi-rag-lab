@@ -218,8 +218,8 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-161 tests covering ingestion, retrieval, the query API, and the eval
-pipeline. 143 need no services, network or models; the other 18 need Qdrant and
+167 tests covering ingestion, retrieval, the query API, and the eval
+pipeline. 149 need no services, network or models; the other 18 need Qdrant and
 Ollama and are skipped when those are not reachable.
 
 ```bash
