@@ -52,7 +52,7 @@ and [ADR-009](docs/decisions/009-faithfulness-judge.md).
 - ✅ **Phase 2** — Ingestion pipeline (154 markdown docs → 2054 chunks indexed in Qdrant), [ADR-002](docs/decisions/002-ingestion-pipeline.md)
 - ✅ **Phase 3** — Hybrid retrieval (dense + BM25 + RRF + bge-reranker-base), [ADR-003](docs/decisions/003-hybrid-retrieval.md)
 - ✅ **Phase 4** — `/query` API with SSE streaming, citations, Langfuse tracing per query, [ADR-004](docs/decisions/004-query-api-streaming.md)
-- ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed yet), [ADR-005](docs/decisions/005-evaluation-strategy.md)
+- ✅ **Phase 5.1** — RAGAS eval pipeline + 30-query golden dataset + custom citation accuracy metric (pipeline code only; no results committed; legacy, see [RAGAS pipeline](#ragas-pipeline-legacy)), [ADR-005](docs/decisions/005-evaluation-strategy.md)
 - ✅ **Phase 5.2** — A/B retrieval benchmarks (9 configs), comparative analysis with plots, [ADR-006](docs/decisions/006-retrieval-benchmarks.md)
 - ✅ **Phase 5.3** — Reproducible retrieval evals: Stack Overflow set (143 dev / 221 test), bootstrap CIs, pinned and recorded runtime, plain hybrid as default, [ADR-007](docs/decisions/007-embedding-runtime.md), [ADR-008](docs/decisions/008-default-retrieval-strategy.md)
 - ✅ **Phase 5.4** — Answer faithfulness judge (Claude Haiku 5.5 / Sonnet 5.5) calibrated against 100 answers labelled by two people (50 dev, 50 held-out from test), [ADR-009](docs/decisions/009-faithfulness-judge.md)
@@ -137,7 +137,7 @@ graph LR
 - `rank_bm25` for sparse retrieval
 - `sentence-transformers` for the optional cross-encoder reranker (`BAAI/bge-reranker-base`, pinned revision)
 - Langfuse 2.95.11 (self-hosted via Docker, pinned in `docker-compose.yml`) for observability
-- RAGAS for evaluation metrics (Phase 5.1)
+- RAGAS for evaluation metrics (Phase 5.1, legacy: no reported results)
 - `uv` for dependency management
 - `pytest` integration tests against real services
 - GitHub Actions: CI (lint and the tests that need no services) and a weekly retrieval eval
@@ -175,7 +175,9 @@ upserts everything into Qdrant.
 ```bash
 export OLLAMA_HOST=http://localhost:11434
 
-# Langfuse credentials (matches docker-compose.yml defaults):
+# Langfuse credentials (the docker-compose.yml defaults, local use only; compose reads
+# LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_DB_PASSWORD, LANGFUSE_NEXTAUTH_SECRET,
+# LANGFUSE_SALT and LANGFUSE_INIT_USER_PASSWORD, so other values override them):
 export LANGFUSE_PUBLIC_KEY=pk-lf-local-dev
 export LANGFUSE_SECRET_KEY=sk-lf-local-dev
 export LANGFUSE_HOST=http://localhost:3000
@@ -282,6 +284,14 @@ Significant architectural choices are documented in
 - [009 — Faithfulness judge](docs/decisions/009-faithfulness-judge.md): an LLM judge of whether answers stay within their sources, calibrated against human labels
 
 ## Evaluation
+
+### RAGAS pipeline (legacy)
+
+> **Legacy.** This pipeline (Phase 5.1) stays in the code and still runs, but
+> no result from it is committed or reported, and it is not maintained: it uses
+> `gemma3:4b` to judge its own answers. Answer faithfulness is measured by the
+> calibrated judge in [the next section](#answer-faithfulness-judge-calibration),
+> and retrieval by the [benchmarks](#retrieval-benchmarks).
 
 The RAG pipeline is evaluated against a hand-built golden dataset of 30 real
 FastAPI questions across five categories (factual, conceptual, code,
