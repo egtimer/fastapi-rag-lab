@@ -78,7 +78,7 @@ def class_agreement(label: str) -> Metric:
     return metric
 
 
-def _percentile(sorted_values: list[float], q: float) -> float:
+def percentile(sorted_values: list[float], q: float) -> float:
     pos = q * (len(sorted_values) - 1)
     lo = int(pos)
     hi = min(lo + 1, len(sorted_values) - 1)
@@ -110,8 +110,8 @@ def bootstrap(
     if stats:
         stats.sort()
         out["ci_low"], out["ci_high"] = (
-            _percentile(stats, 0.025),
-            _percentile(stats, 0.975),
+            percentile(stats, 0.025),
+            percentile(stats, 0.975),
         )
     out["frac_undefined"] = undefined / resamples
     return out

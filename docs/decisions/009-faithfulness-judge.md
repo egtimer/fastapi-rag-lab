@@ -159,7 +159,8 @@ All judge disagreements on these items are answers the first labeller called
 the run-to-run noise, so v1 is kept; effort `medium` changed none.
 
 **Both batches (n = 100).** `reports/2026-11-16-judge-agreement-n100`
-(`combined.py` in that directory):
+(`uv run python -m fastapi_rag_lab.eval.judge.combine`; `combined.py` in that
+directory runs the same command):
 
 | Comparison | n | Accuracy | Cohen's kappa |
 |---|---|---|---|

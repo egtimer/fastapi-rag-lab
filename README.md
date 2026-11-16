@@ -238,8 +238,8 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-167 tests covering ingestion, retrieval, the query API, and the eval
-pipeline. 149 need no services, network or models; the other 18 need Qdrant and
+173 tests covering ingestion, retrieval, the query API, and the eval
+pipeline. 155 need no services, network or models; the other 18 need Qdrant and
 Ollama and are skipped when those are not reachable.
 
 ```bash
@@ -381,8 +381,9 @@ accuracy 0.90 [0.84, 0.95]; against the second labeller: 0.71 [0.56, 0.85]
 items, human–human kappa minus human–judge kappa is +0.12 [−0.04, +0.28]:
 the judge sits below a second person, but 100 answers cannot rule out no
 gap. Eight of the ten disagreements with me are the judge calling a
-supported answer `unsupported`, so the judge is the stricter reader. Script
-and output: `reports/2026-11-16-judge-agreement-n100`.
+supported answer `unsupported`, so the judge is the stricter reader. Output:
+`reports/2026-11-16-judge-agreement-n100`, rebuilt by
+`uv run python -m fastapi_rag_lab.eval.judge.combine`.
 
 Judging the 251 golden and Stack Overflow test questions has not been run
 yet. Details, confusion matrices and the commands are in
