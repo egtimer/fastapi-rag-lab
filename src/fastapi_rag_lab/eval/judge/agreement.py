@@ -31,7 +31,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from fastapi_rag_lab.eval.judge.items import read_items
-from fastapi_rag_lab.eval.judge.judge import LABELS, SUPPORTED
+from fastapi_rag_lab.eval.judge.judge import LABELS, SUPPORTED, UNSUPPORTED
 from fastapi_rag_lab.eval.judge.labels import read_labels
 
 if TYPE_CHECKING:
@@ -218,7 +218,38 @@ def format_report(report: Mapping[str, Any]) -> str:
         lines.append(
             f"{name} confusion {r['confusion']['labels']}: {r['confusion']['matrix']}"
         )
+    for name, r in report["comparisons"].items():
+        lines.append(f"{name} {_errors(r)}")
     return "\n".join(lines)
+
+
+def error_rates(comparison: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    """The two ways the second rater can be wrong against the first, with CIs.
+
+    ``false_pass``: share of the items the first labels unsupported that the second
+    labels supported (a judge that ships bad answers). ``false_flag``: share of the
+    items the first labels supported that the second labels unsupported (a judge
+    that costs review time). Kappa mixes both; these keep them apart. Derived from
+    ``per_class_of_first`` (1 - the agreement on that class, interval flipped), so
+    committed reports need no new field.
+    """
+
+    def flip(stat: Mapping[str, Any]) -> dict[str, Any]:
+        value, low, high = stat["value"], stat["ci_low"], stat["ci_high"]
+        return {
+            "n": stat["n"],
+            "value": None if value is None else 1 - value,
+            "ci_low": None if high is None else 1 - high,
+            "ci_high": None if low is None else 1 - low,
+        }
+
+    per = comparison["per_class_of_first"]
+    return {"false_pass": flip(per[UNSUPPORTED]), "false_flag": flip(per[SUPPORTED])}
+
+
+def _errors(comparison: Mapping[str, Any]) -> str:
+    rates = error_rates(comparison)
+    return ", ".join(f"{k} (n={v['n']}) {_ci(v)}" for k, v in rates.items())
 
 
 def _judge_arg(value: str) -> tuple[str, Path]:

@@ -39,6 +39,8 @@ from fastapi_rag_lab.eval.judge.judge import (
     PROMPTS,
     UNPARSED,
     VERDICT_TOOL,
+    judge_config,
+    judge_config_sha256,
     judge_user,
     parse_verdict,
     prompt_sha256,
@@ -147,6 +149,13 @@ def main(argv: list[str] | None = None, *, sdk_client: Any = None) -> int:
         log_path=run_dir / "llm_calls.jsonl",
         sdk_client=sdk_client,
     )
+    config = judge_config(
+        args.prompt,
+        model=model.model,
+        effort=model.effort,
+        max_tokens=model.max_tokens,
+        structured=args.structured,
+    )
     started_at = datetime.now(UTC).isoformat()
     judgements, stopped = judge_items(
         items, client, system=system, structured=args.structured
@@ -181,6 +190,8 @@ def main(argv: list[str] | None = None, *, sdk_client: Any = None) -> int:
             "input_per_mtok": model.input_per_mtok,
             "output_per_mtok": model.output_per_mtok,
         },
+        "judge_config": config,
+        "judge_config_sha256": judge_config_sha256(config),
         "judge_prompt_version": args.prompt,
         "judge_prompt_sha256": prompt_sha256(args.prompt),
         "judge_system_prompt": system,

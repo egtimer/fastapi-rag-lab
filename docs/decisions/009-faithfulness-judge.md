@@ -181,3 +181,9 @@ with the first labeller (rows human, columns judge; `supported`,
   the sampling interval; claims about a prompt or setting change smaller than
   that need repeated runs.
 - Judging the 251 golden and Stack Overflow test questions is still not run.
+- Reported next to kappa: false pass rate 3% [0, 8] and false flag rate
+  22% [9, 36] against the first labeller (n = 100); kappa alone hides which
+  error the judge makes (suggested by a reader of the write-up, 2026-11-17).
+- The judge is versioned as one config (`judge_config_sha256`: prompt, user
+  template, model, effort, token cap, structured output, output schema), not
+  by the prompt hash alone.

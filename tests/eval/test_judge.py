@@ -11,7 +11,12 @@ import pytest
 from fastapi_rag_lab.eval.dataset import GoldenEntry
 from fastapi_rag_lab.eval.judge import agreement, labels, run_judge
 from fastapi_rag_lab.eval.judge.answers import sample_entries
-from fastapi_rag_lab.eval.judge.judge import judge_user, parse_verdict
+from fastapi_rag_lab.eval.judge.judge import (
+    judge_config,
+    judge_config_sha256,
+    judge_user,
+    parse_verdict,
+)
 from fastapi_rag_lab.eval.judge.llm import MODELS, BudgetedClient, BudgetExceeded
 
 if TYPE_CHECKING:
@@ -229,6 +234,10 @@ def test_structured_run_parses_the_tool_call_and_logs_text(tmp_path: Path):
     assert summary["structured_output"] is True
     assert summary["model"]["effort"] == "medium"
     assert len(summary["items_sha256"]) == 64
+    config = summary["judge_config"]
+    assert config["structured_output"] is True and config["effort"] == "medium"
+    assert config["output_schema_sha256"] is not None
+    assert summary["judge_config_sha256"] == judge_config_sha256(config)
     assert summary["preregistered_labels"]["sha256"] == summary["items_sha256"]
 
 
@@ -293,3 +302,41 @@ def test_origin_claims_and_summary(tmp_path: Path):
         "item_id,claim_no,claim,origin,evidence\nj-01,1,x,nonsense,\n"
     )
     assert origin.summarize(out) == 2
+
+
+def test_judge_config_hash_changes_with_anything_that_decides_verdicts() -> None:
+    base = dict(
+        model="claude-sonnet-5-5", effort="low", max_tokens=16000, structured=False
+    )
+    h = judge_config_sha256(judge_config("v1", **base))
+    assert h == judge_config_sha256(judge_config("v1", **base))  # deterministic
+    for change in (
+        {"structured": True},
+        {"effort": "medium"},
+        {"model": "claude-haiku-5-5"},
+        {"max_tokens": 8000},
+    ):
+        assert judge_config_sha256(judge_config("v1", **{**base, **change})) != h
+    assert judge_config_sha256(judge_config("v2", **base)) != h
+    assert judge_config("v1", **base)["output_schema_sha256"] is None
+
+
+def test_error_rates_split_false_pass_and_false_flag() -> None:
+    human = {
+        "a": "unsupported",
+        "b": "unsupported",
+        "c": "unsupported",
+        "d": "supported",
+    }
+    judge = {
+        "a": "supported",
+        "b": "unsupported",
+        "c": "unsupported",
+        "d": "unsupported",
+    }
+    rates = agreement.error_rates(agreement.compare(human, judge, resamples=200))
+    assert rates["false_pass"]["n"] == 3
+    assert rates["false_pass"]["value"] == pytest.approx(1 / 3)
+    assert rates["false_flag"]["value"] == pytest.approx(1.0)
+    low, high = rates["false_pass"]["ci_low"], rates["false_pass"]["ci_high"]
+    assert 0.0 <= low <= 1 / 3 <= high <= 1.0

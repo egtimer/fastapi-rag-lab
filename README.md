@@ -29,9 +29,10 @@ model digests and hardware it ran on.
 | Faithfulness judge (Claude Sonnet 5.5, prompt v1) vs me, both batches (n = 100) | kappa 0.78 [0.64, 0.90], accuracy 0.90 [0.84, 0.95] | `reports/2026-11-16-judge-agreement-n100` |
 | Same judge vs the second labeller (n = 99) | kappa 0.71 [0.56, 0.85] | `reports/2026-11-16-judge-agreement-n100` |
 | Two humans, labelling blind (n = 99) | kappa 0.89 [0.79, 0.98] | `reports/2026-11-16-judge-agreement-n100` |
+| The judge's two errors, apart (n = 100, against me) | false pass (an answer I labelled unsupported, passed): 2 of 63, 3% [0, 8]; false flag (supported, flagged): 8 of 37, 22% [9, 36]. The second labeller against me: 3 of 62 and 2 of 37 | `reports/2026-11-16-judge-agreement-n100` |
 | Human–human kappa minus human–judge kappa, paired over the same items | +0.12 [−0.04, +0.28]: the judge agrees with me less than a second person does, but at n = 100 the gap cannot be told apart from zero | `reports/2026-11-16-judge-agreement-n100` |
 | Held-out 50 (Stack Overflow test split; items and prompt hashes committed before labelling, labels before the judge ran) | v1 kappa 0.74 [0.53, 0.91]; v2 (citation rule made explicit) 0.78 [0.59, 0.95]; v1 at effort `medium` gives the same verdicts as v1 on all 50 | `reports/2026-11-16-judge-agreement-so-test-50`, `reports/2026-11-16-judge-agreement-medium-so-test-50` |
-| Six runs of the same judge (v1, effort `low`) on the same 50 dev answers | kappa vs me 0.68 to 0.82, mean 0.79; 45 of 50 answers get the same verdict in all six runs | `reports/2026-11-16-judge-agreement-retest-x6` |
+| Six runs of the same judge (v1, effort `low`) on the same 50 dev answers | kappa vs me 0.68 to 0.82, mean 0.79; 45 of 50 answers get the same verdict in all six runs; 1 to 3 false passes of my 33 unsupported per run, and 2 answers the judge gets wrong in all six (one a false pass) | `reports/2026-11-16-judge-agreement-retest-x6` |
 | `gemma3:4b` answers fully supported by their sources (my labels) | 17 of 50 dev, 20 of 50 held-out | `reports/2026-10-30-judge-items-so-dev-50`, `reports/2026-11-10-judge-items-so-test-50` |
 | Retrieval, Stack Overflow test (n = 221), default `hybrid`, k=5 | Recall@5 0.295 [0.240, 0.349], MRR 0.239 [0.192, 0.287], p50 78 ms | `reports/2026-10-20-so-test-ollama-0.35.1` |
 | Retrieval, golden set (n = 30), `hybrid`, k=5 | Recall@5 0.900 [0.767, 1.000], MRR 0.817 [0.700, 0.917] | `reports/2026-10-20-golden30-ollama-0.35.1` |
@@ -240,7 +241,7 @@ WebSockets, why streaming-first, and how Langfuse tracing is structured.
 
 ## Testing
 
-173 tests covering ingestion, retrieval, the query API, and the eval
+175 tests covering ingestion, retrieval, the query API, and the eval
 pipeline. 155 need no services, network or models; the other 18 need Qdrant and
 Ollama and are skipped when those are not reachable.
 
@@ -394,6 +395,22 @@ gap. Eight of the ten disagreements with me are the judge calling a
 supported answer `unsupported`, so the judge is the stricter reader. Output:
 `reports/2026-11-16-judge-agreement-n100`, rebuilt by
 `uv run python -m fastapi_rag_lab.eval.judge.combine`.
+
+Kappa mixes two errors with different costs: a **false pass** (an unsupported
+answer the judge accepts) ships a bad answer, a **false flag** (a supported
+answer it rejects) costs review time. Apart, against me: false pass 2 of 63,
+3% [0, 8]; false flag 8 of 37, 22% [9, 36]. The second labeller against me:
+3 of 62 and 2 of 37. So the judge passes bad answers about as rarely as a
+second person does, and rejects good ones more often.
+`agreement.error_rates` derives both from any committed report.
+
+**One judge config.** Forcing a schema changed verdicts, so the prompt hash is
+not the whole judge. Every judge run now records `judge_config` (prompt
+version and hash, user-message template hash, model, effort, token cap,
+structured output and the output schema's hash) and its
+`judge_config_sha256`; a change to any of them means re-judging the labelled
+sets before a new score is trusted. The runs above predate the field; their
+summaries record the same values except the two template hashes.
 
 Judging the 251 golden and Stack Overflow test questions has not been run
 yet. Details, confusion matrices and the commands are in

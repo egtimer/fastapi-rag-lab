@@ -143,6 +143,49 @@ def prompt_sha256(version: str) -> str:
     return hashlib.sha256(PROMPTS[version].encode("utf-8")).hexdigest()
 
 
+def judge_config(
+    version: str,
+    *,
+    model: str,
+    effort: str | None,
+    max_tokens: int,
+    structured: bool,
+) -> dict[str, object]:
+    """Everything that decides the judge's verdicts, as one record.
+
+    The prompt alone is not the judge: forcing the verdict through a schema-checked
+    tool call changed verdicts in one run (``reports/2026-11-10-judge-haiku-
+    structured-so-dev-50``), so the schema, the user-message template, the model,
+    the effort and the token cap are part of it too. ``judge_config_sha256`` hashes
+    this record; any change to it means the labelled sets are re-judged before a
+    new score is trusted.
+    """
+    user_template = judge_user("{question}", ["{source}"], "{answer}")
+    schema = json.dumps(VERDICT_TOOL, sort_keys=True) if structured else None
+    return {
+        "prompt_version": version,
+        "prompt_sha256": prompt_sha256(version),
+        "user_template_sha256": hashlib.sha256(
+            user_template.encode("utf-8")
+        ).hexdigest(),
+        "model": model,
+        "effort": effort,
+        "max_tokens": max_tokens,
+        "structured_output": structured,
+        "output_schema_sha256": (
+            None
+            if schema is None
+            else hashlib.sha256(schema.encode("utf-8")).hexdigest()
+        ),
+    }
+
+
+def judge_config_sha256(config: dict[str, object]) -> str:
+    return hashlib.sha256(
+        json.dumps(config, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+
+
 if __name__ == "__main__":  # pragma: no cover
     versions = (
         sys.argv[2:] if len(sys.argv) > 2 and sys.argv[1] == "--hash" else PROMPTS
