@@ -367,7 +367,10 @@ the sampling interval; the first calibration's 0.82 was the top of this range
 settings were also tried on these 50 after seeing the labels, so they are
 explorations, not results: effort `medium` (kappa 0.86) and Haiku with forced
 structured output (no unparsed replies, but kappa 0.59, with more false
-`supported`; `reports/2026-11-10-judge-agreement-retest`).
+`supported`; `reports/2026-11-10-judge-agreement-retest`). Repeated four times per
+setting on the same 45 parsed items, the schema effect holds: Haiku's false passes
+average 27% with the schema forced against 15% without, kappa 0.57 against 0.66
+(`reports/2026-11-18-judge-agreement-haiku-schema-x3`).
 
 **Held-out 50 (pre-registered).** 50 new questions from the Stack Overflow
 test split (seed 1). The items, labelling sheets and the sha256 of both judge
