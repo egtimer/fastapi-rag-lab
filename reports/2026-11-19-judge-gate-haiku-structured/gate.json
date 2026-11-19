@@ -1,0 +1,81 @@
+{
+  "n_items": 28,
+  "items": [
+    "j-02",
+    "j-03",
+    "j-04",
+    "j-07",
+    "j-08",
+    "j-09",
+    "j-11",
+    "j-12",
+    "j-13",
+    "j-15",
+    "j-16",
+    "j-18",
+    "j-20",
+    "j-21",
+    "j-22",
+    "j-23",
+    "j-27",
+    "j-30",
+    "j-31",
+    "j-32",
+    "j-33",
+    "j-34",
+    "j-35",
+    "j-37",
+    "j-40",
+    "j-41",
+    "j-47",
+    "j-49"
+  ],
+  "baseline": {
+    "2026-10-30-judge-haiku-so-dev-50": {
+      "false_pass": 4,
+      "rate": 0.14285714285714285
+    },
+    "2026-11-18-judge-haiku-plain-r1-so-dev-50": {
+      "false_pass": 6,
+      "rate": 0.21428571428571427
+    },
+    "2026-11-18-judge-haiku-plain-r2-so-dev-50": {
+      "false_pass": 3,
+      "rate": 0.10714285714285714
+    },
+    "2026-11-18-judge-haiku-plain-r3-so-dev-50": {
+      "false_pass": 4,
+      "rate": 0.14285714285714285
+    }
+  },
+  "candidate": {
+    "2026-11-10-judge-haiku-structured-so-dev-50": {
+      "false_pass": 8,
+      "rate": 0.2857142857142857
+    },
+    "2026-11-18-judge-haiku-structured-r1-so-dev-50": {
+      "false_pass": 9,
+      "rate": 0.32142857142857145
+    },
+    "2026-11-18-judge-haiku-structured-r2-so-dev-50": {
+      "false_pass": 7,
+      "rate": 0.25
+    },
+    "2026-11-18-judge-haiku-structured-r3-so-dev-50": {
+      "false_pass": 6,
+      "rate": 0.21428571428571427
+    }
+  },
+  "baseline_range": [
+    0.10714285714285714,
+    0.21428571428571427
+  ],
+  "candidate_mean": 0.26785714285714285,
+  "passed": false,
+  "rule": "candidate mean false-pass rate <= highest baseline run's rate, on the items the human labelled unsupported and every run judged",
+  "items_run": "2026-10-30-judge-items-so-dev-50",
+  "judge_config_sha256": {
+    "baseline": "48f81cda08fda86b4a4a0ac57d70bb384d8215a3ffa374040dbac777903594fb",
+    "candidate": "b88ce9a1e7b8087412ce2ff14ea7e34e44a002be7dcb9602106864bc825b095e"
+  }
+}

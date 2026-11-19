@@ -33,6 +33,7 @@ model digests and hardware it ran on.
 | Human–human kappa minus human–judge kappa, paired over the same items | +0.12 [−0.04, +0.28]: the judge agrees with me less than a second person does, but at n = 100 the gap cannot be told apart from zero | `reports/2026-11-16-judge-agreement-n100` |
 | Held-out 50 (Stack Overflow test split; items and prompt hashes committed before labelling, labels before the judge ran) | v1 kappa 0.74 [0.53, 0.91]; v2 (citation rule made explicit) 0.78 [0.59, 0.95]; v1 at effort `medium` gives the same verdicts as v1 on all 50 | `reports/2026-11-16-judge-agreement-so-test-50`, `reports/2026-11-16-judge-agreement-medium-so-test-50` |
 | Six runs of the same judge (v1, effort `low`) on the same 50 dev answers | kappa vs me 0.68 to 0.82, mean 0.79; 45 of 50 answers get the same verdict in all six runs; 1 to 3 false passes of my 33 unsupported per run, and 2 answers the judge gets wrong in all six (one a false pass) | `reports/2026-11-16-judge-agreement-retest-x6` |
+| Gate for judge changes: false passes on answers I labelled unsupported must stay within the current judge's range | Haiku with the schema forced fails: mean 27% against a ceiling of 21% (28 answers, four runs each) | `reports/2026-11-19-judge-gate-haiku-structured` |
 | `gemma3:4b` answers fully supported by their sources (my labels) | 17 of 50 dev, 20 of 50 held-out | `reports/2026-10-30-judge-items-so-dev-50`, `reports/2026-11-10-judge-items-so-test-50` |
 | Retrieval, Stack Overflow test (n = 221), default `hybrid`, k=5 | Recall@5 0.295 [0.240, 0.349], MRR 0.239 [0.192, 0.287], p50 78 ms | `reports/2026-10-20-so-test-ollama-0.35.1` |
 | Retrieval, golden set (n = 30), `hybrid`, k=5 | Recall@5 0.900 [0.767, 1.000], MRR 0.817 [0.700, 0.917] | `reports/2026-10-20-golden30-ollama-0.35.1` |
@@ -371,6 +372,17 @@ structured output (no unparsed replies, but kappa 0.59, with more false
 setting on the same 45 parsed items, the schema effect holds: Haiku's false passes
 average 27% with the schema forced against 15% without, kappa 0.57 against 0.66
 (`reports/2026-11-18-judge-agreement-haiku-schema-x3`).
+
+**Gate for judge changes.** Because a change to the judge's output format can
+cut parse errors and still pass more bad answers, a new judge configuration
+counts only after `python -m fastapi_rag_lab.eval.judge.gate` passes: on the
+answers I labelled `unsupported` that every run judged, the new configuration's
+mean false-pass rate must not exceed the highest rate among runs of the current
+one. It reads committed runs and calls no model. On the Haiku runs above it
+fails, 27% against a ceiling of 21% on 28 answers
+(`reports/2026-11-19-judge-gate-haiku-structured`); three Sonnet re-runs of the
+reported judge pass against the other three. Both checks run in CI
+(`tests/eval/test_gate.py`).
 
 **Held-out 50 (pre-registered).** 50 new questions from the Stack Overflow
 test split (seed 1). The items, labelling sheets and the sha256 of both judge
